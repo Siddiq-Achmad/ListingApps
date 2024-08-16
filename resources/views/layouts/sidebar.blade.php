@@ -39,6 +39,23 @@
                     <div class="collapse menu-dropdown" id="sidebarDashboards">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
+                                <a href="dashboard" class="nav-link">@lang('translation.dashboards')</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="users" class="nav-link">@lang('translation.users')</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li> <!-- end Dashboard Menu -->
+
+                <li class="menu-title"><span>@lang('translation.menu')</span></li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i data-feather="home" class="icon-dual"></i> <span>@lang('translation.dashboards')</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarDashboards">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
                                 <a href="dashboard-analytics" class="nav-link">@lang('translation.analytics')</a>
                             </li>
                             <li class="nav-item">
@@ -68,6 +85,27 @@
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarApps">
                         <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="#sidebarSurvey" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarSurvey">
+                                    @lang('translation.surveys')
+                                </a>
+                                <div class="collapse menu-dropdown" id="sidebarSurvey">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="surveys" class="nav-link"> @lang('translation.surveys') </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="surveys" class="nav-link"> @lang('translation.questions') </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="surveys" class="nav-link"> @lang('translation.answers') </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="surveys" class="nav-link"> @lang('translation.respondents') </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                             <li class="nav-item">
                                 <a href="#sidebarCalendar" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCalendar" data-key="t-calender">
                                     @lang('translation.calendar')

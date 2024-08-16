@@ -212,7 +212,6 @@ return [
     "file-manager"=> "File Manager",
     "to-do"=> "To Do",
     "crypto-svg"=> "Crypto SVG",
-
     "job" => "Job",
     "jobs" => "Jobs",
     "statistics" => "Statistics",
@@ -231,6 +230,12 @@ return [
     "links" => "Links",
     "range-area" => "Range Area",
     "funnel" => "Funnel",
+
+    "surveys" => "Surveys",
+    "questions" => "Question",
+    "answers" => "Answer",
+    "respondents" => "Respondents",
+    "users" => "Users",
 ];
 ?>
 

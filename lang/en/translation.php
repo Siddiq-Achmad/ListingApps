@@ -210,7 +210,6 @@ return [
     "file-manager"=> "File Manager",
     "to-do"=> "To Do",
     "crypto-svg"=> "Crypto SVG",
-
     "job" => "Job",
     "jobs" => "Jobs",
     "statistics" => "Statistics",
@@ -224,6 +223,9 @@ return [
     "api-key" => "API Key",
     "privacy-policy" => "Privacy Policy",
     "hot" => "Hot",
+
+
+    "survey" => "Survey",
 ];
 ?>
 

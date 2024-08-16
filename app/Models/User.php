@@ -53,4 +53,17 @@ class User extends Authenticatable
         return $this->hasOne(UserDetail::class);
     }
 
+
+
+    //Relationship
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function surveys()
+    {
+        return $this->hasMany(Survey::class);
+    }
+
 }

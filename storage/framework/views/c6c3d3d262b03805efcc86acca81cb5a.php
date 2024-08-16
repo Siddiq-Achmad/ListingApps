@@ -39,6 +39,23 @@
                     <div class="collapse menu-dropdown" id="sidebarDashboards">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
+                                <a href="dashboard" class="nav-link"><?php echo app('translator')->get('translation.dashboards'); ?></a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="users" class="nav-link"><?php echo app('translator')->get('translation.users'); ?></a>
+                            </li>
+                        </ul>
+                    </div>
+                </li> <!-- end Dashboard Menu -->
+
+                <li class="menu-title"><span><?php echo app('translator')->get('translation.menu'); ?></span></li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i data-feather="home" class="icon-dual"></i> <span><?php echo app('translator')->get('translation.dashboards'); ?></span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarDashboards">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
                                 <a href="dashboard-analytics" class="nav-link"><?php echo app('translator')->get('translation.analytics'); ?></a>
                             </li>
                             <li class="nav-item">
@@ -68,6 +85,27 @@
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarApps">
                         <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="#sidebarSurvey" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarSurvey">
+                                    <?php echo app('translator')->get('translation.surveys'); ?>
+                                </a>
+                                <div class="collapse menu-dropdown" id="sidebarSurvey">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="surveys" class="nav-link"> <?php echo app('translator')->get('translation.surveys'); ?> </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="surveys" class="nav-link"> <?php echo app('translator')->get('translation.questions'); ?> </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="surveys" class="nav-link"> <?php echo app('translator')->get('translation.answers'); ?> </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="surveys" class="nav-link"> <?php echo app('translator')->get('translation.respondents'); ?> </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                             <li class="nav-item">
                                 <a href="#sidebarCalendar" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCalendar" data-key="t-calender">
                                     <?php echo app('translator')->get('translation.calendar'); ?>

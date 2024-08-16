@@ -224,6 +224,12 @@ return [
     "api-key" => "API Key",
     "privacy-policy" => "Kebijakan Privasi",
     "hot" => "Hot",
+
+    "surveys" => "Survey",
+    "questions" => "Pertanyaan",
+    "answers" => "Jawaban",
+    "respondents" => "Responden",
+    "users" => "Pengguna",
 ];
 ?>
 

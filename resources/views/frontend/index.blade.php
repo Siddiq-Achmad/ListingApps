@@ -762,7 +762,6 @@
 
 @section('scripts')
 
-
     
     {{-- <script>
         //cookie

@@ -26,7 +26,7 @@
 
                 <div class="uk-margin">
                     <label class="uk-form-label" for="form-s-email">Email</label>
-                    <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                    
                     <input class="uk-input <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -50,7 +50,7 @@ unset($__errorArgs, $__bag); ?>
                 </div>
                 <div class="uk-margin">
                     <label class="uk-form-label" for="form-s-password">Password</label>
-                    <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                    
                     <input class="uk-input <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :

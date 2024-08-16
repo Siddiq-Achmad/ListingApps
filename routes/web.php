@@ -1,12 +1,20 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Users\UserDetailController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\Users\UserController;
+use App\Http\Controllers\Users\UserDetailController;
 use App\Http\Controllers\Users\UserProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+
+
 
 
 
@@ -40,42 +48,53 @@ Route::get('/packages', [FrontendController::class, 'packages'])->name('packages
 Route::get('/how-it-work', [FrontendController::class, 'howItWork'])->name('howItWork');
 Route::get('/blog', [FrontendController::class, 'blog'])->name('blog');
 Route::get('/shop', [FrontendController::class, 'shop'])->name('shop');
-Route::get('/listing', [FrontendController::class, 'listing'])->name('listing');
+Route::get('/listings', [FrontendController::class, 'listing'])->name('listing');
 
 
 
 
 
 //Update User Details
-Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
-Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('updatePassword');
+Route::post('/update-profile/{id}', [HomeController::class, 'updateProfile'])->name('updateProfile');
+Route::post('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
 
 //Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
 
 //BACKEND ROUTES
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/index', [HomeController::class, 'root'])->name('root');
+    Route::resource('users', UserController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('posts', PostController::class);
+    Route::resource('tags', TagController::class);
+    Route::resource('subscribers', SubscriberController::class);
+    Route::resource('surveys', SurveyController::class);
+
+    Route::get('/index', [HomeController::class, 'index'])->name('root');
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
 
-    Route::get('/userdetail', [UserDetailController::class, 'show'])->name('userdetail');
-    Route::post('/userdetail', [UserDetailController::class, 'update'])->name('userdetail.update');
+    Route::get('/users-list', [UserController::class, 'users'])->name('users.list');
+    Route::get('/userdetails', [UserDetailController::class, 'show'])->name('userdetail');
+    Route::post('/userdetails', [UserDetailController::class, 'update'])->name('userdetail.update');
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
     Route::get('/profile-settings', [UserProfileController::class, 'show'])->name('profileSettings');
     Route::put('/profile-settings', [UserProfileController::class, 'updateProfile'])->name('profile.update');
     Route::put('/profile/change-password', [UserProfileController::class, 'changePassword'])->name('profile.changePassword');
     Route::put('/profile/change-email', [UserProfileController::class, 'changeEmail'])->name('profile.changeEmail');
-    Route::resource('users', UserController::class);
 
 
-    Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->where('any', '.*');
+
+
+    Route::get('{any}', [HomeController::class, 'index'])->where('any', '.*');
 
 });
 
-Route::fallback(function () {
-    return response()->view('frontend.errors.404', [], 404);
-});
+
+
+// Route::fallback(function () {
+//     return response()->view('frontend.errors.404', [], 404);
+// });
 
 
 

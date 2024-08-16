@@ -760,7 +760,6 @@
 
 <?php $__env->startSection('scripts'); ?>
 
-
     
     
 <?php $__env->stopSection(); ?>

@@ -6,7 +6,9 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -23,50 +25,75 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
+
+        
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $user = new User([
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        if($request->hasFile('avatar')) {
+            // Get filename with the extension
+            $imageName = time().'.'.$request->avatar->extension();
+            $request->avatar->move(public_path('images'), $imageName);
+            $request->merge(['avatar' => $imageName]);
+        }
+
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password)
+            'password' => bcrypt($request->password),
+            'avatar' => $request->avatar
         ]);
-        if ($user->save()) {
-            return response()->json([
-                'message' => 'Successfully created user!'
-            ], 201);
-        } else {
-            return response()->json(['error' => 'Something went wrong, check details']);
-        }
+        
+        Log::info('User Created:', $user->toArray());
+
+        return response()->json([
+            'message' => 'Successfully created user!'
+        ], 200);
     }
 
     public function login(Request $request)
     {
-        $request->validate([
+
+        Log::info('Login Request:', $request->all());
+        $validator = Validator::make($request->all(), [
             'email' => 'required|string|email',
             'password' => 'required|string',
-            'remember_me' => 'boolean'
         ]);
-        $credentials = request(['email', 'password']);
-        if (!Auth::attempt($credentials))
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
-        $user = $request->user();
-        $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
-        if ($request->remember_me)
-            $token->expires_at = Carbon::now()->addWeeks(1);
-        $token->save();
-        return response()->json([
-            'access_token' => $tokenResult->accessToken,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
-                $tokenResult->token->expires_at
-            )->toDateTimeString()
-        ]);
+
+        if ($validator->fails()) {
+            Log::error('Validation Failed:', $validator->errors()->toArray());
+            return response()->json($validator->errors(), 400);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            Log::error('Unauthorized Access Attempt:', $request->only('email'));
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        try {
+            $token = $user->createToken('authToken')->accessToken;
+        } catch (\Exception $e) {
+            Log::error('Token Creation Failed:', ['error' => $e->getMessage()]);
+            return response()->json(['message' => 'Internal Server Error'], 500);
+        }
+
+        return response()->json(['access_token' => $token, 'token_type' => 'Bearer'], 200);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->token()->revoke();
+
+        return response()->json(['message' => 'Tokens revoked'], 200);
     }
 }

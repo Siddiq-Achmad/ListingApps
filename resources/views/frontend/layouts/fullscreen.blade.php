@@ -43,7 +43,7 @@
                 </main>
             </div>
             <!--Page Inner -->  
-
+            @include('frontend.components.cookies')
             
     </div>
 

@@ -210,7 +210,7 @@ return [
     "file-manager"=> "File Manager",
     "to-do"=> "To Do",
     "crypto-svg"=> "Crypto SVG",
-
+    "survey" => "Survey",
     "job" => "Pekerjaan",
     "jobs" => "Pekerjaan",
     "statistics" => "Statistik",

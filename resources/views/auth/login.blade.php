@@ -29,7 +29,7 @@
 
                 <div class="uk-margin">
                     <label class="uk-form-label" for="form-s-email">Email</label>
-                    <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                    
                     <input class="uk-input @error('email') uk-form-danger @enderror" id="form-s-email" type="email"  value="{{ old('email', 'admin@luxima.id') }}" id="username" name="email" placeholder="Enter username">
                     @error('email')
                         <span class="invalid-feedback" role="alert">
@@ -39,7 +39,7 @@
                 </div>
                 <div class="uk-margin">
                     <label class="uk-form-label" for="form-s-password">Password</label>
-                    <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                    
                     <input class="uk-input @error('password') uk-form-danger @enderror" id="form-s-password" type="password"  name="password" placeholder="Enter password" id="password-input" value="12345678" >
                     @error('password')
                         <span class="invalid-feedback" role="alert">
