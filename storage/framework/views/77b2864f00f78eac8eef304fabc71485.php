@@ -304,7 +304,7 @@
                                             </div>
                                         </th>
                                         <td class="id" style="display:none;"><a href="<?php echo e(route('surveys.show', $survey->id)); ?>" class="fw-medium link-primary">#SRV-<?php echo e($survey->id); ?></a></td>
-                                        <td class="title"><?php echo e($survey->title); ?></td>
+                                        <td class="title"><a href="<?php echo e(route('surveys.show', $survey->id)); ?>" class="fw-medium link-primary"><?php echo e($survey->title); ?></a></td>
                                         <td class="description"><?php echo e($survey->description); ?></td>
                                         <td class="user_id"><?php echo e($survey->user->name); ?></td>
                                         <td class="created_at"><?php echo e(\Carbon\Carbon::parse($survey->created_at)->diffForHumans()); ?></td>

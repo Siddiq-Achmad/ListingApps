@@ -231,11 +231,20 @@ return [
     "range-area" => "Range Area",
     "funnel" => "Funnel",
 
-    "surveys" => "Surveys",
-    "questions" => "Question",
-    "answers" => "Answer",
-    "respondents" => "Respondents",
     "users" => "Users",
+    "user" => "User",
+    "survey" => "Survey",
+    "surveys" => "Surveys",
+    "question" => "Question",
+    "questions" => "Questions",
+    "answer" => "Answer",
+    "answers" => "Answers",
+    "survey-response" => "Survey Response",
+    "survey-responses" => "Survey Responses",
+    "survey-report" => "Survey Report",
+    "survey-reports" => "Survey Reports",
+    "respoondent" => "Respondent",
+    "respondents" => "Respondents",
 ];
 ?>
 

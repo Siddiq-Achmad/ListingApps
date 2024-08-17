@@ -28,23 +28,23 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        if (view()->exists($request->path())) {
-            return view($request->path());
-        }
-        return abort(404);
-        //return view('dashboard');
-    }
-
-    public function root()
-    {
+        // if (view()->exists($request->path())) {
+        //     return view($request->path());
+        // }
+        // return abort(404);
         return view('dashboard');
     }
+
     
     public function dashboard()
     {
         return view('dashboard');
     }
-
+    
+    public function notFound()
+    {
+        return view('error.404');
+    }
     /*Language Translation*/
     public function lang($locale)
     {

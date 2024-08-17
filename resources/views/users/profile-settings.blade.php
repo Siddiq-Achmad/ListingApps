@@ -25,7 +25,7 @@
                 <div class="card-body p-4">
                     <div class="text-center">
                         <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
-                            <img src="@if (Auth::user()->avatar != '') {{ URL::asset('images/' . Auth::user()->avatar) }}@else{{ URL::asset('build/images/users/avatar-1.jpg') }} @endif"
+                            <img src="{{ auth()->user()->avatar != '' ? URL::asset('images/' . auth()->user()->avatar) : URL::asset('build/images/users/avatar-1.jpg') }}"
                                 class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
                             <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                                 <input id="profile-img-file-input" type="file" class="profile-img-file-input">
@@ -36,8 +36,8 @@
                                 </label>
                             </div>
                         </div>
-                        <h5 class="fs-16 mb-1">Anna Adame</h5>
-                        <p class="text-muted mb-0">Lead Designer / Developer</p>
+                        <h5 class="fs-16 mb-1">{{ auth()->user()->detail ? auth()->user()->detail->f_name ." ". auth()->user()->detail->l_name : auth()->user()->name }}</h5>
+                        <p class="text-muted mb-0">{{ auth()->user()->detail ? auth()->user()->detail->designation : 'N/A' }}</p>
                     </div>
                 </div>
             </div>
@@ -79,7 +79,7 @@
                             </span>
                         </div>
                         <input type="email" class="form-control" id="gitUsername" placeholder="Username"
-                            value="@daveadame">
+                            value="">
                     </div>
                     <div class="mb-3 d-flex">
                         <div class="avatar-xs d-block flex-shrink-0 me-3">
@@ -88,7 +88,7 @@
                             </span>
                         </div>
                         <input type="text" class="form-control" id="websiteInput" placeholder="www.example.com"
-                            value="www.velzon.com">
+                            value="">
                     </div>
                     <div class="mb-3 d-flex">
                         <div class="avatar-xs d-block flex-shrink-0 me-3">
@@ -97,7 +97,7 @@
                             </span>
                         </div>
                         <input type="text" class="form-control" id="dribbleName" placeholder="Username"
-                            value="@dave_adame">
+                            value="">
                     </div>
                     <div class="d-flex">
                         <div class="avatar-xs d-block flex-shrink-0 me-3">
@@ -106,7 +106,7 @@
                             </span>
                         </div>
                         <input type="text" class="form-control" id="pinterestName" placeholder="Username"
-                            value="Advance Dave">
+                            value="">
                     </div>
                 </div>
             </div>
@@ -153,7 +153,7 @@
                                             <label for="firstnameInput" class="form-label">First
                                                 Name</label>
                                             <input type="text" class="form-control" id="firstnameInput"
-                                                placeholder="Enter your firstname" value="Dave">
+                                                placeholder="Enter your firstname" value="{{ auth()->user()->detail ? auth()->user()->detail->f_name : '' }}">
                                         </div>
                                     </div>
                                     <!--end col-->
@@ -162,7 +162,7 @@
                                             <label for="lastnameInput" class="form-label">Last
                                                 Name</label>
                                             <input type="text" class="form-control" id="lastnameInput"
-                                                placeholder="Enter your lastname" value="Adame">
+                                                placeholder="Enter your lastname" value="{{ auth()->user()->detail ? auth()->user()->detail->l_name : '' }}">
                                         </div>
                                     </div>
                                     <!--end col-->
@@ -171,7 +171,7 @@
                                             <label for="phonenumberInput" class="form-label">Phone
                                                 Number</label>
                                             <input type="text" class="form-control" id="phonenumberInput"
-                                                placeholder="Enter your phone number" value="+(1) 987 6543">
+                                                placeholder="Enter your phone number" value="{{ auth()->user()->detail ? auth()->user()->detail->phone : '' }}">
                                         </div>
                                     </div>
                                     <!--end col-->
@@ -180,7 +180,7 @@
                                             <label for="emailInput" class="form-label">Email
                                                 Address</label>
                                             <input type="email" class="form-control" id="emailInput"
-                                                placeholder="Enter your email" value="daveadame@velzon.com">
+                                                placeholder="Enter your email" value="{{ auth()->user()->email }}">
                                         </div>
                                     </div>
                                     <!--end col-->
@@ -190,22 +190,35 @@
                                                 Date</label>
                                             <input type="text" class="form-control" data-provider="flatpickr"
                                                 id="JoiningdatInput" data-date-format="d M, Y"
-                                                data-deafult-date="24 Nov, 2021" placeholder="Select date" />
+                                                data-deafult-date="{{ auth()->user()->detail ? \Carbon\Carbon::parse(auth()->user()->detail->joining_date)->format('d M, Y') : '' }}" placeholder="Select date" />
                                         </div>
                                     </div>
                                     <!--end col-->
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label for="skillsInput" class="form-label">Skills</label>
+                                            <?php 
+                                                    $skills = explode(',', auth()->user()->detail ? auth()->user()->detail->skills : '');
+                                                    
+                                                ?>
                                             <select class="form-control" name="skillsInput" data-choices
                                                 data-choices-removetext-unique-true Item multiple id="skillsInput">
-                                                <option value="illustrator">Illustrator</option>
-                                                <option value="photoshop">Photoshop</option>
-                                                <option value="css">CSS</option>
-                                                <option value="html">HTML</option>
-                                                <option value="javascript" selected>Javascript</option>
-                                                <option value="python">Python</option>
-                                                <option value="php">PHP</option>
+                                                
+                                                    
+                                                    {{-- <option value="{{ $skill }}" selected>{{ $skill }}</option> --}}
+                                                    <option value="Network" {{ in_array('Network', $skills) ? 'selected' : '' }}>Network</option>
+                                                    <option value="Sales" {{ in_array('Sales', $skills) ? 'selected' : '' }}>Sales</option>
+                                                    <option value="Support" {{ in_array('Support', $skills) ? 'selected' : '' }}>Support</option>
+                                                    <option value="Marketing" {{ in_array('Marketing', $skills) ? 'selected' : '' }}>Marketing</option>
+                                                    <option value="IT" {{ in_array('IT', $skills) ? 'selected' : '' }}>IT</option>
+                                                    <option value="Management" {{ in_array('Management', $skills) ? 'selected' : '' }}>Management</option>
+                                                    <option value="Photography" {{ in_array('Photography', $skills) ? 'selected' : '' }}>Photography</option>
+                                                    <option value="Accounting" {{ in_array('Accounting', $skills) ? 'selected' : '' }}>Accounting</option>
+                                                    <option value="Finance" {{ in_array('Finance', $skills) ? 'selected' : '' }}>Finance</option>
+                                                    <option value="HR" {{ in_array('HR', $skills) ? 'selected' : '' }}>HR</option>
+                                                    <option value="Others" {{ in_array('Others', $skills) ? 'selected' : '' }}>Others</option>
+                                            
+                                                
                                             </select>
                                         </div>
                                     </div>
@@ -214,7 +227,7 @@
                                         <div class="mb-3">
                                             <label for="designationInput" class="form-label">Designation</label>
                                             <input type="text" class="form-control" id="designationInput"
-                                                placeholder="Designation" value="Lead Designer / Developer">
+                                                placeholder="Designation" value="{{ auth()->user()->detail ? auth()->user()->detail->designation : '' }}">
                                         </div>
                                     </div>
                                     <!--end col-->
@@ -222,7 +235,7 @@
                                         <div class="mb-3">
                                             <label for="websiteInput1" class="form-label">Website</label>
                                             <input type="text" class="form-control" id="websiteInput1"
-                                                placeholder="www.example.com" value="www.velzon.com" />
+                                                placeholder="www.example.com" value="{{ auth()->user()->detail ? auth()->user()->detail->website : '' }}" />
                                         </div>
                                     </div>
                                     <!--end col-->
@@ -230,7 +243,7 @@
                                         <div class="mb-3">
                                             <label for="cityInput" class="form-label">City</label>
                                             <input type="text" class="form-control" id="cityInput" placeholder="City"
-                                                value="California" />
+                                                value="{{ auth()->user()->detail ? auth()->user()->detail->city : '' }}" />
                                         </div>
                                     </div>
                                     <!--end col-->
@@ -238,7 +251,7 @@
                                         <div class="mb-3">
                                             <label for="countryInput" class="form-label">Country</label>
                                             <input type="text" class="form-control" id="countryInput"
-                                                placeholder="Country" value="United States" />
+                                                placeholder="Country" value="{{ auth()->user()->detail ? auth()->user()->detail->country : '' }}" />
                                         </div>
                                     </div>
                                     <!--end col-->
@@ -247,7 +260,7 @@
                                             <label for="zipcodeInput" class="form-label">Zip
                                                 Code</label>
                                             <input type="text" class="form-control" minlength="5" maxlength="6"
-                                                id="zipcodeInput" placeholder="Enter zipcode" value="90011">
+                                                id="zipcodeInput" placeholder="Enter zipcode" value="{{ auth()->user()->detail ? auth()->user()->detail->zip : '' }}">
                                         </div>
                                     </div>
                                     <!--end col-->
@@ -256,7 +269,7 @@
                                             <label for="exampleFormControlTextarea"
                                                 class="form-label">Description</label>
                                             <textarea class="form-control" id="exampleFormControlTextarea" placeholder="Enter your description"
-                                                rows="3">Hi I'm Anna Adame,It will be as simple as Occidental; in fact, it will be Occidental. To an English person, it will seem like simplified English, as a skeptical Cambridge friend of mine told me what Occidental is European languages are members of the same family.</textarea>
+                                                rows="3">{{ auth()->user()->detail ? auth()->user()->detail->biography : '' }}</textarea>
                                         </div>
                                     </div>
                                     <!--end col-->

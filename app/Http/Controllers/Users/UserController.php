@@ -130,7 +130,6 @@ class UserController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
             'company' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',
             'f_name' => 'nullable|string|max:255',
@@ -156,12 +155,26 @@ class UserController extends Controller
         // update data User
         $user->update([
             'name' => $validated['name'],
-            'email' => $validated['email'],
             'avatar' => $avatar
         ]);
 
         // update data UserDetail
         $detail = $user->detail;
+        if(!$detail) {
+            $detail = new UserDetail;
+            $detail->user_id = $user->id;
+            $detail->company = $request->company;
+            $detail->phone = $request->phone;
+            $detail->f_name = $request->f_name;
+            $detail->l_name = $request->l_name;
+            $detail->address = $request->address;
+            $detail->dob = $request->dob;
+            $detail->designation = $request->designation;
+            $detail->skills = $request->skills;
+            $detail->joining_date = date('Y-m-d');
+            $detail->save();
+        }
+        else{
         $detail->update([
             'company' => $request->company,
             'phone' => $request->phone,
@@ -171,7 +184,9 @@ class UserController extends Controller
             'dob' => $request->dob,
             'designation' => $request->designation,
             'skills' => $request->skills,
+            'joining_date' => date('Y-m-d'),
         ]);
+        }
 
         Log::info('User updated: ' . $user->name);
         return response()->json([

@@ -24,12 +24,12 @@
             <div class="col">
                 <div class="p-2">
                     <h3 class="text-white mb-1">{{ $user->detail && $user->detail->f_name && $user->detail->l_name ? $user->detail->f_name . ' ' . $user->detail->l_name : $user->name }}</h3>
-                    <p class="text-white text-opacity-75">Owner & Founder</p>
+                    <p class="text-white text-opacity-75">{{ $user->detail ? $user->detail->designation : 'N/A' }}</p>
                     <div class="hstack text-white-50 gap-1">
                         <div class="me-2"><i
-                                class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>California,
-                            United States</div>
-                        <div><i class="ri-building-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>Themesbrand
+                                class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>{{ $user->detail ? $user->detail->city : '' }},
+                            {{ $user->detail ? $user->detail->country : 'N/A' }}</div>
+                        <div><i class="ri-building-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>{{ $user->detail ? $user->detail->company : 'N/A' }}
                         </div>
                     </div>
                 </div>
@@ -118,24 +118,24 @@
                                                 <tbody>
                                                     <tr>
                                                         <th class="ps-0" scope="row">Full Name :</th>
-                                                        <td class="text-muted">Anna Adame</td>
+                                                        <td class="text-muted">{{ $user->detail ? $user->detail->f_name ." ". $user->detail->l_name : $user->name }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th class="ps-0" scope="row">Mobile :</th>
-                                                        <td class="text-muted">+(1) 987 6543</td>
+                                                        <td class="text-muted">{{ $user->detail ? $user->detail->phone : '' }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th class="ps-0" scope="row">E-mail :</th>
-                                                        <td class="text-muted">daveadame@velzon.com</td>
+                                                        <td class="text-muted">{{ $user->email }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th class="ps-0" scope="row">Location :</th>
-                                                        <td class="text-muted">California, United States
+                                                        <td class="text-muted">{{ $user->detail ? $user->detail->city : '' }}, {{ $user->detail ? $user->detail->country : '' }}. {{ $user->detail ? $user->detail->zip : '' }}</td>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <th class="ps-0" scope="row">Joining Date</th>
-                                                        <td class="text-muted">24 Nov 2021</td>
+                                                        <td class="text-muted">{{ $user->detail ? $user->detail->joining_date : $user->created_at }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -187,13 +187,14 @@
                                     <div class="card-body">
                                         <h5 class="card-title mb-4">Skills</h5>
                                         <div class="d-flex flex-wrap gap-2 fs-15">
-                                            <a href="javascript:void(0);" class="badge bg-secondary-subtle text-secondary">Photoshop</a>
-                                            <a href="javascript:void(0);" class="badge bg-secondary-subtle text-secondary">illustrator</a>
-                                            <a href="javascript:void(0);" class="badge bg-secondary-subtle text-secondary">HTML</a>
-                                            <a href="javascript:void(0);" class="badge bg-secondary-subtle text-secondary">CSS</a>
-                                            <a href="javascript:void(0);" class="badge bg-secondary-subtle text-secondary">Javascript</a>
-                                            <a href="javascript:void(0);" class="badge bg-secondary-subtle text-secondary">Php</a>
-                                            <a href="javascript:void(0);" class="badge bg-secondary-subtle text-secondary">Python</a>
+                                            <?php
+                                                $skills = explode(',', $user->detail ? $user->detail->skills : '');
+                                            ?>
+                                            @foreach ($skills as $skill)
+                                                <a href="javascript:void(0);" class="badge bg-secondary-subtle text-secondary">{{ $skill }}</a>
+                                            @endforeach
+                                            
+                                            
                                         </div>
                                     </div><!-- end card body -->
                                 </div><!-- end card -->
@@ -354,19 +355,8 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title mb-3">About</h5>
-                                        <p>Hi I'm Anna Adame, It will be as simple as Occidental; in
-                                            fact, it will be Occidental. To an English person, it will
-                                            seem like simplified English, as a skeptical Cambridge
-                                            friend of mine told me what Occidental is European languages
-                                            are members of the same family.</p>
-                                        <p>You always want to make sure that your fonts work well
-                                            together and try to limit the number of fonts you use to
-                                            three or less. Experiment and play around with the fonts
-                                            that you already have in the software you’re working with
-                                            reputable font websites. This may be the most commonly
-                                            encountered tip I received from the designers I spoke with.
-                                            They highly encourage that you use different fonts in one
-                                            design, but do not over-exaggerate and go overboard.</p>
+                                        <p>{{ $user->detail ? $user->detail->biography : 'Hello, I’m '. $user->name }}.</p>
+                                        <p>My skills are {{ $user->detail ? $user->detail->skills : 'N/A' }}</p>
                                         <div class="row">
                                             <div class="col-6 col-md-4">
                                                 <div class="d-flex mt-4">
@@ -378,8 +368,7 @@
                                                     </div>
                                                     <div class="flex-grow-1 overflow-hidden">
                                                         <p class="mb-1">Designation :</p>
-                                                        <h6 class="text-truncate mb-0">Lead Designer /
-                                                            Developer</h6>
+                                                        <h6 class="text-truncate mb-0">{{ $user->detail ? $user->detail->designation : 'N/A' }}</h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -394,7 +383,7 @@
                                                     </div>
                                                     <div class="flex-grow-1 overflow-hidden">
                                                         <p class="mb-1">Website :</p>
-                                                        <a href="#" class="fw-semibold">www.velzon.com</a>
+                                                        <a href="http://{{ $user->detail ? $user->detail->website : 'N/A' }}" target="_blank" class="fw-semibold">{{ $user->detail ? $user->detail->website : 'N/A' }}</a>
                                                     </div>
                                                 </div>
                                             </div>

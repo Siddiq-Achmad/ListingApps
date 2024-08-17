@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Surveys;
 
+use App\Http\Controllers\Controller;
 use App\Models\Survey;
 use Illuminate\Http\Request;
 
@@ -57,7 +58,14 @@ class SurveyController extends Controller
     public function show(Survey $survey)
     {
         //
-        return view('surveys.show', compact('survey'));
+        if($survey->id){
+        $survey = Survey::find($survey->id);
+        
+        return view('surveys.survey-details', compact('survey'));
+        }
+        else{
+            return redirect()->route('404');
+        }
     }
 
     /**

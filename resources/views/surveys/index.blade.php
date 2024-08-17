@@ -305,7 +305,7 @@
                                             </div>
                                         </th>
                                         <td class="id" style="display:none;"><a href="{{ route('surveys.show', $survey->id) }}" class="fw-medium link-primary">#SRV-{{ $survey->id }}</a></td>
-                                        <td class="title">{{ $survey->title }}</td>
+                                        <td class="title"><a href="{{ route('surveys.show', $survey->id) }}" class="fw-medium link-primary">{{ $survey->title }}</a></td>
                                         <td class="description">{{ $survey->description }}</td>
                                         <td class="user_id">{{ $survey->user->name }}</td>
                                         <td class="created_at">{{ \Carbon\Carbon::parse($survey->created_at)->diffForHumans() }}</td>

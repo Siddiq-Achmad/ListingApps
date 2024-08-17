@@ -58,6 +58,10 @@ var count = 2;
 //     });
 // }
 
+
+
+
+
 function new_link() {
     count++;
     var div1 = document.createElement('div');

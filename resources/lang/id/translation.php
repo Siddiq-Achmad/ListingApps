@@ -225,11 +225,20 @@ return [
     "privacy-policy" => "Kebijakan Privasi",
     "hot" => "Hot",
 
-    "surveys" => "Survey",
+    "users" => "Users",
+    "user" => "User",
+    "survey" => "Survey",
+    "surveys" => "Surveys",
+    "question" => "Pertanyaan",
     "questions" => "Pertanyaan",
+    "answer" => "Jawaban",
     "answers" => "Jawaban",
-    "respondents" => "Responden",
-    "users" => "Pengguna",
+    "survey-response" => "Survey Response",
+    "survey-responses" => "Survey Responses",
+    "survey-report" => "Laporan Survey",
+    "survey-reports" => "Laporan Survey",
+    "respoondent" => "Respondent",
+    "respondents" => "Respondents",
 ];
 ?>
 

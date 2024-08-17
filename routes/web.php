@@ -6,7 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\SubscriberController;
-use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\Surveys\SurveyController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Controllers\Users\UserDetailController;
 use App\Http\Controllers\Users\UserProfileController;
@@ -49,6 +49,7 @@ Route::get('/how-it-work', [FrontendController::class, 'howItWork'])->name('howI
 Route::get('/blog', [FrontendController::class, 'blog'])->name('blog');
 Route::get('/shop', [FrontendController::class, 'shop'])->name('shop');
 Route::get('/listings', [FrontendController::class, 'listing'])->name('listing');
+Route::get('/404', [FrontendController::class, 'notFound'])->name('404');
 
 
 
@@ -70,7 +71,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('subscribers', SubscriberController::class);
     Route::resource('surveys', SurveyController::class);
 
-    Route::get('/index', [HomeController::class, 'index'])->name('root');
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
 
@@ -86,11 +86,11 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-    Route::get('{any}', [HomeController::class, 'index'])->where('any', '.*');
+    
 
 });
 
-
+Route::get('{any}', [HomeController::class, 'index'])->where('any', '.*');
 
 // Route::fallback(function () {
 //     return response()->view('frontend.errors.404', [], 404);

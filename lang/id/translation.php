@@ -210,7 +210,7 @@ return [
     "file-manager"=> "File Manager",
     "to-do"=> "To Do",
     "crypto-svg"=> "Crypto SVG",
-    "survey" => "Survey",
+    
     "job" => "Pekerjaan",
     "jobs" => "Pekerjaan",
     "statistics" => "Statistik",
@@ -224,6 +224,19 @@ return [
     "api-key" => "API Key",
     "privacy-policy" => "Kebijakan Privasi",
     "hot" => "Hot",
+
+    "survey" => "Survey",
+    "surveys" => "Surveys",
+    "question" => "Pertanyaan",
+    "questions" => "Pertanyaan",
+    "answer" => "Jawaban",
+    "answers" => "Jawaban",
+    "survey-response" => "Survey Response",
+    "survey-responses" => "Survey Responses",
+    "survey-report" => "Laporan Survey",
+    "survey-reports" => "Laporan Survey",
+    "respoondent" => "Respondent",
+    "respondents" => "Respondents",
 ];
 ?>
 

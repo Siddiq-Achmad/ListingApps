@@ -86,4 +86,9 @@ class FrontendController extends Controller
     {
         return view('frontend.auth');
     }
+
+    public function notFound()
+    {
+        return view('frontend.errors.404');
+    }
 }

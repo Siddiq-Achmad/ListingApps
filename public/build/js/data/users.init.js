@@ -36,11 +36,13 @@ function disablePass() {
     document.getElementById("c_password-field").disabled = true;
     document.getElementById("password-field").value = "";
     document.getElementById("c_password-field").value = "";
+    document.getElementById("email_id-field").disabled = true;
     //console.log("disable pass");
 }
 function enablePass() {
     document.getElementById("password-field").disabled = false;
     document.getElementById("c_password-field").disabled = false;
+    document.getElementById("email_id-field").disabled = false;
     //console.log("enable pass");
 }
 
@@ -430,7 +432,7 @@ Array.prototype.slice.call(forms).forEach(function (form) {
                     f_name: f_nameField.value,
                     l_name: l_nameField.value,
                     fullName: f_nameField.value + ' ' + l_nameField.value,
-                    dob: formatDate(dobField.value),
+                    dob: dobField.value,
                     age: calculateAge(dobField.value),
                     address: addressField.value,
                     skills: skillHtmlValue,
@@ -464,33 +466,31 @@ Array.prototype.slice.call(forms).forEach(function (form) {
                     if (selectedid == itemId) {
                         
                         // Update values
-                        var updateForm = new FormData();
+                        var formData = new FormData();
 
-                        updateForm.append('name', userNameField.value);
-                        updateForm.append('email', email_idField.value);
-                        updateForm.append('company', company_nameField.value);
-                        updateForm.append('phone', phoneField.value);
-                        updateForm.append('f_name', f_nameField.value);
-                        updateForm.append('l_name', l_nameField.value);
-                        updateForm.append('designation', designationField.value);
-                        updateForm.append('dob', dobField.value);
-                        updateForm.append('address', addressField.value);
-                        updateForm.append('skills', skillData);
+                        formData.append('name', userNameField.value);
+                        formData.append('email', email_idField.value);
+                        formData.append('company', company_nameField.value);
+                        formData.append('phone', phoneField.value);
+                        formData.append('f_name', f_nameField.value);
+                        formData.append('l_name', l_nameField.value);
+                        formData.append('designation', designationField.value);
+                        formData.append('dob', dobField.value);
+                        formData.append('address', addressField.value);
+                        formData.append('skills', skillData);
                         
                         var avatarFile = document.querySelector("#user-image-input").files[0];
                         if (avatarFile) {
-                            updateForm.append('avatar', avatarFile);
+                            formData.append('avatar', avatarFile);
                         }else{
-                            updateForm.append('avatar', x._values.avatar);
+                            formData.append('avatar', x._values.avatar);
                         }
-
+                        formData.append('_method', 'PUT');
+                        formData.append('_token', csrfToken);
 
                         fetch(`users/${itemId}`, {
-                            method: 'PUT', 
-                            headers: {
-                                'X-CSRF-TOKEN': csrfToken
-                            },
-                            body: updateForm
+                            method: 'POST', 
+                            body: formData
                         })
                         .then(response => {
                             if (!response.ok) {
@@ -546,7 +546,7 @@ Array.prototype.slice.call(forms).forEach(function (form) {
                             f_name: f_nameField.value,
                             l_name: l_nameField.value,
                             fullName: f_nameField.value + ' ' + l_nameField.value,
-                            dob: formatDate(dobField.value) ,
+                            dob: dobField.value,
                             age: calculateAge(dobField.value),
                             address: addressField.value,
                             skills: skillHtmlValue,
