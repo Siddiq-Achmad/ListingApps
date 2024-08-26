@@ -224,6 +224,8 @@ return [
     "api-key" => "API Key",
     "privacy-policy" => "Kebijakan Privasi",
     "hot" => "Hot",
+    "404" => "404",
+    "500" => "500",
 
     "users" => "Users",
     "user" => "User",

@@ -1,6 +1,12 @@
 <?php $__env->startSection('title'); ?>
     <?php echo app('translator')->get('translation.survey'); ?>
 <?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
+<link href="https://cdn.datatables.net/2.1.4/css/dataTables.bootstrap5.css" rel="stylesheet" type="text/css" />
+<!--datatable responsive css-->
+<link href="https://cdn.datatables.net/responsive/3.0.2/css/responsive.bootstrap5.css" rel="stylesheet" type="text/css" />
+<link href="https://cdn.datatables.net/buttons/3.1.1/css/buttons.bootstrap5.css" rel="stylesheet" type="text/css" />
+<?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 
 <div class="row">
@@ -81,83 +87,150 @@
                     </div>
                 </div>
             </div><!--end card-body-->
-            <div class="card-body p-4">
-                <h5 class="card-title mb-4">Comments</h5>
+        </div><!--end card-->
+        
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">Survey Questions</h4>
+                            <div class="flex-shrink-0">
+                                <button type="button" class="btn btn-soft-primary btn-sm">
+                                    <i class="ri-question-line align-middle"></i> Add Question
+                                </button>
+                            </div>
+                        </div><!-- end card header -->
+            <div class="card-body">
+                <div class="table-responsive table-card">
+                    <table id="buttons-datatables" class="display table table-bordered" style="width:100%">
+                        <thead class="text-muted table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Question</th>
+                                <th>Type</th>
+                                <th>Options</th>
+                                <th>Answer</th>
+                                <th>Action</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <?php $__empty_1 = true; $__currentLoopData = $survey->questions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $question): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?> 
+                            <tr>
+                                <td>
+                                    <?php echo e($loop->iteration); ?>
 
-                <div data-simplebar style="height: 300px;" class="px-3 mx-n3">
-                    <div class="d-flex mb-4">
-                        <div class="flex-shrink-0">
-                            <img src="<?php echo e(URL::asset('build/images/users/avatar-8.jpg')); ?>" alt="" class="avatar-xs rounded-circle" />
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h5 class="fs-13">Joseph Parker <small class="text-muted">20 Dec 2021 - 05:47AM</small></h5>
-                            <p class="text-muted">I am getting message from customers that when they place order always get error message .</p>
-                            <a href="javascript: void(0);" class="badge text-muted bg-light"><i class="mdi mdi-reply"></i> Reply</a>
-                            <div class="d-flex mt-4">
-                                <div class="flex-shrink-0">
-                                    <img src="<?php echo e(URL::asset('build/images/users/avatar-10.jpg')); ?>" alt="" class="avatar-xs rounded-circle" />
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h5 class="fs-13">Alexis Clarke <small class="text-muted">22 Dec 2021 - 02:32PM</small></h5>
-                                    <p class="text-muted">Please be sure to check your Spam mailbox to see if your email filters have identified the email from Dell as spam.</p>
-                                    <a href="javascript: void(0);" class="badge text-muted bg-light"><i class="mdi mdi-reply"></i> Reply</a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" class="fw-medium link-primary" data-bs-toggle="modal" data-bs-target="#zoomInModal-<?php echo e($question->id); ?>"><?php echo e($question->question_text); ?></a>
+                                </td>
+                                <td> <?php echo e($question->getTypes()); ?> </td>
+                                <td>
+                                    <?php
+                                        $options = explode(',', $question->options);
+                                        
+                                    ?>
+                                    <?php $__currentLoopData = $options; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <span class="badge rounded-pill bg-primary"><?php echo e($option); ?></span>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </td>
+                                <td><?php echo e($question->answer); ?></td>
+                                <td>
+                                    <div class="dropdown d-inline-block">
+                                        <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="ri-more-fill align-middle"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#zoomInModal-<?php echo e($question->id); ?>"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a></li>
+                                            <li><a class="dropdown-item edit-item-btn" href="#showModal" data-bs-toggle="modal"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                                            <li>
+                                                <a class="dropdown-item remove-item-btn"  data-bs-toggle="modal" href="#deleteOrder">
+                                                    <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <div class="modal fade flip" id="deleteOrder" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body p-5 text-center">
+                                            <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#25a0e2,secondary:#00bd9d" style="width:90px;height:90px">
+                                            </lord-icon>
+                                            <div class="mt-4 text-center">
+                                                <h4>Are you Sure ?</h4>
+                                                <p class="text-muted fs-14 mb-4">Deleting Question will remove all data related to it. #<?php echo e($question->id); ?> </p>
+                                                <div class="hstack gap-2 justify-content-center remove">
+                                                    <form id="deleteForm-<?php echo e($question->id); ?>" action="#" method="POST">
+                                                        <?php echo csrf_field(); ?>
+                                                        <?php echo method_field('DELETE'); ?>
+                                                    <button class="btn btn-link link-primary fw-medium text-decoration-none" data-bs-dismiss="modal" id="deleteRecord-close"><i class="ri-close-line me-1 align-middle"></i>
+                                                        Close</button>
+                                                    <button type="submit" class="btn btn-primary" id="delete-record">Yes, Delete It</button>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="d-flex mb-4">
-                        <div class="flex-shrink-0">
-                            <img src="<?php echo e(URL::asset('build/images/users/avatar-6.jpg')); ?>" alt="" class="avatar-xs rounded-circle" />
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h5 class="fs-13">Donald Palmer <small class="text-muted">24 Dec 2021 - 05:20PM</small></h5>
-                            <p class="text-muted">If you have further questions, please contact Customer Support from the “Action Menu” on your <a href="javascript:void(0);" class="text-decoration-underline">Online Order Support</a>.</p>
-                            <a href="javascript: void(0);" class="badge text-muted bg-light"><i class="mdi mdi-reply"></i> Reply</a>
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="flex-shrink-0">
-                            <img src="<?php echo e(URL::asset('build/images/users/avatar-10.jpg')); ?>" alt="" class="avatar-xs rounded-circle" />
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h5 class="fs-13">Alexis Clarke <small class="text-muted">26 min ago</small></h5>
-                            <p class="text-muted">Your <a href="javascript:void(0)" class="text-decoration-underline">Online Order Support</a> provides you with the most current status of your order. To help manage your order refer to the “Action Menu” to initiate return, contact Customer Support and more.</p>
-                            <div class="row g-2 mb-3">
-                                <div class="col-lg-1 col-sm-2 col-6">
-                                    <img src="<?php echo e(URL::asset('build/images/small/img-4.jpg')); ?>" alt="" class="img-fluid rounded">
-                                </div>
-                                <div class="col-lg-1 col-sm-2 col-6">
-                                    <img src="<?php echo e(URL::asset('build/images/small/img-5.jpg')); ?>" alt="" class="img-fluid rounded">
-                                </div>
-                            </div>
-                            <a href="javascript: void(0);" class="badge text-muted bg-light"><i class="mdi mdi-reply"></i> Reply</a>
-                            <div class="d-flex mt-4">
-                                <div class="flex-shrink-0">
-                                    <img src="<?php echo e(URL::asset('build/images/users/avatar-6.jpg')); ?>" alt="" class="avatar-xs rounded-circle" />
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h5 class="fs-13">Donald Palmer <small class="text-muted">8 sec ago</small></h5>
-                                    <p class="text-muted">Other shipping methods are available at checkout if you want your purchase delivered faster.</p>
-                                    <a href="javascript: void(0);" class="badge text-muted bg-light"><i class="mdi mdi-reply"></i> Reply</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                            
+                            <div id="zoomInModal-<?php echo e($question->id); ?>" class="modal fade zoomIn" tabindex="-1" aria-labelledby="zoomInModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    
+                                    <div class="modal-content">
+                                        <div class="modal-header p-3 bg-primary-subtle">
+                                            <h5 class="modal-title" id="zoomInModalLabel">#<?php echo e($question->id); ?> Question Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5 class="fs-16">
+                                                <?php echo e($question->question_text); ?>
+
+                                            </h5>
+                                           
+                                            <p class="text-muted">Type : <?php echo e($question->getTypes()); ?></p>
+                                            <p class="text-muted">Options :
+                                                <?php
+                                                    $options = explode(',', $question->options);
+                                                    
+                                                ?>
+                                                <?php $__currentLoopData = $options; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <li class="text-muted"><?php echo e($option); ?></li>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </p>
+                                            <p class="text-muted">Answer : <?php echo e($question->answer); ?></p>
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                            
+                                        </div>
+
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                            <tr>
+                                <td colspan="6" class="text-center">No data available</td>
+                            </tr>
+                                    
+                            <?php endif; ?>
+                                
+                                
+                            
+                           
+                        </tbody><!-- end tbody -->
+                    </table><!-- end table -->
                 </div>
-                <form action="javascript:void(0);" class="mt-3">
-                    <div class="row g-3">
-                        <div class="col-lg-12">
-                            <label for="exampleFormControlTextarea1" class="form-label">Leave a Comments</label>
-                            <textarea class="form-control bg-light border-light" id="exampleFormControlTextarea1" rows="3" placeholder="Enter comments"></textarea>
-                        </div>
-                        <div class="col-lg-12 text-end">
-                            <a href="javascript:void(0);" class="btn btn-primary">Post Comments</a>
-                        </div>
-                    </div>
-                </form>
             </div>
+
+            
             <!-- end card body -->
         </div><!--end card-->
+        
     </div><!--end col-->
     <div class="col-xxl-3">
         <div class="card">
@@ -285,10 +358,99 @@
         </div>
     </div><!--end col-->
 </div><!--end row-->
+
+
+
+<div class="modal fade zoomIn" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content border-0">
+            <div class="modal-header p-3 bg-primary-subtle">
+                <h5 class="modal-title" id="exampleModalLabel"><?php echo e(__('Edit Survey')); ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+            <form class="tablelist-form" autocomplete="off">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        
+                        <div class="col-lg-12">
+                            <div>
+                                <label for="tasksTitle-field" class="form-label">Title</label>
+                                <input type="text" id="tasksTitle-field" class="form-control" placeholder="Title" required />
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div>
+                                <label for="client_nameName-field" class="form-label">Client Name</label>
+                                <input type="text" id="client_nameName-field" class="form-control" placeholder="Client Name" required />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div>
+                                <label for="assignedtoName-field" class="form-label">Assigned To</label>
+                                <input type="text" id="assignedtoName-field" class="form-control" placeholder="Assigned to" required />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="date-field" class="form-label">Create Date</label>
+                            <input type="text" id="date-field" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Create Date" required />
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="duedate-field" class="form-label">Due Date</label>
+                            <input type="text" id="duedate-field" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Due Date" required />
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="ticket-status" class="form-label">Status</label>
+                            <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
+                                <option value="">Status</option>
+                                <option value="New">New</option>
+                                <option value="Inprogress">Inprogress</option>
+                                <option value="Closed">Closed</option>
+                                <option value="Open">Open</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="priority-field" class="form-label">Priority</label>
+                            <select class="form-control" data-plugin="choices" name="priority-field" id="priority-field">
+                                <option value="">Priority</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success" id="add-btn">Add Ticket</button>
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
-    <script src="<?php echo e(URL::asset('build/js/data/surveydetail.init.js')); ?>"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
+    <script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.4/js/dataTables.bootstrap5.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.1/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.bootstrap5.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.2/js/dataTables.responsive.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.2/js/responsive.bootstrap5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.html5.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.print.js"></script>
+
+    <script src="<?php echo e(URL::asset('build/js/pages/datatables.init.js')); ?>"></script>
+
+    <script src="<?php echo e(URL::asset('build/js/data/surveys/surveydetail.init.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 <?php $__env->stopSection(); ?>
 

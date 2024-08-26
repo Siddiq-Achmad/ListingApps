@@ -1,8 +1,22 @@
 <?php
 
+
+
+use App\Http\Controllers\API\Surveys\AnswerController;
+use App\Http\Controllers\API\Surveys\QuestionController;
+use App\Http\Controllers\API\Surveys\ResponseController;
+use App\Http\Controllers\API\Surveys\SurveyController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+
+
+
+
+
+
+
 
 
 /*
@@ -27,5 +41,12 @@ Route::post('oauth/token', '\Laravel\Passport\Http\Controllers\AccessTokenContro
 
 Route::group(['middleware' => 'auth:api'], function () {    
     Route::get('logout', [AuthController::class, 'logout']);
-    Route::get('user', [AuthController::class, 'user']);
+
+
+    Route::get('/answers', [AnswerController::class, 'index']);
+    Route::get('/questions', [QuestionController::class, 'index']);
+    Route::get('/surveys', [SurveyController::class, 'index']);
+    Route::get('/responses', [ResponseController::class, 'index']);
+
 });
+

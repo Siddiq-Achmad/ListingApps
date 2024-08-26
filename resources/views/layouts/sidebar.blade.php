@@ -39,7 +39,7 @@
                     <div class="collapse menu-dropdown" id="sidebarDashboards">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="dashboard" class="nav-link">@lang('translation.dashboards')</a>
+                                <a href="{{ route('dashboard') }}" class="nav-link">@lang('translation.dashboards')</a>
                             </li>
                             <li class="nav-item">
                                 <a href="users" class="nav-link">@lang('translation.users')</a>
@@ -61,17 +61,18 @@
                                 <div class="collapse menu-dropdown" id="sidebarSurvey">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="surveys" class="nav-link"> @lang('translation.surveys') </a>
+                                            <a href="{{ route('surveys.index') }}" class="nav-link"> @lang('translation.surveys') </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="questions" class="nav-link"> @lang('translation.questions') </a>
+                                            <a href="{{ route('questions.index') }}" class="nav-link"> @lang('translation.questions') </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="answers" class="nav-link"> @lang('translation.answers') </a>
+                                            <a href="{{ route('respondents.index') }}" class="nav-link"> @lang('translation.respondents') </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="respondents" class="nav-link"> @lang('translation.respondents') </a>
+                                            <a href="{{ route('answers.index') }}" class="nav-link"> @lang('translation.answers') </a>
                                         </li>
+                                        
                                     </ul>
                                 </div>
                             </li>
@@ -169,27 +170,7 @@
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarApp">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="#sidebarSurvey" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarSurvey">
-                                    @lang('translation.survey')
-                                </a>
-                                <div class="collapse menu-dropdown" id="sidebarSurvey">
-                                    <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item">
-                                            <a href="survey" class="nav-link"> @lang('translation.survey') </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="survey" class="nav-link"> @lang('translation.questions') </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="survey" class="nav-link"> @lang('translation.answers') </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="survey" class="nav-link"> @lang('translation.respondents') </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
+                            
                             <li class="nav-item">
                                 <a href="#sidebarCalendar" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCalendar" data-key="t-calender">
                                     @lang('translation.calendar')

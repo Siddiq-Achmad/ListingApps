@@ -67,7 +67,7 @@
                                     </li>
                                     <li class="uk-parent">
                                         <li class="uk-nav-header">OTHER</li>
-                                        <li><a href="listings">404</a></li>
+                                        <li><a href="<?php echo e(route('404')); ?>">404</a></li>
                                     </li>
                                    
                                 </ul>

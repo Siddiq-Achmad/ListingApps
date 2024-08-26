@@ -1,8 +1,8 @@
 /*
-Template Name: Velzon - Admin & Dashboard Template
-Author: Themesbrand
-Website: https://Themesbrand.com/
-Contact: Themesbrand@gmail.com
+Template Name: LUXIMA - Admin & Dashboard 
+Author: LUXIMA
+Website: https://luxima.id/
+Contact: admin@luxima.id
 File: Ticket list init js
 */
 

@@ -45,6 +45,8 @@ function initializeTables() {
         }
     });
 
+
+
     //buttons examples
     let buttonsDataTables = new DataTable('#buttons-datatables', {
         dom: 'Bfrtip',

@@ -230,6 +230,9 @@ return [
     "links" => "Links",
     "range-area" => "Range Area",
     "funnel" => "Funnel",
+    "404" => "404",
+    "500" => "500",
+    
 
     "users" => "Users",
     "user" => "User",

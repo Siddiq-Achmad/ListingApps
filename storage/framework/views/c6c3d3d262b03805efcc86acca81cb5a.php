@@ -39,7 +39,7 @@
                     <div class="collapse menu-dropdown" id="sidebarDashboards">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="dashboard" class="nav-link"><?php echo app('translator')->get('translation.dashboards'); ?></a>
+                                <a href="<?php echo e(route('dashboard')); ?>" class="nav-link"><?php echo app('translator')->get('translation.dashboards'); ?></a>
                             </li>
                             <li class="nav-item">
                                 <a href="users" class="nav-link"><?php echo app('translator')->get('translation.users'); ?></a>
@@ -61,17 +61,18 @@
                                 <div class="collapse menu-dropdown" id="sidebarSurvey">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="surveys" class="nav-link"> <?php echo app('translator')->get('translation.surveys'); ?> </a>
+                                            <a href="<?php echo e(route('surveys.index')); ?>" class="nav-link"> <?php echo app('translator')->get('translation.surveys'); ?> </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="questions" class="nav-link"> <?php echo app('translator')->get('translation.questions'); ?> </a>
+                                            <a href="<?php echo e(route('questions.index')); ?>" class="nav-link"> <?php echo app('translator')->get('translation.questions'); ?> </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="answers" class="nav-link"> <?php echo app('translator')->get('translation.answers'); ?> </a>
+                                            <a href="<?php echo e(route('respondents.index')); ?>" class="nav-link"> <?php echo app('translator')->get('translation.respondents'); ?> </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="respondents" class="nav-link"> <?php echo app('translator')->get('translation.respondents'); ?> </a>
+                                            <a href="<?php echo e(route('answers.index')); ?>" class="nav-link"> <?php echo app('translator')->get('translation.answers'); ?> </a>
                                         </li>
+                                        
                                     </ul>
                                 </div>
                             </li>
@@ -169,27 +170,7 @@
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarApp">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="#sidebarSurvey" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarSurvey">
-                                    <?php echo app('translator')->get('translation.survey'); ?>
-                                </a>
-                                <div class="collapse menu-dropdown" id="sidebarSurvey">
-                                    <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item">
-                                            <a href="survey" class="nav-link"> <?php echo app('translator')->get('translation.survey'); ?> </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="survey" class="nav-link"> <?php echo app('translator')->get('translation.questions'); ?> </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="survey" class="nav-link"> <?php echo app('translator')->get('translation.answers'); ?> </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="survey" class="nav-link"> <?php echo app('translator')->get('translation.respondents'); ?> </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
+                            
                             <li class="nav-item">
                                 <a href="#sidebarCalendar" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCalendar" data-key="t-calender">
                                     <?php echo app('translator')->get('translation.calendar'); ?>

@@ -59,12 +59,13 @@ class SurveyController extends Controller
     {
         //
         if($survey->id){
-        $survey = Survey::find($survey->id);
+        $survey = Survey::with('questions')->findOrFail($survey->id);
+        $questions = $survey->questions()->paginate(2);
         
-        return view('surveys.survey-details', compact('survey'));
+        return view('surveys.survey-details', compact('survey', 'questions'));
         }
         else{
-            return redirect()->route('404');
+            return redirect()->route('surveys.index')->with('error', 'Survey not found');
         }
     }
 

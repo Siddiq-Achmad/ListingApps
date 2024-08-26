@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title><?php echo $__env->yieldContent('title'); ?> | LUXIMA - Admin & Dashboard Template</title>
+    <title><?php echo $__env->yieldContent('title'); ?> | LUXIMA - Listing & Directory</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Aceh Weddings Directory & Listing" name="description" />
     <meta content="Luxima.id" name="author" />

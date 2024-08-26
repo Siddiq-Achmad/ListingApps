@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Survey;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -10,6 +12,24 @@ class FrontendController extends Controller
     public function index()
     {
         return view('frontend.index');
+    }
+
+    public function search()
+    {
+        return view('frontend.search');
+    }
+
+    public function show()
+    {
+        return view('frontend.show');
+    }
+
+    public function survey()
+    {
+        $dataId = 1;
+        $survey = Survey::with('questions')->findOrFail($dataId);
+        $questions = $survey->questions()->paginate(10);
+        return view('frontend.surveys.survey', compact('survey', 'questions'));
     }
 
     public function about()
