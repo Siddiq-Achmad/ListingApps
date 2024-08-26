@@ -162,7 +162,7 @@
                                                 <h4>Are you Sure ?</h4>
                                                 <p class="text-muted fs-14 mb-4">Deleting Question will remove all data related to it. #<?php echo e($question->id); ?> </p>
                                                 <div class="hstack gap-2 justify-content-center remove">
-                                                    <form id="deleteForm-<?php echo e($question->id); ?>" action="#" method="POST">
+                                                    <form id="deleteForm-<?php echo e($question->id); ?>" action="<?php echo e(route('questions.destroy', $question->id)); ?>" method="POST">
                                                         <?php echo csrf_field(); ?>
                                                         <?php echo method_field('DELETE'); ?>
                                                     <button class="btn btn-link link-primary fw-medium text-decoration-none" data-bs-dismiss="modal" id="deleteRecord-close"><i class="ri-close-line me-1 align-middle"></i>
@@ -434,6 +434,63 @@
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
+    <script>
+        <?php if(Session::has('success')): ?>
+        Toastify({
+            text: "<?php echo e(Session::get('success')); ?>",
+            duration: 3000,
+            close: true,
+            gravity: "bottom", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            className: "bg-success"
+        }).showToast();
+    <?php elseif(Session::has('info')): ?>
+       Toastify({
+           text: "<?php echo e(Session::get('info')); ?>",
+           duration: 3000,
+           close: true,
+           gravity: "bottom", // `top` or `bottom`
+           position: "right", // `left`, `center` or `right`
+           stopOnFocus: true, // Prevents dismissing of toast on hover
+           className: "bg-info"
+       }).showToast();
+    <?php elseif(Session::has('warning')): ?>
+       Toastify({
+           text: "<?php echo e(Session::get('warning')); ?>",
+           duration: 3000,
+           close: true,
+           gravity: "bottom", // `top` or `bottom`
+           position: "right", // `left`, `center` or `right`
+           stopOnFocus: true, // Prevents dismissing of toast on hover
+           className: "bg-warning"
+       }).showToast();
+    <?php elseif(Session::has('error')): ?>
+       Toastify({
+           text: "<?php echo e(Session::get('error')); ?>",
+           duration: 3000,
+           close: true,
+           gravity: "bottom", // `top` or `bottom`
+           position: "right", // `left`, `center` or `right`
+           stopOnFocus: true, // Prevents dismissing of toast on hover
+           className: "bg-danger"
+       }).showToast();
+    <?php elseif(session()->has('message')): ?>
+        Toastify({
+            text: "<?php echo e(session()->get('message')); ?>",
+            duration: 3000,
+            close: true,
+            gravity: "bottom", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            }
+        }).showToast();
+    <?php else: ?>
+       
+    <?php endif; ?>
+    </script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
     <script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>

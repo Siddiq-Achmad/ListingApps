@@ -1,3 +1,19 @@
+// var data = fetch('/users-list')
+//         .then(res => res.json())
+//         .then(data => {
+//             console.log(data);
+//         })
+    
+
+//     //buttons examples
+//     let buttonsDataTables = new DataTable('#surveyTable', {
+//         dom: 'Bfrtip',
+//         data: data,
+//         buttons: [
+//             'copy', 'csv', 'excel', 'print', 'pdf'
+//         ]
+//     });
+
 function formatTanggal(tgl) {
     const date = new Date(tgl);
     const year = date.getFullYear();
@@ -10,7 +26,7 @@ function formatTanggal(tgl) {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    fetch('/questions-list')
+    fetch('/answers-list')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -19,41 +35,30 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(data => {
             if (data.status === 'success') {
-                const tableBody = document.querySelector("#questions-table tbody");
+                const tableBody = document.querySelector("#answers-table tbody");
                 tableBody.innerHTML = '';
 
-                if(data.data.length === 0) {
+                data.data.forEach(answer => {
                     let row = `
                         <tr>
-                            <td colspan="5">No Data Available</td>
+                            <td>${answer.question.survey.title}</td>
+                            <td>${answer.response.name}</td>
+                            <td>${answer.question.question_text}</td>
+                            <td>${answer.answer}</td>
+                            <td>${formatTanggal(answer.created_at)}</td>
                         </tr>
                     `;
-                    
-                }
-                else {
-                    data.data.forEach(question => {
-                        let row = `
-                            <tr>
-                                <td><a href="/surveys/${question.survey.id}">#${question.survey.id} - ${question.survey.title}</a></td>
-                                <td>${question.question_text}</td>
-                                <td>${question.question_type}</td>
-                                <td>${question.options}</td>
-                                <td>${formatTanggal(question.created_at)}</td>
-                            </tr>
-                        `;
-                        tableBody.insertAdjacentHTML('beforeend', row);
-                    });
+                    tableBody.insertAdjacentHTML('beforeend', row);
+                });
 
-                }
                 // Initialize DataTables if needed
-                $('#questions-table').DataTable({
+                $('#answers-table').DataTable({
                     dom: 'Bfrtip',
                     responsive: true,
                     buttons: [
                         'copy', 'csv', 'excel', 'print', 'pdf'
                     ],
                 });
-
             }
             else{
                 console.error('Failed to fetch data.');
@@ -61,3 +66,5 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error('Error fetching data:', error));
 });
+
+ 

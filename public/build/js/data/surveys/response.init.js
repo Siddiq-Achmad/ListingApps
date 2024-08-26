@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     let row = `
                         <tr>
                             <td>${respondent.id}</td>
-                            <td><a href="/respondents/${respondent.survey_id}">${respondent.name}</a></td>
+                            <td><a href="/respondents/${respondent.id}">${respondent.name}</a></td>
                             <td>${respondent.email}</td>
                             <td>${respondent.phone}</td>
                             <td>${respondent.age}</td>

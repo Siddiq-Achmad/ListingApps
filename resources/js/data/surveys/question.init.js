@@ -22,29 +22,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 const tableBody = document.querySelector("#questions-table tbody");
                 tableBody.innerHTML = '';
 
-                if(data.data.length === 0) {
+                data.data.forEach(question => {
                     let row = `
                         <tr>
-                            <td colspan="5">No Data Available</td>
+                            <td><a href="/surveys/${question.survey.id}">#${question.survey.id} - ${question.survey.title}</a></td>
+                            <td>${question.question_text}</td>
+                            <td>${question.question_type}</td>
+                            <td>${question.options}</td>
+                            <td>${formatTanggal(question.created_at)}</td>
                         </tr>
                     `;
-                    
-                }
-                else {
-                    data.data.forEach(question => {
-                        let row = `
-                            <tr>
-                                <td><a href="/surveys/${question.survey.id}">#${question.survey.id} - ${question.survey.title}</a></td>
-                                <td>${question.question_text}</td>
-                                <td>${question.question_type}</td>
-                                <td>${question.options}</td>
-                                <td>${formatTanggal(question.created_at)}</td>
-                            </tr>
-                        `;
-                        tableBody.insertAdjacentHTML('beforeend', row);
-                    });
+                    tableBody.insertAdjacentHTML('beforeend', row);
+                });
 
-                }
                 // Initialize DataTables if needed
                 $('#questions-table').DataTable({
                     dom: 'Bfrtip',
@@ -53,7 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         'copy', 'csv', 'excel', 'print', 'pdf'
                     ],
                 });
-
             }
             else{
                 console.error('Failed to fetch data.');

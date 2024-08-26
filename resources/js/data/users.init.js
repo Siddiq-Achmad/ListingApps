@@ -1,13 +1,49 @@
 /*
-Template Name: Velzon - Admin & Dashboard Template
-Author: Themesbrand
-Website: https://Themesbrand.com/
-Contact: Themesbrand@gmail.com
-File: CRM-contact Js File
+Template Name: LUXIMA - Admin & Dashboard 
+Author: LUXIMA
+Website: https://luxima.id/
+Contact: admin@luxima.id
+File: Ticket list init js
 */
 
 
 
+var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+var authId = document.getElementById('_auth_id').value;
+
+function calculateAge(birthDate) {
+    // Mengubah string tanggal lahir menjadi objek Date
+    var birth = new Date(birthDate);
+
+    // Mendapatkan tanggal saat ini
+    var today = new Date();
+
+    // Menghitung selisih tahun
+    var age = today.getFullYear() - birth.getFullYear();
+
+    // Memastikan jika bulan/tanggal belum lewat, umur dikurangi satu tahun
+    var monthDifference = today.getMonth() - birth.getMonth();
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birth.getDate())) {
+        age--;
+    }
+
+    return age;
+}
+//fuction disable password
+function disablePass() {
+    document.getElementById("password-field").disabled = true;
+    document.getElementById("c_password-field").disabled = true;
+    document.getElementById("password-field").value = "";
+    document.getElementById("c_password-field").value = "";
+    document.getElementById("email_id-field").disabled = true;
+    //console.log("disable pass");
+}
+function enablePass() {
+    document.getElementById("password-field").disabled = false;
+    document.getElementById("c_password-field").disabled = false;
+    document.getElementById("email_id-field").disabled = false;
+    //console.log("enable pass");
+}
 
 // list js
 function timeConvert(time) {
@@ -68,6 +104,16 @@ var options = {
         "designation",
         "skills",
         "last_updated",
+        "desc",
+        "fullName",
+        "dob",
+        "age",
+        "address",
+        "city",
+        "zip",
+        "country",
+        "website",
+        "created_at",
     ],
     page: perPage,
     pagination: true,
@@ -122,11 +168,12 @@ xhttp.onload = function () {
         
 
         var avatar = raw.avatar;
-        var r = avatar ? 'build/images/users/'+avatar : 'build/images/users/user-dummy-img.jpg';
+        var r = avatar ? 'images/users/'+avatar : 'images/users/user-dummy-img.jpg';
 
         
         contactList.add({
             id: `<a href="javascript:void(0);" class="fw-medium link-primary">${raw.id}</a>`,
+            dataId: raw.id,
             name: '<div class="d-flex align-items-center">\
             <div class="flex-shrink-0"><img src="'+r+'" alt="" class="avatar-xs rounded-circle"></div>\
             <div class="flex-grow-1 ms-2 name">'+raw.name+'</div>\
@@ -136,13 +183,26 @@ xhttp.onload = function () {
             phone: raw.detail ? raw.detail.phone : '',
             designation: raw.detail ? raw.detail.designation : '',
             skills: skillHtml ,
-            last_updated: formatDate(raw.updated_at) + ' <small class="text-muted">'+timeConvert(raw.updated_at)+'</small>'
+            last_updated: formatDate(raw.updated_at) + ' <small class="text-muted">'+timeConvert(raw.updated_at)+'</small>',
+            desc: raw.detail ? raw.detail.biography : '',
+            fullName: raw.detail ? raw.detail.f_name + ' ' + raw.detail.l_name : raw.name,
+            f_name: raw.detail ? raw.detail.f_name : '',
+            l_name: raw.detail ? raw.detail.l_name : '',
+            dob: raw.detail ? raw.detail.dob : '',
+            age: raw.detail ? calculateAge(raw.detail.dob) : '-',
+            address: raw.detail ? raw.detail.address : '',
+            city: raw.detail ? raw.detail.city : '',
+            country: raw.detail ? raw.detail.country : '',
+            zip: raw.detail ? raw.detail.zip : '',
+            website: raw.detail ? raw.detail.website : '',
+            created_at: formatDate(raw.created_at) + ' <small class="text-muted">'+timeConvert(raw.created_at)+'</small>',
+            avatar: raw.avatar
         });
         contactList.sort('id', { order: "asc" });
         refreshCallbacks();
     });
-    contactList.remove('id', `<a href="javascript:void(0);" class="fw-medium link-primary">#VZ001</a>`);
-    //console.log(json_records);
+    contactList.remove('id', `<a href="javascript:void(0);" class="fw-medium link-primary">${authId}</a>`);
+    //console.log('Auth Id:'+authId);
 }
 xhttp.open("GET", "/users-list", true);
 xhttp.send();
@@ -152,27 +212,43 @@ isCount = new DOMParser().parseFromString(
     "text/html"
 );
 
+
 // user image
 document.querySelector("#user-image-input").addEventListener("change", function () {
     var preview = document.querySelector("#user-img");
     var file = document.querySelector("#user-image-input").files[0];
     var reader = new FileReader();
+    var maxSize = 2 * 1024 * 1024;
     reader.addEventListener("load",function () {
         preview.src = reader.result;
     },false);
     if (file) {
+        if (file.size > maxSize) {
+            alert("File size should not be more than 2 MB");
+            return false;
+        }
         reader.readAsDataURL(file);
+       
     }
 });
+
 
 var idField = document.getElementById("id-field"),
     userImg = document.getElementById("user-img"),
     userNameField = document.getElementById("username-field"),
+    f_nameField = document.getElementById("f_name-field"),
+    l_nameField = document.getElementById("l_name-field"),
+    passwordField = document.getElementById("password-field"),
+    c_passwordField = document.getElementById("c_password-field"),
+    dobField = document.getElementById("dob-field"),
+    addressField = document.getElementById("address-field"),
     company_nameField = document.getElementById("company_name-field"),
     designationField = document.getElementById("designation-field"),
     email_idField = document.getElementById("email_id-field"),
     phoneField = document.getElementById("phone-field"),
-    lead_scoreField = document.getElementById("lead_score-field"),
+    skillsField = document.getElementById("skillinput-choices"),
+    avatarField = document.querySelector("#user-image-input");
+
     addBtn = document.getElementById("add-btn"),
     editBtn = document.getElementById("edit-btn"),
     removeBtns = document.getElementsByClassName("remove-item-btn"),
@@ -182,16 +258,19 @@ refreshCallbacks();
 
 document.getElementById("showModal").addEventListener("show.bs.modal", function (e) {
     if (e.relatedTarget.classList.contains("edit-item-btn")) {
-        document.getElementById("exampleModalLabel").innerHTML = "Edit Contact";
+        document.getElementById("exampleModalLabel").innerHTML = "Edit User";
         document.getElementById("showModal").querySelector(".modal-footer").style.display = "block";
         document.getElementById("add-btn").innerHTML = "Update";
+        disablePass();
     } else if (e.relatedTarget.classList.contains("add-btn")) {
-        document.getElementById("exampleModalLabel").innerHTML = "Add Contact";
+        document.getElementById("exampleModalLabel").innerHTML = "Add User";
         document.getElementById("showModal").querySelector(".modal-footer").style.display = "block";
         document.getElementById("add-btn").innerHTML = "Add Contact";
+        enablePass();
     } else {
-        document.getElementById("exampleModalLabel").innerHTML = "List Contact";
+        document.getElementById("exampleModalLabel").innerHTML = "List of Users";
         document.getElementById("showModal").querySelector(".modal-footer").style.display = "none";
+        enablePass();
     }
 });
 ischeckboxcheck();
@@ -233,15 +312,17 @@ setInterval(currentTime, 1000);
 
 var count = 11;
 // multiple Remove CancelButton
-var tagInputField = new Choices('#taginput-choices', {
+var skillInputField = new Choices('#skillinput-choices', {
       removeItemButton: true,
     }
 );
 
-var tagInputFieldValue = tagInputField.getValue(true);
-var tagHtmlValue = '';
-Array.from(tagInputFieldValue).forEach((tag, index) => {
-    tagHtmlValue += '<span class="badge bg-primary-subtle text-primary me-1">'+tag+'</span>'
+var skillInputFieldValue = skillInputField.getValue(true);
+var skillHtmlValue = '';
+var skillData = '';
+Array.from(skillInputFieldValue).forEach((skill, index) => {
+    skillHtmlValue += '<span class="badge bg-primary-subtle text-primary me-1">'+skill+'</span>'
+    skillData += skill + ',';
 })
 var forms = document.querySelectorAll('.tablelist-form')
 Array.prototype.slice.call(forms).forEach(function (form) {
@@ -249,20 +330,93 @@ Array.prototype.slice.call(forms).forEach(function (form) {
         if (!form.checkValidity()) {
             event.preventDefault();
             event.stopPropagation();
+            
         } else {
             event.preventDefault();
+            
             if (userNameField.value !== "" &&
-                company_nameField.value !== "" &&
                 email_idField.value !== "" &&
-                phoneField.value !== "" &&
-                lead_scoreField.value !== "" &&
-                designationField.value !== "" && !editlist) {
+                passwordField.value !== "" &&
+                c_passwordField.value !== "" &&
+                !editlist) {
 
-                var tagInputFieldValue = tagInputField.getValue(true);
-                var tagHtmlValue = '';
-                Array.from(tagInputFieldValue).forEach((tag, index) => {
-                    tagHtmlValue += '<span class="badge bg-primary-subtle text-primary me-1">' + tag + '</span>'
+                
+                var skillInputFieldValue = skillInputField.getValue(true);
+                var skillHtmlValue = '';
+                var skillData = '';
+                Array.from(skillInputFieldValue).forEach((skill, index) => {
+                    skillHtmlValue += '<span class="badge bg-primary-subtle text-primary me-1">' + skill + '</span>'
+                    skillData += skill + ',';
                 })
+                
+                var formData = new FormData();
+
+                formData.append('name', userNameField.value);
+                formData.append('email', email_idField.value);
+                formData.append('password', passwordField.value);
+                formData.append('password_confirmation', c_passwordField.value);
+                formData.append('company', company_nameField.value);
+                formData.append('phone', phoneField.value);
+                formData.append('f_name', f_nameField.value);
+                formData.append('l_name', l_nameField.value);
+                formData.append('designation', designationField.value);
+                formData.append('dob', dobField.value);
+                formData.append('address', addressField.value);
+                formData.append('skills', skillData);
+                
+                var avatarFile = document.querySelector("#user-image-input").files[0];
+                if (avatarFile) {
+                    formData.append('avatar', avatarFile);
+                }
+
+                fetch(`/users`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Menangani respon sukses
+                    console.log('Success:', data);
+                    Toastify({
+                        text: data.message,
+                        duration: 3000,
+                        close: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "right", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        className: "bg-success",
+                    }).showToast();
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Contact inserted successfully!',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        showCloseButton: true
+                    });
+                })
+                .catch(error => {
+                    // Menangani respon error
+                    console.error('Error:', error);
+                    Toastify({
+                        text: error.message,
+                        duration: 3000,
+                        close: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "right", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        className: "bg-danger",
+                    }).showToast();
+                });
+                    
                 contactList.add({
                     id: `<a href="javascript:void(0);" class="fw-medium link-primary">#VZ${count}</a>`,
                     // name: userNameField.value,
@@ -274,43 +428,112 @@ Array.prototype.slice.call(forms).forEach(function (form) {
                     designation: designationField.value,
                     email_id: email_idField.value,
                     phone: phoneField.value,
-                    lead_score: lead_scoreField.value,
-                    tags: tagHtmlValue,
+                    f_name: f_nameField.value,
+                    l_name: l_nameField.value,
+                    fullName: f_nameField.value + ' ' + l_nameField.value,
+                    dob: dobField.value,
+                    age: calculateAge(dobField.value),
+                    address: addressField.value,
+                    skills: skillHtmlValue,
                     date: dateValue + ' <small class="text-muted">' + currentTime() + '</small>'
                 });
+
                 contactList.sort('id', { order: "desc" });
                 document.getElementById("close-modal").click();
                 clearFields();
                 refreshCallbacks();
                 count++;
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Contact inserted successfully!',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    showCloseButton: true
-                });
+                
+                
             }else if (userNameField.value !== "" &&
-            company_nameField.value !== "" &&
             email_idField.value !== "" &&
-            phoneField.value !== "" &&
-            lead_scoreField.value !== "" &&
-            designationField.value !== "" && editlist) {
+            editlist) {
                 var editValues = contactList.get({
                     id: idField.value,
                 });
+                
                 Array.from(editValues).forEach(function (x) {
                     isid = new DOMParser().parseFromString(x._values.id, "text/html");
                     var selectedid = isid.body.firstElementChild.innerHTML;
-                    var tagInputFieldValue = tagInputField.getValue(true);
-                    var tagHtmlValue = '';
-                    Array.from(tagInputFieldValue).forEach((tag, index) => {
-                        tagHtmlValue += '<span class="badge bg-primary-subtle text-primary me-1">' + tag + '</span>'
+                    var skillInputFieldValue = skillInputField.getValue(true);
+                    var skillHtmlValue = '';
+                    var skillData = '';
+                    Array.from(skillInputFieldValue).forEach((skill, index) => {
+                        skillHtmlValue += '<span class="badge bg-primary-subtle text-primary me-1">' + skill + '</span>'
+                        skillData += skill + ',';
                     })
                     if (selectedid == itemId) {
+                        
+                        // Update values
+                        var formData = new FormData();
+
+                        formData.append('name', userNameField.value);
+                        formData.append('email', email_idField.value);
+                        formData.append('company', company_nameField.value);
+                        formData.append('phone', phoneField.value);
+                        formData.append('f_name', f_nameField.value);
+                        formData.append('l_name', l_nameField.value);
+                        formData.append('designation', designationField.value);
+                        formData.append('dob', dobField.value);
+                        formData.append('address', addressField.value);
+                        formData.append('skills', skillData);
+                        
+                        var avatarFile = document.querySelector("#user-image-input").files[0];
+                        if (avatarFile) {
+                            formData.append('avatar', avatarFile);
+                        }else{
+                            formData.append('avatar', x._values.avatar);
+                        }
+                        formData.append('_method', 'PUT');
+                        formData.append('_token', csrfToken);
+
+                        fetch(`users/${itemId}`, {
+                            method: 'POST', 
+                            body: formData
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Menangani respon sukses
+                            console.log('Success:', data);
+                            Toastify({
+                                text: data.message,
+                                duration: 3000,
+                                close: true,
+                                gravity: "top", // `top` or `bottom`
+                                position: "right", // `left`, `center` or `right`
+                                stopOnFocus: true, // Prevents dismissing of toast on hover
+                                className: "bg-success",
+                            }).showToast();
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Updated Successfully',
+                                showConfirmButton: false,
+                                timer: 2000,
+                                showCloseButton: true
+                            });
+                        })
+                        .catch(error => {
+                            // Menangani respon error
+                            console.error('Error:', error);
+                            Toastify({
+                                text: error.message,
+                                duration: 3000,
+                                close: true,
+                                gravity: "top", // `top` or `bottom`
+                                position: "right", // `left`, `center` or `right`
+                                stopOnFocus: true, // Prevents dismissing of toast on hover
+                                className: "bg-danger",
+                            }).showToast();
+                        });
+                        
                         x.values({
-                            id: `<a href="javascript:void(0);" class="fw-medium link-primary">#VZ${idField.value}</a>`,
+                            id: `<a href="javascript:void(0);" class="fw-medium link-primary">${idField.value}</a>`,
                             name: '<div class="d-flex align-items-center">\
                             <div class="flex-shrink-0"><img src="'+userImg.src+'" alt="" class="avatar-xs rounded-circle object-fit-cover"></div>\
                             <div class="flex-grow-1 ms-2 name">'+userNameField.value+'</div>\
@@ -319,22 +542,27 @@ Array.prototype.slice.call(forms).forEach(function (form) {
                             designation: designationField.value,
                             email_id: email_idField.value,
                             phone: phoneField.value,
-                            lead_score: lead_scoreField.value,
-                            tags: tagHtmlValue,
+                            f_name: f_nameField.value,
+                            l_name: l_nameField.value,
+                            fullName: f_nameField.value + ' ' + l_nameField.value,
+                            dob: dobField.value,
+                            age: calculateAge(dobField.value),
+                            address: addressField.value,
+                            skills: skillHtmlValue,
                             date: dateValue + ' <small class="text-muted">'+currentTime()+'</small>'
                         });
                     }
                 });
                 document.getElementById("close-modal").click();
                 clearFields();
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Contact updated Successfully!',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    showCloseButton: true
-                });
+                // Swal.fire({
+                //     position: 'center',
+                //     icon: 'success',
+                //     title: 'User updated Successfully!',
+                //     showConfirmButton: false,
+                //     timer: 2000,
+                //     showCloseButton: true
+                // });
             }
         }
     }, false)
@@ -369,8 +597,7 @@ function refreshCallbacks() {
                 var itemValues = contactList.get({
                     id: itemId,
                 });
-                console.log(itemId, itemValues);
-
+                
                 Array.from(itemValues).forEach(function (x) {
                     deleteid = new DOMParser().parseFromString(x._values.id, "text/html");
 
@@ -379,10 +606,29 @@ function refreshCallbacks() {
 
                     if (isdeleteid == itemId) {
                         document.getElementById("delete-record").addEventListener("click", function () {
-                            contactList.remove("id", isElem.outerHTML);
+                            
                             var deleteForm = document.getElementById("delete-record-form");
-                            deleteForm.setAttribute("action", `users/${itemId}`);
+                           
+                            fetch(`users/${itemId}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': csrfToken 
+                                },
+                            }).then(response => response.json())
+                            .then(data => {
+                                Toastify({
+                                    text:  data.message,
+                                    duration: 3000,
+                                    close: true,
+                                    gravity: "top", // `top` or `bottom`
+                                    position: "right", // `left`, `center` or `right`
+                                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                                    className: "bg-danger",
+                                }).showToast();                                    
+                            })
+                            contactList.remove("id", isElem.outerHTML);
                             document.getElementById("deleteRecord-close").click();
+                            
                         });
                     }
                 });
@@ -398,24 +644,37 @@ function refreshCallbacks() {
                 var itemValues = contactList.get({
                     id: itemId,
                 });
-    
+
+
+                
                 Array.from(itemValues).forEach(function (x) {
                     isid = new DOMParser().parseFromString(x._values.id, "text/html");
                     var selectedid = isid.body.firstElementChild.innerHTML;
-                    var tagBadge = new DOMParser().parseFromString(x._values.tags, "text/html").body.querySelectorAll("span.badge");
+                    var skillBadge = new DOMParser().parseFromString(x._values.skills, "text/html").body.querySelectorAll("span.badge");
+                    
+                   
+
+
                     if (selectedid == itemId) {
+                        
+                        
                         editlist = true;
                         idField.value = selectedid;
                         userImg.src = new DOMParser().parseFromString(x._values.name, "text/html").body.querySelector("img").src
                         userNameField.value = new DOMParser().parseFromString(x._values.name, "text/html").body.querySelector(".name").innerHTML;
                         company_nameField.value = x._values.company_name;
+                        f_nameField.value = x._values.f_name;
+                        l_nameField.value = x._values.l_name;
+                        dobField.value = x._values.dob;
+                        addressField.value = x._values.address;
                         designationField.value = x._values.designation;
                         email_idField.value = x._values.email_id;
-                        phoneField.value = x._values.phone;
-                        lead_scoreField.value = x._values.lead_score;
-                        if(tagBadge){
-                            Array.from(tagBadge).forEach((item) => {
-                                tagInputField.setChoiceByValue(item.innerHTML);
+                        phoneField.value = x._values.phone;   
+                                             
+                        if(skillBadge){
+                            Array.from(skillBadge).forEach((item) => {
+                                skillInputField.setChoiceByValue(item.innerHTML);
+                                //console.log(item.innerHTML);
                             })
                         }
                         
@@ -428,81 +687,111 @@ function refreshCallbacks() {
     Array.from(viewBtns).forEach(function (btn) {
         btn.addEventListener("click", function (e) {
             e.target.closest("tr").children[1].innerText;
-            itemId = e.target.closest("tr").children[1].innerText;
+            itemId = e.target.closest("tr").children[1].innerText.trim();
             var itemValues = contactList.get({
                 id: itemId,
             });
-
+            
+            //console.log(itemValues);    
             Array.from(itemValues).forEach(function (x) {
                 isid = new DOMParser().parseFromString(x._values.id, "text/html");
                 var selectedid = isid.body.firstElementChild.innerHTML;
+                //console.log(x._values);
                 if (selectedid == itemId) {
+                    
                     var codeBlock = `
-                        <div class="card-body text-center">
-                            <div class="position-relative d-inline-block">
-                                <img src="${new DOMParser().parseFromString(x._values.name, "text/html").body.querySelector("img").src}" alt=""
-                                    class="avatar-lg rounded-circle img-thumbnail object-fit-cover">
-                                <span class="contact-active position-absolute rounded-circle bg-success"><span
-                                        class="visually-hidden"></span>
-                            </div>
-                            <h5 class="mt-4 mb-1">${new DOMParser().parseFromString(x._values.name, "text/html").body.querySelector(".name").innerHTML}</h5>
-                            <p class="text-muted">${x._values.company_name}</p>
-
-                            <ul class="list-inline mb-0">
-                                <li class="list-inline-item avatar-xs">
-                                    <a href="javascript:void(0);"
-                                        class="avatar-title bg-success-subtle text-success fs-15 rounded">
-                                        <i class="ri-phone-line"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item avatar-xs">
-                                    <a href="javascript:void(0);"
-                                        class="avatar-title bg-danger-subtle text-danger fs-15 rounded">
-                                        <i class="ri-mail-line"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item avatar-xs">
-                                    <a href="javascript:void(0);"
-                                        class="avatar-title bg-warning-subtle text-warning fs-15 rounded">
-                                        <i class="ri-question-answer-line"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                    <div class="card-body text-center">
+                        <div class="position-relative d-inline-block">
+                            <img src="${new DOMParser().parseFromString(x._values.name, "text/html").body.querySelector("img").src}" alt=""
+                                class="avatar-lg rounded-circle img-thumbnail object-fit-cover">
+                            <span class="contact-active position-absolute rounded-circle bg-success"><span
+                                    class="visually-hidden"></span>
                         </div>
-                        <div class="card-body">
-                            <h6 class="text-muted text-uppercase fw-semibold mb-3">Personal Information</h6>
-                            <p class="text-muted mb-4">${x._values.desc}</p>
-                            <div class="table-responsive table-card">
-                                <table class="table table-borderless mb-0">
-                                    <tbody>
-                                        <tr>
-                                            <td class="fw-medium" scope="row">Designation</td>
-                                            <td>${x._values.designation}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fw-medium" scope="row">Email ID</td>
-                                            <td>${x._values.email_id}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fw-medium" scope="row">Phone No</td>
-                                            <td>${x._values.phone}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fw-medium" scope="row">Lead Score</td>
-                                            <td>${x._values.lead_score}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fw-medium" scope="row">Tags</td>
-                                            <td>${x._values.tags}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fw-medium" scope="row">Last Contacted</td>
-                                            <td>${x._values.date} <small class="text-muted"></small></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>`;
+                        <h5 class="mt-4 mb-1">${new DOMParser().parseFromString(x._values.name, "text/html").body.querySelector(".name").innerHTML}</h5>
+                        <p class="text-muted">${x._values.email_id}</p>
+
+                        <ul class="list-inline mb-0">
+                            <li class="list-inline-item avatar-xs">
+                                <a href="javascript:void(0);"
+                                    class="avatar-title bg-success-subtle text-success fs-15 rounded">
+                                    <i class="ri-phone-line"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item avatar-xs">
+                                <a href="javascript:void(0);"
+                                    class="avatar-title bg-danger-subtle text-danger fs-15 rounded">
+                                    <i class="ri-mail-line"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item avatar-xs">
+                                <a href="javascript:void(0);"
+                                    class="avatar-title bg-warning-subtle text-warning fs-15 rounded">
+                                    <i class="ri-question-answer-line"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                    <h6 class="text-muted text-uppercase fw-semibold mb-3">Personal Information</h6>
+                    <p class="text-muted mb-4">${x._values.desc}</p>
+                    <div class="table-responsive table-card">
+                        <table class="table table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="fw-medium" scope="row">Designation</td>
+                                    <td>${x._values.designation}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium" scope="row">Full Name</td>
+                                    <td>${x._values.fullName}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium" scope="row">Day of Birth</td>
+                                    <td>${formatDate(x._values.dob)}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium" scope="row">Age</td>
+                                    <td>${x._values.age} Years</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium" scope="row">Address</td>
+                                    <td>${x._values.address}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium"></td>
+                                    <td>${x._values.city}, ${x._values.country}. ${x._values.zip}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium" scope="row">Email ID</td>
+                                    <td>${x._values.email_id}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium" scope="row">Phone No</td>
+                                    <td>${x._values.phone}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium" scope="row">Website</td>
+                                    <td>${x._values.website}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium" scope="row">Skills</td>
+                                    <td>
+                                        ${x._values.skills}
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium" scope="row">Created At</td>
+                                    <td>${x._values.created_at}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium" scope="row">Last Updated</td>
+                                    <td>${x._values.last_updated}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
                     document.getElementById('contact-view-detail').innerHTML = codeBlock;
                 }
             });
@@ -511,15 +800,20 @@ function refreshCallbacks() {
 }
 
 function clearFields() {
-    userImg.src = "build/images/users/user-dummy-img.jpg";
+    userImg.src = "images/users/user-dummy-img.jpg";
     userNameField.value = "";
+    f_nameField.value = "";
+    l_nameField.value = "";
+    passwordField.value = "";
+    c_passwordField.value = "";
+    dobField.value = "";
+    addressField.value = "";
     company_nameField.value = "";
     designationField.value = "";
     email_idField.value = "";
     phoneField.value = "";
-    lead_scoreField.value = "";
-    tagInputField.removeActiveItems();
-    tagInputField.setChoiceByValue("0");
+    skillInputField.removeActiveItems();
+    skillInputField.setChoiceByValue("0");
 }
 
 // Delete All Records

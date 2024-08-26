@@ -162,7 +162,7 @@
                                                 <h4>Are you Sure ?</h4>
                                                 <p class="text-muted fs-14 mb-4">Deleting Question will remove all data related to it. #{{ $question->id }} </p>
                                                 <div class="hstack gap-2 justify-content-center remove">
-                                                    <form id="deleteForm-{{ $question->id }}" action="#" method="POST">
+                                                    <form id="deleteForm-{{ $question->id }}" action="{{ route('questions.destroy', $question->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                     <button class="btn btn-link link-primary fw-medium text-decoration-none" data-bs-dismiss="modal" id="deleteRecord-close"><i class="ri-close-line me-1 align-middle"></i>
@@ -457,6 +457,63 @@
 
 @endsection
 @section('script')
+    <script>
+        @if (Session::has('success'))
+        Toastify({
+            text: "{{ Session::get('success') }}",
+            duration: 3000,
+            close: true,
+            gravity: "bottom", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            className: "bg-success"
+        }).showToast();
+    @elseif (Session::has('info'))
+       Toastify({
+           text: "{{ Session::get('info') }}",
+           duration: 3000,
+           close: true,
+           gravity: "bottom", // `top` or `bottom`
+           position: "right", // `left`, `center` or `right`
+           stopOnFocus: true, // Prevents dismissing of toast on hover
+           className: "bg-info"
+       }).showToast();
+    @elseif (Session::has('warning'))
+       Toastify({
+           text: "{{ Session::get('warning') }}",
+           duration: 3000,
+           close: true,
+           gravity: "bottom", // `top` or `bottom`
+           position: "right", // `left`, `center` or `right`
+           stopOnFocus: true, // Prevents dismissing of toast on hover
+           className: "bg-warning"
+       }).showToast();
+    @elseif (Session::has('error'))
+       Toastify({
+           text: "{{ Session::get('error') }}",
+           duration: 3000,
+           close: true,
+           gravity: "bottom", // `top` or `bottom`
+           position: "right", // `left`, `center` or `right`
+           stopOnFocus: true, // Prevents dismissing of toast on hover
+           className: "bg-danger"
+       }).showToast();
+    @elseif(session()->has('message'))
+        Toastify({
+            text: "{{ session()->get('message') }}",
+            duration: 3000,
+            close: true,
+            gravity: "bottom", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            }
+        }).showToast();
+    @else
+       
+    @endif
+    </script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
     <script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>

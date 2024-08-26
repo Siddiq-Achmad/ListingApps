@@ -59,6 +59,7 @@ Route::get('/404', [FrontendController::class, 'notFound'])->name('404');
 Route::get('/search', [FrontendController::class, 'search'])->name('search');
 
 Route::get('/survey', [FrontendController::class, 'survey'])->name('survey');
+Route::post('/survey', [FrontendController::class, 'surveyStore'])->name('surveyStore');
 
 
 

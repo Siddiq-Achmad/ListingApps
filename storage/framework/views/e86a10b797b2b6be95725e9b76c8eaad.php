@@ -1,5 +1,5 @@
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('translation.Responses'); ?>
+    <?php echo app('translator')->get('translation.respondents'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('css'); ?>
 <link href="https://cdn.datatables.net/2.1.4/css/dataTables.bootstrap5.css" rel="stylesheet" type="text/css" />

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Surveys;
 use App\Http\Controllers\Controller;
 use App\Models\Survey;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SurveyController extends Controller
 {
@@ -123,13 +124,17 @@ class SurveyController extends Controller
         //
         $survey = Survey::find($id);
 
-        $survey->delete();
-        if($survey){
-            return redirect()->route('surveys.index')->with('error', 'Survey deleted successfully.');
+        if(Auth::user()->id == $survey->user_id){
+            $delete = $survey->delete();
+            if($delete){
+                return redirect()->route('surveys.index')->with('error', 'Survey deleted successfully.');
+            }
+            else{
+                return redirect()->route('surveys.index')->with('info', 'Survey not found.');
+            }
         }
-        else{
-            return redirect()->route('surveys.index')->with('info', 'Survey not found.');
-        }
+
+        return redirect()->route('surveys.index')->with('error', 'You are not authorized to delete this survey.');
     }
 
     public function storeResponse(Request $request, Survey $survey)

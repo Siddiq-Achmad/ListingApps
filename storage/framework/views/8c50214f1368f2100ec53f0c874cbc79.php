@@ -22,7 +22,9 @@
                     </div>
                 </div><!-- end card header -->
                 <div class="card-body">
-                    <form action="survey" class="form-steps" autocomplete="off">
+                    <form id="form_survey" action="survey" method="POST" class="form-steps" autocomplete="off" novalidate>
+                        <?php echo csrf_field(); ?>
+                        <input type="hidden" name="survey_id" value="<?php echo e($survey->id); ?>">
                         <div class="text-center pt-3 pb-4 mb-1 d-flex justify-content-center">
                             <img src="<?php echo e(URL::asset('build/images/logo-dark.png')); ?>" class="card-logo card-logo-dark" alt="logo dark"
                                 height="17">
@@ -61,7 +63,7 @@
                                                 <label class="form-label" for="steparrow-gen-info-name-input">
                                                     Name <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control"
-                                                    id="steparrow-gen-info-name-input" placeholder="Enter Name"
+                                                    id="steparrow-gen-info-name-input" name="name" placeholder="Enter Name"
                                                     required>
                                                 <div class="invalid-feedback">Please enter a full name</div>
                                             </div>
@@ -71,7 +73,7 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Email</label>
                                                 <input type="email" class="form-control"
-                                                    id="steparrow-gen-info-email-input" placeholder="Enter Email">
+                                                    id="steparrow-gen-info-email-input" name="email" placeholder="Enter Email">
                                                 <div class="invalid-feedback">Please enter an email address</div>
                                             </div>
                                         </div>
@@ -83,7 +85,7 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-phone-input">Phone <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control"
-                                                    id="steparrow-gen-info-phone-input" placeholder="Enter Phone" minlength="10"
+                                                    id="steparrow-gen-info-phone-input" name="phone" placeholder="Enter Phone" minlength="10" role="number"
                                                     required>
                                                 <div class="invalid-feedback">Please enter a phone number</div>
                                             </div>
@@ -93,7 +95,7 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-age-input">Age</label>
                                                 <input type="number" class="form-control"
-                                                    id="steparrow-gen-info-age-input" placeholder="Enter Age">
+                                                    id="steparrow-gen-info-age-input" name="age" placeholder="Enter Age">
                                             </div>
                                         </div>
                                     </div>
@@ -102,8 +104,8 @@
                                             <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-city-input">City</label>
-                                                    <select class="form-select" id="steparrow-gen-info-city-input">
-                                                        <option selected>Choose...</option>
+                                                    <select class="form-select" id="steparrow-gen-info-city-input" name="city">
+                                                        <option value="" selected>Choose...</option>
                                                         <option value="Banda Aceh">Banda Aceh</option>
                                                         <option value="Aceh Barat">Aceh Barat</option>
                                                         <option value="Aceh Barat Daya">Aceh Barat Daya</option>
@@ -132,8 +134,8 @@
                                             <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-education-input">Education Level</label>
-                                                    <select class="form-select" id="steparrow-gen-info-education-input">
-                                                        <option selected>Choose...</option>
+                                                    <select class="form-select" id="steparrow-gen-info-education-input" name="education_level">
+                                                        <option value="" selected>Choose...</option>
                                                         <option value="Diploma">Diploma</option>
                                                         <option value="S1">S1</option>
                                                         <option value="S2">S2</option>
@@ -172,7 +174,7 @@
                                         data-previous="steparrow-gen-info-tab"><i
                                             class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
                                         General</button>
-                                    <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                    <button type="submit" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="pills-experience-tab"><i
                                             class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
                                 </div>
@@ -206,6 +208,27 @@
     
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
+<?php if(session()->has('success')): ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            // Deactivate all tabs
+            document.querySelectorAll('.nav-link').forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+
+            // Activate the third tab (Finish)
+            document.getElementById('pills-experience-tab').classList.add('active');
+            
+            // Switch the tab content to the third tab
+            document.querySelectorAll('.tab-pane').forEach(function(pane) {
+                pane.classList.remove('show', 'active');
+            });
+            document.getElementById('pills-experience').classList.add('show', 'active');
+        }, 1000); // Simulated delay for form submission process
+    });
+</script>
+<?php endif; ?>
     <script src="<?php echo e(URL::asset('build/js/pages/form-wizard.init.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 <?php $__env->stopSection(); ?>

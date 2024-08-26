@@ -10,7 +10,7 @@ function formatTanggal(tgl) {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    fetch('/questions-list')
+    fetch('/responses-list')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -19,41 +19,34 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(data => {
             if (data.status === 'success') {
-                const tableBody = document.querySelector("#questions-table tbody");
+                const tableBody = document.querySelector("#respondents-table tbody");
                 tableBody.innerHTML = '';
 
-                if(data.data.length === 0) {
+                data.data.forEach(respondent => {
                     let row = `
                         <tr>
-                            <td colspan="5">No Data Available</td>
+                            <td>${respondent.id}</td>
+                            <td><a href="/respondents/${respondent.survey_id}">${respondent.name}</a></td>
+                            <td>${respondent.email}</td>
+                            <td>${respondent.phone}</td>
+                            <td>${respondent.age}</td>
+                            <td>${respondent.gender}</td>
+                            <td>${respondent.city}</td>
+                            <td>${respondent.education_level}</td>
+                            
                         </tr>
                     `;
-                    
-                }
-                else {
-                    data.data.forEach(question => {
-                        let row = `
-                            <tr>
-                                <td><a href="/surveys/${question.survey.id}">#${question.survey.id} - ${question.survey.title}</a></td>
-                                <td>${question.question_text}</td>
-                                <td>${question.question_type}</td>
-                                <td>${question.options}</td>
-                                <td>${formatTanggal(question.created_at)}</td>
-                            </tr>
-                        `;
-                        tableBody.insertAdjacentHTML('beforeend', row);
-                    });
+                    tableBody.insertAdjacentHTML('beforeend', row);
+                });
 
-                }
                 // Initialize DataTables if needed
-                $('#questions-table').DataTable({
+                $('#respondents-table').DataTable({
                     dom: 'Bfrtip',
                     responsive: true,
                     buttons: [
                         'copy', 'csv', 'excel', 'print', 'pdf'
                     ],
                 });
-
             }
             else{
                 console.error('Failed to fetch data.');

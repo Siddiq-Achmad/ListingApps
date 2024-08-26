@@ -8,6 +8,7 @@ use App\Models\SurveyAnswer;
 use App\Models\SurveyQuestion;
 use App\Models\SurveyResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuestionController extends Controller
 {
@@ -59,6 +60,21 @@ class QuestionController extends Controller
     public function destroy($id)
     {
         //
+        $question = SurveyQuestion::find($id);
+        $surveys = Survey::find($question->survey_id);
+
+        if(Auth::user()->id == $surveys->user_id){
+            $delete = $question->delete();
+            if($delete){
+                return redirect()->route('surveys.show', $question->survey_id)->with('success', 'Question deleted successfully. ');
+            }
+            else{
+                return redirect()->route('surveys.show', $question->survey_id)->with('error', 'Question not deleted. ');
+            }
+        }
+
+        return redirect()->route('surveys.show', $question->survey_id)->with('error', 'You are not authorized to delete this question. ');
+
         
     }
 

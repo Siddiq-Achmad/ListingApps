@@ -50,11 +50,11 @@ class SurveyQuestion extends Model
 
         switch ($this->question_type) {
             case 0: // Text Input
-                $html .= '<input type="text" name="question_' . $this->id . '" class="form-control" required />';
+                $html .= '<input type="text" name="q_' . $this->id . '" class="form-control" required />';
                 break;
 
             case 1: // Select Input
-                $html .= '<select name="question_' . $this->id . '" class="form-control" required>';
+                $html .= '<select name="q_' . $this->id . '" class="form-control" required>';
                 $html .= '<option value="">Please Select</option>';
                 foreach (explode(',', $this->options) as $option) {
                     $html .= '<option value="' . e($option) . '">' . e($option) . '</option>';
@@ -65,7 +65,7 @@ class SurveyQuestion extends Model
             case 2: // Radio Input
                 foreach (explode(',', $this->options) as $option) {
                     $html .= '<div class="form-check form-check-inline">';
-                    $html .= '<input type="radio" name="question_' . $this->id . '" value="' . e($option) . '" class="form-check-input" required />';
+                    $html .= '<input type="radio" name="q_' . $this->id . '" value="' . e($option) . '" class="form-check-input" required />';
                     $html .= '<label class="form-check-label">' . e($option) . '</label>';
                     $html .= '</div>';
                 }
@@ -74,26 +74,26 @@ class SurveyQuestion extends Model
             case 3: // Checkbox Input
                 foreach (explode(',', $this->options) as $option) {
                     $html .= '<div class="form-check">';
-                    $html .= '<input type="checkbox" name="question_' . $this->id . '[]" value="' . e($option) . '" class="form-check-input" required />';
+                    $html .= '<input type="checkbox" name="q_' . $this->id . '[]" value="' . e($option) . '" class="form-check-input" />';
                     $html .= '<label class="form-check-label">' . e($option) . '</label>';
                     $html .= '</div>';
                 }
                 break;
 
             case 4: // Date Input
-                $html .= '<input type="date" name="question_' . $this->id . '" class="form-control" />';
+                $html .= '<input type="date" name="q_' . $this->id . '" class="form-control" />';
                 break;
 
             case 5: // DateTime Input
-                $html .= '<input type="datetime-local" name="question_' . $this->id . '" class="form-control" />';
+                $html .= '<input type="datetime-local" name="q_' . $this->id . '" class="form-control" />';
                 break;
 
             case 6: // Time Input
-                $html .= '<input type="time" name="question_' . $this->id . '" class="form-control" />';
+                $html .= '<input type="time" name="q_' . $this->id . '" class="form-control" />';
                 break;
 
             default:
-                $html .= '<input type="text" name="question_' . $this->id . '" class="form-control" />';
+                $html .= '<input type="text" name="q_' . $this->id . '" class="form-control" />';
         }
 
         $html .= '</div><hr/>';
