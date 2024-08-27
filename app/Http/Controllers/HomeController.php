@@ -37,15 +37,6 @@ class HomeController extends Controller
         //return view('dashboard');
     }
 
-    public function info(){
-
-        $hostIP = Larinfo::getHostIpinfo();
-        $clientIP = Larinfo::getClientIpinfo();
-     
-
-        return view('info', compact('hostIP', 'clientIP'));
-    }
-
     
     public function dashboard()
     {

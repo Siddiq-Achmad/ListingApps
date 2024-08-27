@@ -31,11 +31,8 @@ class UserProfileController extends Controller
         $user = Auth::user();
         //return response()->json($user);
         $histories = $user->loginHistories;
-        
-        $larinfo = Larinfo::getInfo();
-        $clientInfo = Larinfo::getClientIpinfo();
 
-        //dd($larinfo, $clientInfo);
+        
         return view('users.profile-settings', compact('user', 'histories', 'clientInfo'));
     }
 
