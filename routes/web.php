@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginHistoryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\HomeController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Users\UserDetailController;
 use App\Http\Controllers\Users\UserProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -90,6 +92,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('respondents', ResponseController::class);
     
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    Route::post('/logout-device/{id}', [LoginHistoryController::class, 'logoutDevice'])->name('logout.device');
 
 
     Route::get('/surveys-list', [SurveyController::class, 'survey'])->name('surveys.list');

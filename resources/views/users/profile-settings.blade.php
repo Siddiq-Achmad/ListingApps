@@ -339,6 +339,23 @@
                                 </div>
                                 <h5 class="card-title">Login History</h5>
                             </div>
+                            @foreach ($histories as $history) 
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="flex-shrink-0 avatar-sm">
+                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18">
+                                        <i class="ri-smartphone-line"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6>{{ $history->device }} - {{ $history->platform }} | {{ $history->browser }} | {{ $history->ip_address }} </h6>
+                                    <p class="text-muted mb-0">{{ $ipAddress }},  Los Angeles, United States - {{ \Carbon\Carbon::parse($history->created_at)->diffForHumans() }}</p>
+                                </div>
+                                <div>
+                                    
+                                    <a href="javascript:void(0);" class="link-secondary">Logout</a>
+                                </div>
+                            </div>
+                            @endforeach
                             <div class="d-flex align-items-center mb-3">
                                 <div class="flex-shrink-0 avatar-sm">
                                     <div class="avatar-title bg-light text-primary rounded-3 fs-18">

@@ -1,13 +1,5 @@
 <script>
-    Toastify({
-        text: "<?php echo e(Session::get('error')); ?>",
-        duration: 3000,
-        close: true,
-        gravity: "bottom", // `top` or `bottom`
-        position: "right", // `left`, `center` or `right`
-        stopOnFocus: true, // Prevents dismissing of toast on hover
-        className: "bg-danger"
-    })
+
  <?php if(Session::has('success')): ?>
         Toastify({
             text: "<?php echo e(Session::get('success')); ?>",

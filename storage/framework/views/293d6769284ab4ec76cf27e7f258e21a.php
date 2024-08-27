@@ -338,6 +338,23 @@
                                 </div>
                                 <h5 class="card-title">Login History</h5>
                             </div>
+                            <?php $__currentLoopData = $histories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $history): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="flex-shrink-0 avatar-sm">
+                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18">
+                                        <i class="ri-smartphone-line"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6><?php echo e($history->device); ?> - <?php echo e($history->platform); ?> | <?php echo e($history->browser); ?> | <?php echo e($history->ip_address); ?> </h6>
+                                    <p class="text-muted mb-0"><?php echo e($ipAddress); ?>,  Los Angeles, United States - <?php echo e(\Carbon\Carbon::parse($history->created_at)->diffForHumans()); ?></p>
+                                </div>
+                                <div>
+                                    
+                                    <a href="javascript:void(0);" class="link-secondary">Logout</a>
+                                </div>
+                            </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <div class="d-flex align-items-center mb-3">
                                 <div class="flex-shrink-0 avatar-sm">
                                     <div class="avatar-title bg-light text-primary rounded-3 fs-18">

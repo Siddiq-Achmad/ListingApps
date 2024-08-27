@@ -66,4 +66,9 @@ class User extends Authenticatable
         return $this->hasMany(Survey::class);
     }
 
+    public function loginHistories()
+    {
+        return $this->hasMany(LoginHistory::class);
+    }
+
 }

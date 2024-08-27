@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Models\LoginHistory;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
 class UserProfileController extends Controller
@@ -24,7 +26,15 @@ class UserProfileController extends Controller
     {
         $user = Auth::user();
         //return response()->json($user);
-        return view('users.profile-settings', compact('user'));
+        $histories = $user->loginHistories;
+        $ipAddress = request()->ip();
+        $ipinfo = Http::get('https://ipinfo.io/' . $ipAddress . '', [
+            'token' => 'a8f52bcca7b86b',
+        ]);
+        $data = $ipinfo->json();
+
+        //dd($data);
+        return view('users.profile-settings', compact('user', 'histories','ipAddress', 'data'));
     }
 
     public function updateProfile(Request $request, $id)
