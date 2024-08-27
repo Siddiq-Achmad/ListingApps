@@ -342,12 +342,18 @@
                             <div class="d-flex align-items-center mb-3">
                                 <div class="flex-shrink-0 avatar-sm">
                                     <div class="avatar-title bg-light text-primary rounded-3 fs-18">
+                                        <?php if($history->is_Phone == 1): ?>
                                         <i class="ri-smartphone-line"></i>
+                                        <?php elseif($history->is_Tablet == 1): ?>
+                                        <i class="ri-tablet-line"></i>
+                                        <?php else: ?>
+                                        <i class="ri-macbook-line"></i>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 ms-3">
-                                    <h6><?php echo e($history->device); ?> - <?php echo e($history->platform); ?> | <?php echo e($history->browser); ?> | <?php echo e($history->ip_address); ?> </h6>
-                                    <p class="text-muted mb-0"><?php echo e($ipAddress); ?>,  Los Angeles, United States - <?php echo e(\Carbon\Carbon::parse($history->created_at)->diffForHumans()); ?></p>
+                                    <h6><?php echo e($history->device); ?> - <?php echo e($history->platform); ?> | <?php echo e($history->browser); ?>  </h6>
+                                    <p class="text-muted mb-0"><?php echo e($history->ip_address); ?> - Los Angeles, United States - <?php echo e(\Carbon\Carbon::parse($history->created_at)->diffForHumans()); ?></p>
                                 </div>
                                 <div>
                                     
@@ -355,51 +361,7 @@
                                 </div>
                             </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="flex-shrink-0 avatar-sm">
-                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18">
-                                        <i class="ri-smartphone-line"></i>
-                                    </div>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6>iPhone 12 Pro</h6>
-                                    <p class="text-muted mb-0">Los Angeles, United States - March 16 at
-                                        2:47PM</p>
-                                </div>
-                                <div>
-                                    <a href="javascript:void(0);" class="link-secondary">Logout</a>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="flex-shrink-0 avatar-sm">
-                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18">
-                                        <i class="ri-tablet-line"></i>
-                                    </div>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6>Apple iPad Pro</h6>
-                                    <p class="text-muted mb-0">Washington, United States - November 06
-                                        at 10:43AM</p>
-                                </div>
-                                <div>
-                                    <a href="javascript:void(0);" class="link-secondary">Logout</a>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="flex-shrink-0 avatar-sm">
-                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18">
-                                        <i class="ri-smartphone-line"></i>
-                                    </div>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6>Galaxy S21 Ultra 5G</h6>
-                                    <p class="text-muted mb-0">Conneticut, United States - June 12 at
-                                        3:24PM</p>
-                                </div>
-                                <div>
-                                    <a href="javascript:void(0);" class="link-secondary">Logout</a>
-                                </div>
-                            </div>
+                            
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0 avatar-sm">
                                     <div class="avatar-title bg-light text-primary rounded-3 fs-18">

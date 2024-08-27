@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
+use Larinfo;
+
+
+
 class UserProfileController extends Controller
 {
     //
@@ -27,14 +31,12 @@ class UserProfileController extends Controller
         $user = Auth::user();
         //return response()->json($user);
         $histories = $user->loginHistories;
-        $ipAddress = request()->ip();
-        $ipinfo = Http::get('https://ipinfo.io/' . $ipAddress . '', [
-            'token' => 'a8f52bcca7b86b',
-        ]);
-        $data = $ipinfo->json();
+        
+        $larinfo = Larinfo::getInfo();
+        $clientInfo = Larinfo::getClientIpinfo();
 
-        //dd($data);
-        return view('users.profile-settings', compact('user', 'histories','ipAddress', 'data'));
+        dd($larinfo, $clientInfo);
+        return view('users.profile-settings', compact('user', 'histories'));
     }
 
     public function updateProfile(Request $request, $id)
