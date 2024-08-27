@@ -1,4 +1,4 @@
-<?php $__env->startSection('title', 'Contact Us'); ?>
+<?php $__env->startSection('title', 'Register'); ?>
 
 <?php $__env->startSection('styles'); ?>
     <!-- Additional styles for this page -->
@@ -134,7 +134,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> uk-form-danger <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" type="password" placeholder="Confirm password" name="confirm_password" required>
+unset($__errorArgs, $__bag); ?>" type="password" placeholder="Confirm password" name="password_confirmation" required>
                                     </div>
                                       <?php $__errorArgs = ['confirm_password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');

@@ -94,6 +94,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::post('/logout-device/{id}', [LoginHistoryController::class, 'logoutDevice'])->name('logout.device');
 
+    Route::get('/info', [HomeController::class, 'info'])->name('info');
+
 
     Route::get('/surveys-list', [SurveyController::class, 'survey'])->name('surveys.list');
     Route::get('/questions-list', [QuestionController::class, 'questions'])->name('questions.list');

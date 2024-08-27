@@ -35,8 +35,8 @@ class UserProfileController extends Controller
         $larinfo = Larinfo::getInfo();
         $clientInfo = Larinfo::getClientIpinfo();
 
-        dd($larinfo, $clientInfo);
-        return view('users.profile-settings', compact('user', 'histories'));
+        //dd($larinfo, $clientInfo);
+        return view('users.profile-settings', compact('user', 'histories', 'clientInfo'));
     }
 
     public function updateProfile(Request $request, $id)

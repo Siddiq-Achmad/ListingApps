@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 
+use Larinfo;
+
 class HomeController extends Controller
 {
     /**
@@ -33,6 +35,15 @@ class HomeController extends Controller
         }
         return abort(404);
         //return view('dashboard');
+    }
+
+    public function info(){
+
+        $hostIP = Larinfo::getHostIpinfo();
+        $clientIP = Larinfo::getClientIpinfo();
+     
+
+        return view('info', compact('hostIP', 'clientIP'));
     }
 
     

@@ -1,7 +1,7 @@
 
 @extends('frontend.layouts.fullscreen')
 
-@section('title', 'Contact Us')
+@section('title', 'Register')
 
 @section('styles')
     <!-- Additional styles for this page -->
@@ -88,7 +88,7 @@
                                 <div class="uk-margin">
                                     <div class="uk-inline uk-width-1-1">
                                       <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                                      <input class="uk-input @error('confirm_password') uk-form-danger @enderror" type="password" placeholder="Confirm password" name="confirm_password" required>
+                                      <input class="uk-input @error('confirm_password') uk-form-danger @enderror" type="password" placeholder="Confirm password" name="password_confirmation" required>
                                     </div>
                                       @error('confirm_password')
                                     <div class="uk-alert-danger" uk-alert>
