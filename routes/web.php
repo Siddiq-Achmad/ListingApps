@@ -56,7 +56,7 @@ Route::get('/how-it-work', [FrontendController::class, 'howItWork'])->name('howI
 Route::get('/blog', [FrontendController::class, 'blog'])->name('blog');
 Route::get('/shop', [FrontendController::class, 'shop'])->name('shop');
 Route::get('/listings', [FrontendController::class, 'listing'])->name('listing');
-Route::get('/404', [FrontendController::class, 'notFound'])->name('404');
+Route::get('/error404', [FrontendController::class, 'notFound'])->name('notFound');
 
 Route::get('/search', [FrontendController::class, 'search'])->name('search');
 

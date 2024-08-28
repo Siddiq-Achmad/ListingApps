@@ -109,7 +109,7 @@
                                     <li class="uk-active"><a href="{{ route('listing') }}">Listing </a></li>
                                     <li><a href="listing-maps">Listing Maps</a></li>
                                     <li><a href="listing-list">Listing List Compact</a></li>
-                                    <li><a href="{{ route('404') }}">404</a></li>
+                                    <li><a href="error404">404</a></li>
                                 </ul>
                             </div>
                         </li>
