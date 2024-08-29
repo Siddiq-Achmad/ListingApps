@@ -92,7 +92,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('respondents', ResponseController::class);
     
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
-    Route::post('/logout-device/{id}', [LoginHistoryController::class, 'logoutDevice'])->name('logout.device');
+    Route::post('/logout-device/{id}', [UserProfileController::class, 'logoutDevice'])->name('logout.device');
 
     
 

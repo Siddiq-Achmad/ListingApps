@@ -355,6 +355,7 @@ Survey Questions
 </div>
 @endsection
 @section('script')
+@include('layouts.message')
 <script src="{{ URL::asset('build/libs/list.js/list.min.js') }}"></script>
 <script src="{{ URL::asset('build/libs/list.pagination.js/list.pagination.min.js') }}"></script>
 <script src="{{ URL::asset('build/js/data/surveys/question.init.js') }}"></script>

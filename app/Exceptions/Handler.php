@@ -41,15 +41,6 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
-        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
-            if (!auth()->check()) {
-                // Pengguna sudah login
-                return response()->view('frontend.errors.404', [], 401);
-            } else {
-                // Pengguna belum login
-                return response()->view('errors.404', [], 404);
-            }
-        }
     
         return parent::render($request, $exception);
     }

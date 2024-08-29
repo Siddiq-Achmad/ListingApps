@@ -354,10 +354,15 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h6>{{ $history->device }} - {{ $history->platform }} | {{ $history->browser }}  </h6>
-                                    <p class="text-muted mb-0">{{ $history->ip_address }} - Los Angeles, United States - {{ \Carbon\Carbon::parse($history->created_at)->diffForHumans() }}</p>
+                                    <p class="text-muted mb-0">{{ $history->ip_address }} - {{ $history->city }}, {{ $history->country }} - {{ \Carbon\Carbon::parse($history->created_at)->diffForHumans() }}</p>
                                 </div>
                                 <div>
-                                    
+                                    @if ($history->id !== auth()->id()) <!-- Cegah logout dari sesi saat ini -->
+                                        <form action="{{ route('logout.device', $history->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger">Logout</button>
+                                        </form>
+                                    @endif
                                     <a href="javascript:void(0);" class="link-secondary">Logout</a>
                                 </div>
                             </div>
@@ -661,6 +666,8 @@
     <!--end row-->
 @endsection
 @section('script')
+@include('layouts.message')
+    
     <script src="{{ URL::asset('build/js/pages/profile-setting.init.js') }}"></script>
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
 @endsection

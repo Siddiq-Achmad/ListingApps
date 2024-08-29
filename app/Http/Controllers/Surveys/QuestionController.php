@@ -9,6 +9,8 @@ use App\Models\SurveyQuestion;
 use App\Models\SurveyResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class QuestionController extends Controller
 {
@@ -40,8 +42,53 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         //
-    }
+ 
 
+        try {
+            
+            $request->validate([
+                'survey_id' => 'required|exists:surveys,id',
+                'question_text' => 'required|string|max:255',
+                'question_type' => 'required|string|max:255',
+                'options' => 'nullable',
+            ]);
+           
+            // Simpan data question
+            $question = new SurveyQuestion([
+                'survey_id' => $request->survey_id,
+                'question_text' => $request->question_text,
+                'question_type' => $request->question_type,
+                'options' => $request->options,
+            ]);
+            $question->save();
+
+    
+            
+            // Jika berhasil
+            return response()->json([
+                'success' => true,
+                'message' => 'Question created successfully'
+            ], 201);
+    
+        } catch (ValidationException $e) {
+            // Jika validasi gagal, tangkap error dan kembalikan error dalam bentuk JSON
+            return response()->json([
+                'success' => false,
+                'errors' => $e->errors()
+            ], 422);
+    
+        } catch (\Exception $e) {
+            // Tangkap semua error lainnya (misalnya error database)
+            Log::error('Error saving Question: ' . $e->getMessage());
+    
+            // Kembalikan response error
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while saving the user'
+            ], 500);
+        }
+    }
+       
     public function show($id)
     {
         //

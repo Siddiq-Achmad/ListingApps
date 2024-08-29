@@ -43,16 +43,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         `;
                         tableBody.insertAdjacentHTML('beforeend', row);
                     });
-
+                    // Initialize DataTables if needed
+                    $('#questions-table').DataTable({
+                        dom: 'Bfrtip',
+                        responsive: true,
+                        buttons: [
+                            'copy', 'csv', 'excel', 'print', 'pdf'
+                        ],
+                    });
                 }
-                // Initialize DataTables if needed
-                $('#questions-table').DataTable({
-                    dom: 'Bfrtip',
-                    responsive: true,
-                    buttons: [
-                        'copy', 'csv', 'excel', 'print', 'pdf'
-                    ],
-                });
+                
 
             }
             else{

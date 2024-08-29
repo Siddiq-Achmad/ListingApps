@@ -76,8 +76,11 @@ class SurveyController extends Controller
     public function edit($id)
     {
         //
-        $survey = Survey::find($id);
-        return response()->json($survey);
+        $survey = Survey::with('questions', 'user')->find($id);
+        return response()->json([
+            'status' => 'success',
+            'data' => $survey
+        ], 200);
 
     }
 

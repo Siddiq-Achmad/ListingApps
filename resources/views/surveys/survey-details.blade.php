@@ -26,16 +26,16 @@
                                     </div>
                                 </div><!--end col-->
                                 <div class="col-md">
-                                    <h4 class="fw-semibold" id="ticket-title" >#{{ $survey->id }} - {{ $survey->title }}</h4>
+                                    <h4 class="fw-semibold" id="survey-title" data-survey-id="{{ $survey->id }}" >#{{ $survey->id }} - {{ $survey->title }}</h4>
                                     <div class="hstack gap-3 flex-wrap">
-                                        <div class="text-muted"><i class="ri-user-3-line align-bottom me-1"></i><span id="ticket-client">{{ $survey->user->name }}</span></div>
+                                        <div class="text-muted"><i class="ri-user-3-line align-bottom me-1"></i><span id="survey-user">{{ $survey->user->name }}</span></div>
                                         <div class="vr"></div>
                                         <div class="text-muted">Create Date : <span class="fw-medium " id="create-date">{{ \Carbon\Carbon::parse($survey->created_at)->format('d M, Y') }}</span></div>
                                         <div class="vr"></div>
                                         <div class="text-muted">Update Date : <span class="fw-medium" id="due-date">{{ \Carbon\Carbon::parse($survey->updated_at)->format('d M, Y') }}</span></div>
                                         <div class="vr"></div>
-                                        <div class="badge rounded-pill bg-primary fs-12" id="ticket-status">New</div>
-                                        <div class="badge rounded-pill bg-success fs-12" id="ticket-priority">High</div>
+                                        <div class="badge rounded-pill bg-primary fs-12" id="survey-status">New</div>
+                                        <div class="badge rounded-pill bg-success fs-12" id="survey-priority">High</div>
                                     </div>
                                 </div><!--end col-->
                             </div><!--end row-->
@@ -90,170 +90,162 @@
             </div><!--end card-body-->
         </div><!--end card-->
         
-        <div class="card">
-            <div class="card-header align-items-center d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Survey Questions</h4>
-                            <div class="flex-shrink-0">
-                                <button type="button" class="btn btn-soft-primary btn-sm">
-                                    <i class="ri-question-line align-middle"></i> Add Question
-                                </button>
+        
+        <div class="card" id="questionsList">
+            <div class="card-header border-0">
+                <div class="d-flex align-items-center">
+                    <h5 class="card-title mb-0 flex-grow-1">Questions</h5>
+                    <div class="flex-shrink-0">
+                        <div class="d-flex flex-wrap gap-2">
+                            <button class="btn btn-primary add-btn" data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create Questions</button>
+                            <button class="btn btn-soft-secondary" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-xxl-12 col-sm-12">
+                            <div class="search-box">
+                                <input type="text" class="form-control search bg-light border-light" placeholder="Search for question details or something...">
+                                <i class="ri-search-line search-icon"></i>
                             </div>
-                        </div><!-- end card header -->
+                        </div>
+                        <!--end col-->
+
+                        {{-- <div class="col-xxl-3 col-sm-4">
+                            <input type="text" class="form-control bg-light border-light" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" id="demo-datepicker" placeholder="Select date range">
+                        </div> --}}
+                        <!--end col-->
+
+                        {{-- <div class="col-xxl-3 col-sm-4">
+                            <div class="input-light">
+                                <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
+                                    <option value="">Status</option>
+                                    <option value="all" selected>All</option>
+                                    <option value="Open">Open</option>
+                                    <option value="Inprogress">Inprogress</option>
+                                    <option value="Closed">Closed</option>
+                                    <option value="New">New</option>
+                                </select>
+                            </div>
+                        </div> --}}
+                        <!--end col-->
+                        {{-- <div class="col-xxl-1 col-sm-4">
+                            <button type="button" class="btn btn-primary w-100" onclick="SearchData();"> <i class="ri-equalizer-fill me-1 align-bottom"></i>
+                                Sear
+                            </button>
+                        </div> --}}
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </form>
+            </div>
+            <!--end card-body-->
             <div class="card-body">
-                <div class="table-responsive table-card">
-                    <table id="buttons-datatables" class="display table table-bordered" style="width:100%">
-                        <thead class="text-muted table-light">
+                <div class="table-responsive table-card mb-4">
+                    <table class="table align-middle table-nowrap mb-0" id="questionTable">
+                        <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Question</th>
-                                <th>Type</th>
-                                <th>Options</th>
-                                <th>Answer</th>
-                                <th>Action</th>
-                               
+                                <th scope="col" style="width: 40px;">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="checkAll" value="option">
+                                    </div>
+                                </th>
+                                <th class="sort" data-sort="id">ID</th>
+                                <th class="sort" data-sort="question_text">Question</th>
+                                <th class="sort" data-sort="question_type">Type</th>
+                                <th class="sort" data-sort="options">Options</th>
+                                <th class="sort" data-sort="create_at">Create Date</th>
+
+                                <th class="sort" data-sort="action">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            
-                            @forelse ($survey->questions as $question) 
+                        <tbody class="list form-check-all" id="question-list-data">
                             <tr>
-                                <td>
-                                    {{ $loop->iteration }}
+                                <th scope="row">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="checkAll" value="option1">
+                                    </div>
+                                </th>
+                                <td class="id"><a href="javascript:void(0);" onclick="ViewQuestions(this)" data-id="001" class="fw-medium link-primary">#LXM001</a></td>
+                                <td class="question_text">Error message when placing an orders?</td>
+                                <td class="question_type">Multiple Choice</td>
+                                <td class="options">A, B, C, D, E</td>
+                                <td class="create_at">08 Dec, 2021</td>
+
                                 </td>
                                 <td>
-                                    <a href="javascript:void(0);" class="fw-medium link-primary" data-bs-toggle="modal" data-bs-target="#zoomInModal-{{ $question->id }}">{{ $question->question_text }}</a>
-                                </td>
-                                <td> {{ $question->getTypes() }} </td>
-                                <td>
-                                    <?php
-                                        $options = explode(',', $question->options);
-                                        
-                                    ?>
-                                    @foreach ($options as $option)
-                                        <span class="badge rounded-pill bg-primary">{{ $option }}</span>
-                                    @endforeach
-                                </td>
-                                <td>{{ $question->answer }}</td>
-                                <td>
-                                    <div class="dropdown d-inline-block">
+                                    <div class="dropdown">
                                         <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="ri-more-fill align-middle"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#zoomInModal-{{ $question->id }}"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a></li>
-                                            <li><a class="dropdown-item edit-item-btn" href="#showModal" data-bs-toggle="modal"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                                            <li><button class="dropdown-item view-item-btn" data-bs-toggle="modal" href="#showModal"><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
+                                                    View</button></li>
+                                            <li><a class="dropdown-item edit-item-btn" href="#showModal" data-bs-toggle="modal"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                    Edit</a></li>
                                             <li>
-                                                <a class="dropdown-item remove-item-btn"  data-bs-toggle="modal" href="#deleteOrder">
-                                                    <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete
+                                                <a class="dropdown-item remove-item-btn" data-bs-toggle="modal" href="#deleteOrder">
+                                                    <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+                                                    Delete
                                                 </a>
                                             </li>
                                         </ul>
                                     </div>
                                 </td>
                             </tr>
-                            {{-- MODAL DELETE --}}
-                            <div class="modal fade flip" id="deleteOrder" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-body p-5 text-center">
-                                            <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#25a0e2,secondary:#00bd9d" style="width:90px;height:90px">
-                                            </lord-icon>
-                                            <div class="mt-4 text-center">
-                                                <h4>Are you Sure ?</h4>
-                                                <p class="text-muted fs-14 mb-4">Deleting Question will remove all data related to it. #{{ $question->id }} </p>
-                                                <div class="hstack gap-2 justify-content-center remove">
-                                                    <form id="deleteForm-{{ $question->id }}" action="{{ route('questions.destroy', $question->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    <button class="btn btn-link link-primary fw-medium text-decoration-none" data-bs-dismiss="modal" id="deleteRecord-close"><i class="ri-close-line me-1 align-middle"></i>
-                                                        Close</button>
-                                                    <button type="submit" class="btn btn-primary" id="delete-record">Yes, Delete It</button>
-                                                    </form>
+                        </tbody>
+                    </table>
+                    <div class="noresult" style="display: none">
+                        <div class="text-center">
+                            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#25a0e2,secondary:#00bd9d" style="width:75px;height:75px">
+                            </lord-icon>
+                            <h5 class="mt-2">Sorry! No Result Found</h5>
+                            <p class="text-muted mb-0">We've searched more than 150+ Questions We did not find any
+                                Questions for you search.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mt-2">
+                    <div class="pagination-wrap hstack gap-2">
+                        <a class="page-item pagination-prev disabled" href="#">
+                            Previous
+                        </a>
+                        <ul class="pagination listjs-pagination mb-0"></ul>
+                        <a class="page-item pagination-next" href="#">
+                            Next
+                        </a>
+                    </div>
+                </div>
 
-                                                </div>
-                                            </div>
-                                        </div>
+                <!-- Modal -->
+                <div class="modal fade flip" id="deleteOrder" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body p-5 text-center">
+                                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#25a0e2,secondary:#00bd9d" style="width:90px;height:90px">
+                                </lord-icon>
+                                <div class="mt-4 text-center">
+                                    <h4>You are about to delete a order ?</h4>
+                                    <p class="text-muted fs-14 mb-4">Deleting your order will remove all of
+                                        your information from our database.</p>
+                                    <div class="hstack gap-2 justify-content-center remove">
+                                        <button class="btn btn-link link-primary fw-medium text-decoration-none" data-bs-dismiss="modal" id="deleteRecord-close"><i class="ri-close-line me-1 align-middle"></i>
+                                            Close</button>
+                                        <button class="btn btn-primary" id="delete-record">Yes, Delete It</button>
                                     </div>
                                 </div>
                             </div>
-                            {{-- MODALS VIEW --}}
-                            <div id="zoomInModal-{{ $question->id }}" class="modal fade zoomIn" tabindex="-1" aria-labelledby="zoomInModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    
-                                    <div class="modal-content">
-                                        <div class="modal-header p-3 bg-primary-subtle">
-                                            <h5 class="modal-title" id="zoomInModalLabel">#{{ $question->id }} Question Details</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <h5 class="fs-16">
-                                                {{ $question->question_text }}
-                                            </h5>
-                                           
-                                            <p class="text-muted">Type : {{ $question->getTypes() }}</p>
-                                            <p class="text-muted">Options :
-                                                <?php
-                                                    $options = explode(',', $question->options);
-                                                    
-                                                ?>
-                                                @foreach ($options as $option)
-                                                    <li class="text-muted">{{ $option }}</li>
-                                                @endforeach
-                                            </p>
-                                            <p class="text-muted">Answer : {{ $question->answer }}</p>
-                                            
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                            {{-- <button type="button" class="btn btn-primary ">Save Changes</button> --}}
-                                        </div>
-
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal-dialog -->
-                            </div><!-- /.modal -->
-                            @empty
-                            <tr>
-                                <td colspan="6" class="text-center">No data available</td>
-                            </tr>
-                                    
-                            @endforelse
-                                
-                                
-                            
-                           
-                        </tbody><!-- end tbody -->
-                    </table><!-- end table -->
+                        </div>
+                    </div>
                 </div>
+                <!--end modal -->
             </div>
-
-            
-            <!-- end card body -->
-        </div><!--end card-->
-        {{-- <div class="card">
-            <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">Survey Questions</h4>
-                <div class="flex-shrink-0">
-                    <button type="button" class="btn btn-soft-primary btn-sm">
-                        <i class="ri-question-line align-middle"></i> Add Question
-                    </button>
-                </div>
-            </div><!-- end card header -->
-            <div class="card-body p-4">
-                <h5 class="card-title mb-4">Survey Questions</h5>
-                <div class="table-responsive">
-                    @foreach($survey->questions as $question)
-                        {!! $question->renderQuestionField() !!}
-                    @endforeach
-
-                    
-                </div>
-                
-                
-            </div>
-            <!-- end card body -->
-
-
-        </div> --}}
+            <!--end card-body-->
+        </div>
+        <!--end card-->
     </div><!--end col-->
     <div class="col-xxl-3">
         <div class="card">
@@ -273,8 +265,8 @@
                                 <td id="t-client">{{ $survey->user->name }}</td>
                             </tr>
                             <tr>
-                                <td class="fw-medium">Project</td>
-                                <td>Velzon - Admin Dashboard</td>
+                                <td class="fw-medium">Survey</td>
+                                <td>{{ $survey->title }}</td>
                             </tr>
                             <tr>
                                 <td class="fw-medium">Assigned To:</td>
@@ -383,70 +375,54 @@
 </div><!--end row-->
 
 
+
+
 {{-- MODAL EDIT --}}
 <div class="modal fade zoomIn" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content border-0">
             <div class="modal-header p-3 bg-primary-subtle">
-                <h5 class="modal-title" id="exampleModalLabel">{{ __('Edit Survey') }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add Question</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
             </div>
             <form class="tablelist-form" autocomplete="off">
                 <div class="modal-body">
                     <div class="row g-3">
-                        
+                        <input type="hidden" id="questionId" name="id" />
                         <div class="col-lg-12">
                             <div>
-                                <label for="tasksTitle-field" class="form-label">Title</label>
-                                <input type="text" id="tasksTitle-field" class="form-control" placeholder="Title" required />
+                                <label for="question-field" class="form-label">Question</label>
+                                <input type="text" id="question-field" class="form-control" placeholder="Question" name="question" required />
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div>
-                                <label for="client_nameName-field" class="form-label">Client Name</label>
-                                <input type="text" id="client_nameName-field" class="form-control" placeholder="Client Name" required />
+                                <label for="type-field" class="form-label">Type</label>
+                                <select class="form-control select2" id="type-field" name="type">
+                                    <option value="0">Text</option>
+                                    <option value="1">Select</option>
+                                    <option value="2">Radio</option>
+                                    <option value="3">Checkbox</option>
+                                    <option value="4">Date</option>
+                                    <option value="5">DateTime</option>
+                                    <option value="6">Time</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div>
-                                <label for="assignedtoName-field" class="form-label">Assigned To</label>
-                                <input type="text" id="assignedtoName-field" class="form-control" placeholder="Assigned to" required />
+                                <label for="options-field" class="form-label">Options</label>
+                                <input type="text" id="options-field" class="form-control" placeholder="Options Separated By Commas eg: 1, 2, 3" name="options" />
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <label for="date-field" class="form-label">Create Date</label>
-                            <input type="text" id="date-field" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Create Date" required />
-                        </div>
-                        <div class="col-lg-6">
-                            <label for="duedate-field" class="form-label">Due Date</label>
-                            <input type="text" id="duedate-field" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Due Date" required />
-                        </div>
-                        <div class="col-lg-6">
-                            <label for="ticket-status" class="form-label">Status</label>
-                            <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
-                                <option value="">Status</option>
-                                <option value="New">New</option>
-                                <option value="Inprogress">Inprogress</option>
-                                <option value="Closed">Closed</option>
-                                <option value="Open">Open</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-6">
-                            <label for="priority-field" class="form-label">Priority</label>
-                            <select class="form-control" data-plugin="choices" name="priority-field" id="priority-field">
-                                <option value="">Priority</option>
-                                <option value="High">High</option>
-                                <option value="Medium">Medium</option>
-                                <option value="Low">Low</option>
-                            </select>
-                        </div>
+                       
                     </div>
 
                 </div>
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" id="add-btn">Add Ticket</button>
+                        <button type="submit" class="btn btn-success" id="add-btn">Add Question</button>
                         {{-- <button type="button" class="btn btn-primary" id="edit-btn">Update</button> --}}
                     </div>
                 </div>
@@ -457,63 +433,8 @@
 
 @endsection
 @section('script')
-    <script>
-        @if (Session::has('success'))
-        Toastify({
-            text: "{{ Session::get('success') }}",
-            duration: 3000,
-            close: true,
-            gravity: "bottom", // `top` or `bottom`
-            position: "right", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            className: "bg-success"
-        }).showToast();
-    @elseif (Session::has('info'))
-       Toastify({
-           text: "{{ Session::get('info') }}",
-           duration: 3000,
-           close: true,
-           gravity: "bottom", // `top` or `bottom`
-           position: "right", // `left`, `center` or `right`
-           stopOnFocus: true, // Prevents dismissing of toast on hover
-           className: "bg-info"
-       }).showToast();
-    @elseif (Session::has('warning'))
-       Toastify({
-           text: "{{ Session::get('warning') }}",
-           duration: 3000,
-           close: true,
-           gravity: "bottom", // `top` or `bottom`
-           position: "right", // `left`, `center` or `right`
-           stopOnFocus: true, // Prevents dismissing of toast on hover
-           className: "bg-warning"
-       }).showToast();
-    @elseif (Session::has('error'))
-       Toastify({
-           text: "{{ Session::get('error') }}",
-           duration: 3000,
-           close: true,
-           gravity: "bottom", // `top` or `bottom`
-           position: "right", // `left`, `center` or `right`
-           stopOnFocus: true, // Prevents dismissing of toast on hover
-           className: "bg-danger"
-       }).showToast();
-    @elseif(session()->has('message'))
-        Toastify({
-            text: "{{ session()->get('message') }}",
-            duration: 3000,
-            close: true,
-            gravity: "bottom", // `top` or `bottom`
-            position: "right", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            style: {
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
-            }
-        }).showToast();
-    @else
-       
-    @endif
-    </script>
+@include('layouts.message')
+
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
     <script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
@@ -529,7 +450,9 @@
     <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.print.js"></script>
 
     <script src="{{ URL::asset('build/js/pages/datatables.init.js') }}"></script>
-
+    <script src="{{ URL::asset('build/libs/list.js/list.min.js') }}"></script>
+    <script src="{{ URL::asset('build/libs/list.pagination.js/list.pagination.min.js') }}"></script>
+    <script src="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.js') }}"></script>
     <script src="{{ URL::asset('build/js/data/surveys/surveydetail.init.js') }}"></script>
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
 @endsection
