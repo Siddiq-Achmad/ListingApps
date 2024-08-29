@@ -360,15 +360,15 @@
                                     @if ($history->id !== auth()->id()) <!-- Cegah logout dari sesi saat ini -->
                                         <form action="{{ route('logout.device', $history->id) }}" method="POST">
                                             @csrf
-                                            <button type="submit" class="btn btn-danger">Logout</button>
+                                            <button type="submit" class="btn btn-soft-secondary waves-effect waves-light">Logout</button>
                                         </form>
                                     @endif
-                                    <a href="javascript:void(0);" class="link-secondary">Logout</a>
+                                    {{-- <a href="javascript:void(0);" class="link-secondary">Logout</a> --}}
                                 </div>
                             </div>
                             @endforeach
                             
-                            <div class="d-flex align-items-center">
+                            {{-- <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0 avatar-sm">
                                     <div class="avatar-title bg-light text-primary rounded-3 fs-18">
                                         <i class="ri-macbook-line"></i>
@@ -382,7 +382,7 @@
                                 <div>
                                     <a href="javascript:void(0);" class="link-secondary">Logout</a>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <!--end tab-pane-->
                         <div class="tab-pane" id="experience" role="tabpanel">

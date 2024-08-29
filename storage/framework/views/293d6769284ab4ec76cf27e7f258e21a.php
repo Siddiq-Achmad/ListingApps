@@ -359,29 +359,15 @@
                                     <?php if($history->id !== auth()->id()): ?> <!-- Cegah logout dari sesi saat ini -->
                                         <form action="<?php echo e(route('logout.device', $history->id)); ?>" method="POST">
                                             <?php echo csrf_field(); ?>
-                                            <button type="submit" class="btn btn-danger">Logout</button>
+                                            <button type="submit" class="btn btn-soft-secondary waves-effect waves-light">Logout</button>
                                         </form>
                                     <?php endif; ?>
-                                    <a href="javascript:void(0);" class="link-secondary">Logout</a>
+                                    
                                 </div>
                             </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             
-                            <div class="d-flex align-items-center">
-                                <div class="flex-shrink-0 avatar-sm">
-                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18">
-                                        <i class="ri-macbook-line"></i>
-                                    </div>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6>Dell Inspiron 14</h6>
-                                    <p class="text-muted mb-0">Phoenix, United States - July 26 at
-                                        8:10AM</p>
-                                </div>
-                                <div>
-                                    <a href="javascript:void(0);" class="link-secondary">Logout</a>
-                                </div>
-                            </div>
+                            
                         </div>
                         <!--end tab-pane-->
                         <div class="tab-pane" id="experience" role="tabpanel">
