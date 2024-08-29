@@ -87,6 +87,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Internal Server Error'], 500);
         }
 
+
         return response()->json(['access_token' => $token, 'token_type' => 'Bearer'], 200);
     }
 

@@ -37,45 +37,29 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes();
-//Language Translation
-
-Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);
-
 
 
 //FRONTEND ROUTES
+Route::group(['middleware' => ['guest']], function () {
+   
+    Route::get('/', [FrontendController::class, 'index'])->name('index');
+    Route::get('/about', [FrontendController::class, 'about'])->name('about');
+    Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
+    Route::get('/gallery', [FrontendController::class, 'gallery'])->name('gallery');
+    Route::get('/packages', [FrontendController::class, 'packages'])->name('packages');
+    Route::get('/how-it-work', [FrontendController::class, 'howItWork'])->name('howItWork');
+    Route::get('/blog', [FrontendController::class, 'blog'])->name('blog');
+    Route::get('/shop', [FrontendController::class, 'shop'])->name('shop');
+    Route::get('/listings', [FrontendController::class, 'listing'])->name('listing');
+    Route::get('/auth', [FrontendController::class, 'auth'])->name('auth');
+    Route::get('/404', [FrontendController::class, 'notFound'])->name('errors.404');
 
+    Route::get('/search', [FrontendController::class, 'search'])->name('search');
 
-Route::get('/auth', [FrontendController::class, 'auth'])->name('auth');
-Route::get('/', [FrontendController::class, 'index'])->name('index');
-Route::get('/about', [FrontendController::class, 'about'])->name('about');
-Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
-Route::get('/gallery', [FrontendController::class, 'gallery'])->name('gallery');
-Route::get('/packages', [FrontendController::class, 'packages'])->name('packages');
-Route::get('/how-it-work', [FrontendController::class, 'howItWork'])->name('howItWork');
-Route::get('/blog', [FrontendController::class, 'blog'])->name('blog');
-Route::get('/shop', [FrontendController::class, 'shop'])->name('shop');
-Route::get('/listings', [FrontendController::class, 'listing'])->name('listing');
-Route::get('/error404', [FrontendController::class, 'notFound'])->name('notFound');
-
-Route::get('/search', [FrontendController::class, 'search'])->name('search');
-
-Route::get('/survey', [FrontendController::class, 'survey'])->name('survey');
-Route::post('/survey', [FrontendController::class, 'surveyStore'])->name('surveyStore');
-
-
-
-
-
-//Update User Details
-Route::post('/update-profile/{id}', [HomeController::class, 'updateProfile'])->name('updateProfile');
-Route::post('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
-
-//Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
-
-
-
-
+    Route::get('/survey', [FrontendController::class, 'survey'])->name('survey');
+    Route::post('/survey', [FrontendController::class, 'surveyStore'])->name('surveyStore');
+    
+});
 
 
 //BACKEND ROUTES
@@ -92,11 +76,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('respondents', ResponseController::class);
     
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    //Language Translation
+    Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);
     Route::post('/logout-device/{id}', [UserProfileController::class, 'logoutDevice'])->name('logout.device');
-
+    //Update User Details
+    Route::post('/update-profile/{id}', [HomeController::class, 'updateProfile'])->name('updateProfile');
+    Route::post('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
     
-
-
     Route::get('/surveys-list', [SurveyController::class, 'survey'])->name('surveys.list');
     Route::get('/questions-list', [QuestionController::class, 'questions'])->name('questions.list');
     Route::get('/responses-list', [ResponseController::class, 'responses'])->name('responses.list');
@@ -115,17 +101,21 @@ Route::group(['middleware' => 'auth'], function () {
     //ON PRODUCTION ONLY
     //Route::get('{any}', [HomeController::class, 'index'])->where('any', '.*');
     
-
+    Route::fallback(function () {
+        return view('errors.404'); // Halaman 404 untuk pengguna yang tidak terautentikasi
+    });
 });
 
 Route::fallback(function () {
     if(!Auth::check()){
-        return response()->view('frontend.errors.404', [], 404);
+        return response()->view('errors.404-fe', [], 404);
     }
     else{
         return response()->view('errors.404', [], 404);
     }
 });
+
+    
 
 
 

@@ -354,7 +354,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h6>{{ $history->device }} - {{ $history->platform }} | {{ $history->browser }}  </h6>
-                                    <p class="text-muted mb-0">{{ $history->ip_address }} - {{ $history->city }}, {{ $history->country }} - {{ \Carbon\Carbon::parse($history->created_at)->diffForHumans() }}</p>
+                                    <p class="text-muted mb-0">{{ $history->ip_address }} - {{ $history->location }} - {{ \Carbon\Carbon::parse($history->created_at)->diffForHumans() }}</p>
                                 </div>
                                 <div>
                                     @if ($history->id !== auth()->id()) <!-- Cegah logout dari sesi saat ini -->

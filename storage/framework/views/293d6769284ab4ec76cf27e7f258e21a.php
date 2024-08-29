@@ -353,7 +353,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h6><?php echo e($history->device); ?> - <?php echo e($history->platform); ?> | <?php echo e($history->browser); ?>  </h6>
-                                    <p class="text-muted mb-0"><?php echo e($history->ip_address); ?> - <?php echo e($history->city); ?>, <?php echo e($history->country); ?> - <?php echo e(\Carbon\Carbon::parse($history->created_at)->diffForHumans()); ?></p>
+                                    <p class="text-muted mb-0"><?php echo e($history->ip_address); ?> - <?php echo e($history->location); ?> - <?php echo e(\Carbon\Carbon::parse($history->created_at)->diffForHumans()); ?></p>
                                 </div>
                                 <div>
                                     <?php if($history->id !== auth()->id()): ?> <!-- Cegah logout dari sesi saat ini -->

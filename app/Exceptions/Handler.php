@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 

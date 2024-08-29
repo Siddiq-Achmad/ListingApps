@@ -21,14 +21,10 @@ class FrontendController extends Controller
         return view('frontend.search');
     }
 
-    public function show()
-    {
-        return view('frontend.show');
-    }
 
     public function survey()
     {
-        $dataId = 1;
+        $dataId = 26;
         $survey = Survey::with('questions')->findOrFail($dataId);
         $questions = $survey->questions();
         return view('frontend.surveys.survey', compact('survey', 'questions'));
@@ -154,4 +150,6 @@ class FrontendController extends Controller
     {
         return view('frontend.errors.404');
     }
+
+
 }
