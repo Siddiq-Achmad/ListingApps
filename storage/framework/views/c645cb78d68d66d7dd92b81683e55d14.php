@@ -100,8 +100,7 @@
                                                     value="option1">
                                             </div>
                                         </th>
-                                        <td class="id" style="display:none;"><a href="javascript:void(0);"
-                                                class="fw-medium link-primary">#USR001</a>
+                                        <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#USR001</a>
                                         </td>
                                         <td class="name">
                                             <div class="d-flex align-items-center">
@@ -499,7 +498,7 @@
     <!--end row-->
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
-    
+<?php echo $__env->make('layouts.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <script src="<?php echo e(URL::asset('build/libs/list.js/list.min.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('build/libs/list.pagination.js/list.pagination.min.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('build/js/data/users.init.js')); ?>"></script>

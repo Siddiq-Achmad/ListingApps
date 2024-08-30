@@ -101,8 +101,7 @@
                                                     value="option1">
                                             </div>
                                         </th>
-                                        <td class="id" style="display:none;"><a href="javascript:void(0);"
-                                                class="fw-medium link-primary">#USR001</a>
+                                        <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#USR001</a>
                                         </td>
                                         <td class="name">
                                             <div class="d-flex align-items-center">
@@ -502,7 +501,7 @@
     <!--end row-->
 @endsection
 @section('script')
-    
+@include('layouts.message')
     <script src="{{ URL::asset('build/libs/list.js/list.min.js') }}"></script>
     <script src="{{ URL::asset('build/libs/list.pagination.js/list.pagination.min.js') }}"></script>
     <script src="{{ URL::asset('build/js/data/users.init.js') }}"></script>

@@ -26,6 +26,11 @@ class UserController extends Controller
         return response()->json($users);
     }
 
+    public function edit($id){
+        $user = User::with('detail')->find($id);
+        return response()->json($user);
+    }
+
     // Metode untuk mendapatkan detail pengguna berdasarkan ID
     public function show($id)
     {
@@ -204,6 +209,14 @@ class UserController extends Controller
 
     }
 
+
+    public function deletedUsers()
+    {
+        $users = User::onlyTrashed()->with('detail')->get();
+        return view('users.users-deleted', compact('users'));
+    }
+
+
     // Metode untuk menghapus pengguna
     public function destroy($id)
     {
@@ -223,15 +236,15 @@ class UserController extends Controller
         $user = User::withTrashed()->findOrFail($id);
         $user->forceDelete();
 
-        return response()->json(['message' => 'User deleted successfully.']);
+        return redirect()->back()->with('success', 'User deleted permanently');
     }
 
-    public function restore($id)
+    public function restoreUser($id)
     {
         $user = User::withTrashed()->findOrFail($id);
         $user->restore();
 
-        return response()->json(['message' => 'User restored successfully.']);
+        return redirect()->back()->with('success', 'User restored successfully');
     }
 
 }
