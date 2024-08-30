@@ -77,8 +77,8 @@ Route::group(['middleware' => 'auth'], function () {
     
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     //Language Translation
-    Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);
-    Route::post('/logout-device/{id}', [UserProfileController::class, 'logoutDevice'])->name('logout.device');
+    Route::get('index/{locale}', [HomeController::class, 'lang']);
+    Route::post('/logout-device/{id}', [LoginHistoryController::class, 'logoutDevice'])->name('logout.device');
     //Update User Details
     Route::post('/update-profile/{id}', [HomeController::class, 'updateProfile'])->name('updateProfile');
     Route::post('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');

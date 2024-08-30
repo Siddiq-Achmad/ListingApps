@@ -37,29 +37,7 @@ class UserProfileController extends Controller
         return view('users.profile-settings', compact('user', 'histories'));
     }
     
-    public function logoutDevice($id)
-    {
-        $loginHistory = LoginHistory::find($id);
-
-        if ($loginHistory && $loginHistory->user_id === auth()->id()) {
-            // Hapus session dari device lain
-            Session::getHandler()->destroy($loginHistory->session_id);
-
-            $token = PersonalAccessToken::findToken($loginHistory->token);
-            if ($token) {
-                $token->delete();
-            }
-    
-    
-            // Hapus riwayat login
-            $loginHistory->delete();
-    
-            return redirect()->back()->with('success', 'Berhasil logout dari device lain.');
-        }
-    
-        return redirect()->back()->with('error', 'Gagal logout dari device.');
-
-    }
+ 
 
 
     public function updateProfile(Request $request, $id)
