@@ -6,6 +6,7 @@ Contact: Themesbrand@gmail.com
 File: Profile-setting init js
 */
 
+
 // Profile Foreground Img
 if (document.querySelector("#profile-foreground-img-file-input")) {
     document.querySelector("#profile-foreground-img-file-input").addEventListener("change", function () {
@@ -163,3 +164,120 @@ function deleteEl(eleId) {
     var parentEle = d.getElementById('newlink');
     parentEle.removeChild(ele);
 }
+
+var skills = new Choices('#skillsInput', {
+    removeItemButton: true,
+  }
+);
+var skillInputFieldValue = skills.getValue(true);
+var skillHtmlValue = '';
+var skillData = '';
+Array.from(skillInputFieldValue).forEach((skill, index) => {
+    skillHtmlValue += '<span class="badge bg-primary-subtle text-primary me-1">'+skill+'</span>'
+    skillData += skill + ',';
+})
+
+
+var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+var firstname = document.getElementById("firstnameInput"),
+    lastname = document.getElementById("lastnameInput"),
+    phonenumber = document.getElementById("phonenumberInput"),
+    email = document.getElementById("emailInput"),
+    Joiningdate = document.getElementById("JoiningdateInput"),
+    designation = document.getElementById("designationInput"),
+    website = document.getElementById("websiteInput1"),
+    city = document.getElementById("cityInput"),
+    country = document.getElementById("countryInput"),
+    zipcode = document.getElementById("zipcodeInput"),
+    description = document.getElementById("exampleFormControlTextarea");
+
+var formProfile = document.getElementById('formProfile'); //form element
+
+document.addEventListener('DOMContentLoaded', function() {
+    formProfile.addEventListener("submit", function (e) {
+       if(!formProfile.checkValidity()){
+           e.preventDefault();
+           e.stopPropagation();
+           formProfile.classList.add('was-validated');
+       }else
+       {
+           e.preventDefault();
+           if(firstname.value !== "" &&
+            lastname.value !== "" && 
+            email.value !== "" 
+            ) {
+                var skillInputFieldValue = skills.getValue(true);
+                    var skillHtmlValue = '';
+                    var skillData = '';
+                    Array.from(skillInputFieldValue).forEach((skill, index) => {
+                        skillHtmlValue += '<span class="badge bg-primary-subtle text-primary me-1">' + skill + '</span>'
+                        skillData += skill + ',';
+                    })
+                var formData = new FormData();
+
+                formData.append('firstname', firstname.value);
+                formData.append('lastname', lastname.value);
+                formData.append('phonenumber', phonenumber.value);
+                formData.append('email', email.value);
+                formData.append('Joiningdate', Joiningdate.value);
+                formData.append('skills', skillData);
+                formData.append('designation', designation.value);
+                formData.append('website', website.value);
+                formData.append('city', city.value);
+                formData.append('country', country.value);
+                formData.append('zipcode', zipcode.value);
+                formData.append('description', description.value);
+                var avatarFile = document.querySelector("#profile-img-file-input").files[0];
+                if (avatarFile) {
+                    formData.append('avatar', avatarFile);
+                }
+                formData.append('_method', 'PUT');
+                formData.append('_token', csrfToken);
+                
+                fetch(`/profile-setting`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    Toastify({
+                        text: data.message,
+                        duration: 3000,
+                        close: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "right", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        className: "bg-success",
+                    }).showToast();
+
+                    formProfile.reset();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Toastify({
+                        text: error.message,
+                        duration: 3000,
+                        close: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "right", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        className: "bg-danger",
+                    }).showToast();
+
+                });
+
+            }
+       }
+
+    });
+
+});
+
+
+    

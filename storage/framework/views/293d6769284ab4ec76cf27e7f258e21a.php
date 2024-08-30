@@ -145,7 +145,9 @@
                 <div class="card-body p-4">
                     <div class="tab-content">
                         <div class="tab-pane active" id="personalDetails" role="tabpanel">
-                            <form action="javascript:void(0);">
+                            <form id="formProfile" method="POST" novalidate>
+                                <?php echo csrf_field(); ?>
+                                <?php echo method_field('PUT'); ?>
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
@@ -185,10 +187,10 @@
                                     <!--end col-->
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <label for="JoiningdatInput" class="form-label">Joining
+                                            <label for="JoiningdateInput" class="form-label">Joining
                                                 Date</label>
                                             <input type="text" class="form-control" data-provider="flatpickr"
-                                                id="JoiningdatInput" data-date-format="d M, Y"
+                                                id="JoiningdateInput" data-date-format="d M, Y"
                                                 data-deafult-date="<?php echo e(auth()->user()->detail ? \Carbon\Carbon::parse(auth()->user()->detail->joining_date)->format('d M, Y') : ''); ?>" placeholder="Select date" />
                                         </div>
                                     </div>

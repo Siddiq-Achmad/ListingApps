@@ -7,6 +7,7 @@ use App\Models\Survey;
 use App\Models\SurveyAnswer;
 use App\Models\SurveyResponse;
 use Illuminate\Http\Request;
+use SebastianBergmann\CodeUnit\FunctionUnit;
 
 class FrontendController extends Controller
 {
@@ -19,6 +20,14 @@ class FrontendController extends Controller
     public function search()
     {
         return view('frontend.search');
+    }
+
+    public function show($slug)
+    {
+        // if(view()->exists('frontend.pages.' . $slug)){
+        //     return view('frontend.pages.' . $slug);
+        // }
+        // return abort(404);
     }
 
 

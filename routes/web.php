@@ -58,6 +58,7 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/survey', [FrontendController::class, 'survey'])->name('survey');
     Route::post('/survey', [FrontendController::class, 'surveyStore'])->name('surveyStore');
+    //Route::get('/{slug}', [FrontendController::class, 'show'])->where('slug', '.*');
     
 });
 
@@ -100,6 +101,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //ON PRODUCTION ONLY
     //Route::get('{any}', [HomeController::class, 'index'])->where('any', '.*');
+
     
     Route::fallback(function () {
         return view('errors.404'); // Halaman 404 untuk pengguna yang tidak terautentikasi
