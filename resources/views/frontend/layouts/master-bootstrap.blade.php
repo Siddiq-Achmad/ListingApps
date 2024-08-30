@@ -25,7 +25,7 @@
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
-        <div>
+       
             <div class="page-content">
                 <div class="container">
                     @yield('content')
@@ -33,9 +33,68 @@
                 <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
-            @include('layouts.footer')
+            {{-- @include('layouts.footer') --}}
         </div>
         
+        <footer class="custom-footer bg-dark position-absolute bottom-0 w-100 p-2">
+            <div class="row text-center text-sm-start align-items-center">
+                <div class="col-sm-6">
+
+                    <div>
+                        <p class="copy-rights mb-0">
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script> © <a href="https://luxima.id" target="_blank" class="text-reset">LUXIMA.ID</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end mt-3 mt-sm-0">
+                        <ul class="list-inline mb-0 footer-social-link">
+                            <li class="list-inline-item">
+                                <a href="https://www.facebook.com/luxima.photo/" class="avatar-xs d-block">
+                                    <div class="avatar-title rounded-circle">
+                                        <i class="ri-facebook-fill"></i>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.instagram.com/luxima.id" class="avatar-xs d-block">
+                                    <div class="avatar-title rounded-circle">
+                                        <i class="ri-instagram-fill"></i>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.youtube.com/@luxima-id" class="avatar-xs d-block">
+                                    <div class="avatar-title rounded-circle">
+                                        <i class="ri-youtube-fill"></i>
+                                    </div>
+                                </a>
+                            </li>
+                           
+                            <li class="list-inline-item">
+                                <a href="https://wa.me/message/RKONP4YR4YJTE1" class="avatar-xs d-block">
+                                    <div class="avatar-title rounded-circle">
+                                        <i class="ri-whatsapp-line"></i>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://luxima-id.com" class="avatar-xs d-block">
+                                    <div class="avatar-title rounded-circle">
+                                        <i class="ri-global-line"></i>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        
+
+
         <!-- end main content-->
     </div>
     <!-- END layout-wrapper -->
