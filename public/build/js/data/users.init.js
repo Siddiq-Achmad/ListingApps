@@ -159,7 +159,7 @@ xhttp.onload = function () {
     var json_records = JSON.parse(this.responseText);
     Array.from(json_records).forEach(function (raw){
         var skills = raw.detail ? raw.detail.skills : '';
-        var skillArray = skills ? skills.split(',') : '';
+        var skillArray = skills ? skills.split(',') : [];
         var skillHtml = '';
         //console.log(skillArray);
         Array.from(skillArray).forEach((skillArray, index) => {

@@ -105,7 +105,7 @@
                                         <td class="name">
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-shrink-0">
-                                                    <img src="<?php echo e(auth()->user()->avatar != '' ? URL::asset('build/images/users/'. auth()->user()->avatar) : URL::asset('build/images/users/user-dummy-img.jpg')); ?>"
+                                                    <img src="<?php echo e(auth()->user()->avatar != '' ? URL::asset('images/users/'. auth()->user()->avatar) : URL::asset('images/users/user-dummy-img.jpg')); ?>"
                                                         alt="" class="avatar-xs rounded-circle" >
                                                 </div>
                                                 <div class="flex-grow-1 ms-2 name"><?php echo e(auth()->user()->name); ?></div>
@@ -227,7 +227,7 @@
                                                         </div>
                                                         <div class="avatar-lg p-1">
                                                             <div class="avatar-title bg-light rounded-circle">
-                                                                <img src="<?php echo e(URL::asset('build/images/users/user-dummy-img.jpg')); ?>"
+                                                                <img src="<?php echo e(URL::asset('images/users/user-dummy-img.jpg')); ?>"
                                                         alt="" id="user-img" class="avatar-md rounded-circle object-fit-cover" >
                                                             </div>
                                                         </div>
@@ -400,7 +400,7 @@
             <div class="card" id="contact-view-detail">
                 <div class="card-body text-center">
                     <div class="position-relative d-inline-block">
-                        <img src="<?php echo e(auth()->user()->avatar != '' ? URL::asset('build/images/users/' . auth()->user()->avatar) :  URL::asset('build/images/users/user-dummy-img.jpg')); ?>" alt="" class="avatar-lg rounded-circle img-thumbnail">
+                        <img src="<?php echo e(auth()->user()->avatar != '' ? URL::asset('images/users/' . auth()->user()->avatar) :  URL::asset('images/users/user-dummy-img.jpg')); ?>" alt="" class="avatar-lg rounded-circle img-thumbnail">
                         <span class="contact-active position-absolute rounded-circle bg-success"><span
                                 class="visually-hidden"></span>
                     </div>
