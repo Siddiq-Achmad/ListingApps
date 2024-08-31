@@ -40,7 +40,7 @@ Auth::routes();
 
 
 //FRONTEND ROUTES
-Route::group(['middleware' => ['guest']], function () {
+
    
     Route::get('/', [FrontendController::class, 'index'])->name('index');
     Route::get('/about', [FrontendController::class, 'about'])->name('about');
@@ -54,7 +54,10 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/noSidebar', [FrontendController::class, 'noSidebar'])->name('noSidebar');
     Route::get('/shop', [FrontendController::class, 'shop'])->name('shop');
     Route::get('/listings', [FrontendController::class, 'listing'])->name('listing');
+<<<<<<< HEAD
     Route::get('/listingsmaps', [FrontendController::class, 'listingMaps'])->name('listing.maps');
+=======
+>>>>>>> af104a527432f2f4c07d687032d8fbea6f8661c2
     Route::get('/listing/{slug}', [FrontendController::class, 'listingDetails'])->name('listingDetails');
     Route::get('/auth', [FrontendController::class, 'auth'])->name('auth');
     Route::get('/404', [FrontendController::class, 'notFound'])->name('errors.404');
@@ -63,15 +66,13 @@ Route::group(['middleware' => ['guest']], function () {
 
     Route::get('/survey', [FrontendController::class, 'survey'])->name('survey');
     Route::post('/survey', [FrontendController::class, 'surveyStore'])->name('surveyStore');
-    //Route::get('/{slug}', [FrontendController::class, 'show'])->where('slug', '.*');
     
-});
 
 
 //BACKEND ROUTES
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::resource('users', UserController::class);
+    //Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('posts', PostController::class);
     Route::resource('tags', TagController::class);
@@ -85,15 +86,20 @@ Route::group(['middleware' => 'auth'], function () {
     //Language Translation
     Route::get('index/{locale}', [HomeController::class, 'lang']);
     Route::post('/logout-device/{id}', [LoginHistoryController::class, 'logoutDevice'])->name('logout.device');
-    //Update User Details
+    //User 
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    
+    Route::get('/user/{id}', [UserController::class, 'show'])->name('users.show');
+    Route::put('/user/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::post('/update-profile/{id}', [HomeController::class, 'updateProfile'])->name('updateProfile');
     Route::post('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
-    
-    Route::get('/surveys-list', [SurveyController::class, 'survey'])->name('surveys.list');
-    Route::get('/questions-list', [QuestionController::class, 'questions'])->name('questions.list');
-    Route::get('/responses-list', [ResponseController::class, 'responses'])->name('responses.list');
-    Route::get('/answers-list', [AnswerController::class, 'answers'])->name('answers.list');
 
+    Route::get('/users/deleted', [UserController::class, 'deletedUsers'])->name('users.deleted');
+    Route::post('/users/restore/{id}', [UserController::class, 'restoreUser'])->name('users.restore');
+    Route::post('/users/force-delete/{id}', [UserController::class, 'forceDelete'])->name('users.forceDelete');
     Route::get('/users-list', [UserController::class, 'users'])->name('users.list');
     Route::get('/userdetails', [UserDetailController::class, 'show'])->name('userdetail');
     Route::post('/userdetails', [UserDetailController::class, 'update'])->name('userdetail.update');
@@ -103,6 +109,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/profile/change-password', [UserProfileController::class, 'changePassword'])->name('profile.changePassword');
     Route::put('/profile/change-email', [UserProfileController::class, 'changeEmail'])->name('profile.changeEmail');
 
+    Route::get('/login-history', [LoginHistoryController::class, 'index'])->name('loginHistory');
+    
+    Route::get('/surveys-list', [SurveyController::class, 'survey'])->name('surveys.list');
+    Route::get('/questions-list', [QuestionController::class, 'questions'])->name('questions.list');
+    Route::get('/responses-list', [ResponseController::class, 'responses'])->name('responses.list');
+    Route::get('/answers-list', [AnswerController::class, 'answers'])->name('answers.list');
+
+    
 
     //ON PRODUCTION ONLY
     //Route::get('{any}', [HomeController::class, 'index'])->where('any', '.*');

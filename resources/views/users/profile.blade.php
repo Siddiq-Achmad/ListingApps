@@ -16,7 +16,7 @@
         <div class="row g-4">
             <div class="col-auto">
                 <div class="avatar-lg">
-                    <img src="@if (Auth::user()->avatar != '') {{ URL::asset('images/' . Auth::user()->avatar) }}@else{{ URL::asset('build/images/users/avatar-1.jpg') }} @endif"
+                    <img src="@if (Auth::user()->avatar != '') {{ URL::asset('images/users/' . Auth::user()->avatar) }}@else{{ URL::asset('build/images/users/avatar-1.jpg') }} @endif"
                         alt="user-img" class="img-thumbnail rounded-circle" />
                 </div>
             </div>
@@ -135,7 +135,7 @@
                                                     </tr>
                                                     <tr>
                                                         <th class="ps-0" scope="row">Joining Date</th>
-                                                        <td class="text-muted">{{ $user->detail ? $user->detail->joining_date : $user->created_at }}</td>
+                                                        <td class="text-muted">{{ $user->detail ? \Carbon\Carbon::parse($user->detail->joining_date)->format('d M, Y') : \Carbon\Carbon::parse($user->created_at)->format('d M, Y') }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>

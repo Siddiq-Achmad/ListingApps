@@ -100,13 +100,12 @@
                                                     value="option1">
                                             </div>
                                         </th>
-                                        <td class="id" style="display:none;"><a href="javascript:void(0);"
-                                                class="fw-medium link-primary">#USR001</a>
+                                        <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#USR001</a>
                                         </td>
                                         <td class="name">
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-shrink-0">
-                                                    <img src="<?php echo e(auth()->user()->avatar != '' ? URL::asset('build/images/users/'. auth()->user()->avatar) : URL::asset('build/images/users/user-dummy-img.jpg')); ?>"
+                                                    <img src="<?php echo e(auth()->user()->avatar != '' ? URL::asset('images/users/'. auth()->user()->avatar) : URL::asset('images/users/user-dummy-img.jpg')); ?>"
                                                         alt="" class="avatar-xs rounded-circle" >
                                                 </div>
                                                 <div class="flex-grow-1 ms-2 name"><?php echo e(auth()->user()->name); ?></div>
@@ -228,7 +227,7 @@
                                                         </div>
                                                         <div class="avatar-lg p-1">
                                                             <div class="avatar-title bg-light rounded-circle">
-                                                                <img src="<?php echo e(URL::asset('build/images/users/user-dummy-img.jpg')); ?>"
+                                                                <img src="<?php echo e(URL::asset('images/users/user-dummy-img.jpg')); ?>"
                                                         alt="" id="user-img" class="avatar-md rounded-circle object-fit-cover" >
                                                             </div>
                                                         </div>
@@ -401,7 +400,7 @@
             <div class="card" id="contact-view-detail">
                 <div class="card-body text-center">
                     <div class="position-relative d-inline-block">
-                        <img src="<?php echo e(auth()->user()->avatar != '' ? URL::asset('build/images/users/' . auth()->user()->avatar) :  URL::asset('build/images/users/user-dummy-img.jpg')); ?>" alt="" class="avatar-lg rounded-circle img-thumbnail">
+                        <img src="<?php echo e(auth()->user()->avatar != '' ? URL::asset('images/users/' . auth()->user()->avatar) :  URL::asset('images/users/user-dummy-img.jpg')); ?>" alt="" class="avatar-lg rounded-circle img-thumbnail">
                         <span class="contact-active position-absolute rounded-circle bg-success"><span
                                 class="visually-hidden"></span>
                     </div>
@@ -499,7 +498,7 @@
     <!--end row-->
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
-    
+<?php echo $__env->make('layouts.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <script src="<?php echo e(URL::asset('build/libs/list.js/list.min.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('build/libs/list.pagination.js/list.pagination.min.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('build/js/data/users.init.js')); ?>"></script>

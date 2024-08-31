@@ -15,7 +15,7 @@
         <div class="row g-4">
             <div class="col-auto">
                 <div class="avatar-lg">
-                    <img src="<?php if(Auth::user()->avatar != ''): ?> <?php echo e(URL::asset('images/' . Auth::user()->avatar)); ?><?php else: ?><?php echo e(URL::asset('build/images/users/avatar-1.jpg')); ?> <?php endif; ?>"
+                    <img src="<?php if(Auth::user()->avatar != ''): ?> <?php echo e(URL::asset('images/users/' . Auth::user()->avatar)); ?><?php else: ?><?php echo e(URL::asset('build/images/users/avatar-1.jpg')); ?> <?php endif; ?>"
                         alt="user-img" class="img-thumbnail rounded-circle" />
                 </div>
             </div>
@@ -135,7 +135,7 @@
                                                     </tr>
                                                     <tr>
                                                         <th class="ps-0" scope="row">Joining Date</th>
-                                                        <td class="text-muted"><?php echo e($user->detail ? $user->detail->joining_date : $user->created_at); ?></td>
+                                                        <td class="text-muted"><?php echo e($user->detail ? \Carbon\Carbon::parse($user->detail->joining_date)->format('d M, Y') : \Carbon\Carbon::parse($user->created_at)->format('d M, Y')); ?></td>
                                                     </tr>
                                                 </tbody>
                                             </table>

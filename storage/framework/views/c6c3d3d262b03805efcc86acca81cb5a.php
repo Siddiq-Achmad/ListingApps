@@ -39,14 +39,54 @@
                     <div class="collapse menu-dropdown" id="sidebarDashboards">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="<?php echo e(route('dashboard')); ?>" class="nav-link"><?php echo app('translator')->get('translation.dashboards'); ?></a>
+                                <a href="dashboard"  class="nav-link"><?php echo app('translator')->get('translation.dashboards'); ?></a>
                             </li>
                             <li class="nav-item">
-                                <a href="users" class="nav-link"><?php echo app('translator')->get('translation.users'); ?></a>
+                                <a href="surveys" class="nav-link"><?php echo app('translator')->get('translation.surveys'); ?></a>
                             </li>
                         </ul>
                     </div>
                 </li> <!-- end Dashboard Menu -->
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarUsers" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarUsers">
+                        <i data-feather="users" class="icon-dual"></i> <span><?php echo app('translator')->get('translation.users-management'); ?></span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarUsers">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="#sidebarProfile" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarProfile"><?php echo app('translator')->get('translation.user-profile'); ?>
+                                </a>
+                                <div class="collapse menu-dropdown" id="sidebarProfile">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="profile" class="nav-link"><?php echo app('translator')->get('translation.profile'); ?></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="profile-settings" class="nav-link"><?php echo app('translator')->get('translation.settings'); ?></a>
+                                        </li>
+                                    
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#sidebarUserLists" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarUserLists"><?php echo app('translator')->get('translation.users-list'); ?>
+                                </a>
+                                <div class="collapse menu-dropdown" id="sidebarUserLists">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="users" class="nav-link"><?php echo app('translator')->get('translation.users'); ?></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="<?php echo e(route('users.deleted')); ?>" class="nav-link"><?php echo app('translator')->get('translation.users-deleted'); ?></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">

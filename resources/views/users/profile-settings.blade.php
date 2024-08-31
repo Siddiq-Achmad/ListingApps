@@ -25,7 +25,7 @@
                 <div class="card-body p-4">
                     <div class="text-center">
                         <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
-                            <img src="{{ auth()->user()->avatar != '' ? URL::asset('images/' . auth()->user()->avatar) : URL::asset('build/images/users/avatar-1.jpg') }}"
+                            <img src="{{ auth()->user()->avatar != '' ? URL::asset('images/users/' . auth()->user()->avatar) : URL::asset('build/images/users/avatar-1.jpg') }}"
                                 class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
                             <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                                 <input id="profile-img-file-input" type="file" class="profile-img-file-input">
@@ -146,7 +146,7 @@
                 <div class="card-body p-4">
                     <div class="tab-content">
                         <div class="tab-pane active" id="personalDetails" role="tabpanel">
-                            <form id="formProfile" method="POST" novalidate>
+                            <form id="formProfile" method="POST"  novalidate>
                                 @csrf
                                 @method('PUT')
                                 <div class="row">

@@ -7,6 +7,39 @@ File: Profile-setting init js
 */
 
 
+function timeConvert(time) {
+    var d = new Date(time);
+    time_s = (d.getHours() + ':' + d.getMinutes());
+    var t = time_s.split(":");
+    var hours = t[0];
+    var minutes = t[1];
+    var newformat = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    return (hours + ':' + minutes + '' + newformat);
+}
+
+function formatDate(date) {
+    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var d = new Date(date),
+        month = '' + monthNames[(d.getMonth())],
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+    return [day + " " + month, year].join(', ');
+};
+
+function formatTanggal(date) {
+    var a = new Date(date);
+    return a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate();
+
+}
+
+
 // Profile Foreground Img
 if (document.querySelector("#profile-foreground-img-file-input")) {
     document.querySelector("#profile-foreground-img-file-input").addEventListener("change", function () {
@@ -215,26 +248,26 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                 var formData = new FormData();
 
-                formData.append('firstname', firstname.value);
-                formData.append('lastname', lastname.value);
-                formData.append('phonenumber', phonenumber.value);
+                formData.append('f_name', firstname.value);
+                formData.append('l_name', lastname.value);
+                formData.append('phone', phonenumber.value);
                 formData.append('email', email.value);
-                formData.append('Joiningdate', Joiningdate.value);
+                formData.append('joining_date', formatTanggal(Joiningdate.value));
                 formData.append('skills', skillData);
                 formData.append('designation', designation.value);
                 formData.append('website', website.value);
                 formData.append('city', city.value);
                 formData.append('country', country.value);
-                formData.append('zipcode', zipcode.value);
-                formData.append('description', description.value);
+                formData.append('zip', zipcode.value);
+                formData.append('biography', description.value);
                 var avatarFile = document.querySelector("#profile-img-file-input").files[0];
                 if (avatarFile) {
                     formData.append('avatar', avatarFile);
                 }
                 formData.append('_method', 'PUT');
                 formData.append('_token', csrfToken);
-                
-                fetch(`/profile-setting`, {
+
+                fetch(`/profile-settings`, {
                     method: 'POST',
                     body: formData
                 })
