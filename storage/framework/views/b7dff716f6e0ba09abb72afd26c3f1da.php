@@ -1,20 +1,18 @@
-@extends('frontend.layouts.master')
+<?php $__env->startSection('title', 'Blogs'); ?>
 
-@section('title', 'Blogs')
-
-@section('styles')
+<?php $__env->startSection('styles'); ?>
     <!-- Additional styles for this page -->
     <style>
         /* Custom styles specific to this page */
     </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('banner')
-    <img src="{{ asset('assets/images/banner/7.jpg') }}" alt="banner" uk-cover>
-@endsection
+<?php $__env->startSection('banner'); ?>
+    <img src="<?php echo e(asset('assets/images/banner/7.jpg')); ?>" alt="banner" uk-cover>
+<?php $__env->stopSection(); ?>
 
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 
 
@@ -227,11 +225,12 @@
   
  
 
-@endsection
+<?php $__env->stopSection(); ?>
 
 
 
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('frontend.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\Ricky\Herd\LISTING\resources\views/frontend/blogs/blog.blade.php ENDPATH**/ ?>

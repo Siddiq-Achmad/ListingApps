@@ -1,9 +1,9 @@
 <!--Header PC-->
 <div id="page-header" class="page-header">
     <div id="page-header-inner" class="header-centered uk-light uk-container uk-container-large uk-text-center uk-visible@m uk-inline">
-        <a itemprop="url" class="header-logo-link uk-position-center" href="{{ route('index') }}" rel="home">
-            <img src="{{ asset('assets/images/luxima.png') }}" class="qodef-header-logo-image qodef--main" alt="logo main" 
-            itemprop="image" srcset="{{ asset('assets/images/luxima.png') }}"> 
+        <a itemprop="url" class="header-logo-link uk-position-center" href="<?php echo e(route('index')); ?>" rel="home">
+            <img src="<?php echo e(asset('assets/images/luxima.png')); ?>" class="qodef-header-logo-image qodef--main" alt="logo main" 
+            itemprop="image" srcset="<?php echo e(asset('assets/images/luxima.png')); ?>"> 
         </a>
         <div class="uk-position-absolute top_nav uk-position-center uk-overlay" uk-grid>
             <div class="uk-width-1-4 ">
@@ -21,7 +21,7 @@
                 <nav class="uk-navbar-container uk-navbar-transparent header-navigation uk-dropnav" uk-dropnav="align: center">
                     <ul id="menu-global" class="menu uk-tab uk-subnav uk-flex-center">
                         <li class="menu_item uk-active">
-                            <a href="{{ route('index') }}">
+                            <a href="<?php echo e(route('index')); ?>">
                                 <span>Home</span>
                             </a>
                         </li>
@@ -29,10 +29,10 @@
                             <a href>Pages <span uk-drop-parent-icon></span></a>
                             <div class="uk-dropdown">
                                 <ul class="uk-nav uk-dropdown-nav">
-                                    <li class="uk-active"><a href="{{ route('about') }}">About Us</a></li>
-                                    <li><a href="{{ route('gallery') }}">Gallery</a></li>
-                                    <li><a href="{{ route('packages') }}">Package List</a></li>
-                                    <li><a href="{{ route('howItWork') }}">How it Work</a></li>
+                                    <li class="uk-active"><a href="<?php echo e(route('about')); ?>">About Us</a></li>
+                                    <li><a href="<?php echo e(route('gallery')); ?>">Gallery</a></li>
+                                    <li><a href="<?php echo e(route('packages')); ?>">Package List</a></li>
+                                    <li><a href="<?php echo e(route('howItWork')); ?>">How it Work</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -45,18 +45,18 @@
                                         <li class="uk-nav-header">LISTING
                                         </li>
                                         <ul class="uk-nav-sub">
-                                            <li><a href="{{ route('listing') }}">Listing</a></li>
-                                            <li><a href="{{ route('listing.maps') }}">Listing Maps</a></li>
-                                            <li><a href="{{ route('listingDetails','detail') }}">Listing Detail</a></li>
+                                            <li><a href="<?php echo e(route('listing')); ?>">Listing</a></li>
+                                            <li><a href="<?php echo e(route('listing.maps')); ?>">Listing Maps</a></li>
+                                            <li><a href="<?php echo e(route('listingDetails','detail')); ?>">Listing Detail</a></li>
                                             
                                         </ul>
                                         <li class="uk-nav-divider"></li>
                                     </li>
 
                                     <li class="uk-parent">
-                                        <li class="uk-active"><a href="{{ route('blog') }}">Blog </a></li>
-                                        <li><a href="{{ route('rigthSidebar') }}">Right Sidebar</a></li>
-                                        <li><a href="{{ route('leftSidebar') }}">Left Sidebar</a></li>
+                                        <li class="uk-active"><a href="<?php echo e(route('blog')); ?>">Blog </a></li>
+                                        <li><a href="<?php echo e(route('rigthSidebar')); ?>">Right Sidebar</a></li>
+                                        <li><a href="<?php echo e(route('leftSidebar')); ?>">Left Sidebar</a></li>
                                         <li><a href="#">No Sidebar</a></li>
                                         <li class="uk-nav-divider"></li>
                                     </li>
@@ -74,7 +74,7 @@
                             <div class="uk-dropdown">
                                 <ul class="uk-nav uk-dropdown-nav">
                                     <li class="uk-nav-header">SHOP
-                                        <a href="{{ route('shop') }}">Shop</a>
+                                        <a href="<?php echo e(route('shop')); ?>">Shop</a>
                                     </li>
                                 
                                     <li><a href="#">Shop item</a></li>
@@ -87,7 +87,7 @@
                         </li>
 
                         <li class="menu_item">
-                            <a href="{{ route('contact') }}">
+                            <a href="<?php echo e(route('contact')); ?>">
                                 <span>Contact</span>
                             </a>
                         </li>
@@ -96,32 +96,25 @@
             </div>
             <div class="uk-width-1-4">
                     
-                    {{-- <div class="dropdown-cart">
-                        <div class="dropdown-cart-inner m-inner">
-                            <a itemprop="url" class="" href="https://luxima-id.com/">
-                                <span class="">Cart</span>
-                                <span class="">(0)</span>
-                            </a>	
-                        </div>    
-                    </div>  --}}
+                    
                 
 
                 
                 
   
 
-                @if (Auth::check())
+                <?php if(Auth::check()): ?>
                 <div class="widget top_area_text_right">
                     <div id="user-opener" class="login_opener top-bar-widget"> 
                         <div class="login-opener user-logged--out">
-                            <a href="{{ route('profile') }}" class="login-opener">
-                                <span class="login-opener-text">{{ Auth::user()->name }}</span>
+                            <a href="<?php echo e(route('profile')); ?>" class="login-opener">
+                                <span class="login-opener-text"><?php echo e(Auth::user()->name); ?></span>
                                 <span uk-icon="icon: users">
                             </a> 
                         </div>
                     </div> 
                 </div>
-                @else
+                <?php else: ?>
                 <div class="widget top_area_text_right text-primary">
                     <div id="login-opener" class="login_opener top-bar-widget"> 
                         <div class="login-opener user-logged--out">
@@ -132,7 +125,7 @@
                         </div>
                     </div> 
                 </div>
-                @endif
+                <?php endif; ?>
                 
 
                 <div class="widget">
@@ -171,9 +164,9 @@
 <div class="header-mobile uk-position-relative uk-hidden@m">
 <div class="uk-child-width-expand uk-grid-small" uk-grid >
     <div class="uk-card uk-width-expand uk-margin-large-left">
-        <a itemprop="url"  href="{{ route('index') }}" rel="home">
-            <img class="logo-mobile" src="{{ asset('assets/images/luxima.png') }}" class="qodef-header-logo-image qodef--main" alt="logo main" 
-            itemprop="image" srcset="{{ asset('assets/images/luxima.png') }}"> 
+        <a itemprop="url"  href="<?php echo e(route('index')); ?>" rel="home">
+            <img class="logo-mobile" src="<?php echo e(asset('assets/images/luxima.png')); ?>" class="qodef-header-logo-image qodef--main" alt="logo main" 
+            itemprop="image" srcset="<?php echo e(asset('assets/images/luxima.png')); ?>"> 
         </a>
     </div>
     <div class="uk-card uk-width-1-6 uk-margin-left uk-text-right uk-text-top">
@@ -189,16 +182,16 @@
                         <div class="uk-navbar-dropdown" uk-drop="boundary: !.header-mobile; stretch: x; flip: false; mode: click">
                             
                                 <ul class="uk-nav-default" uk-nav>
-                                    <li class="uk-active"><a href="{{ route('index') }}" class="uk-text-uppercase">HOME</a></li>
+                                    <li class="uk-active"><a href="<?php echo e(route('index')); ?>" class="uk-text-uppercase">HOME</a></li>
                                     
                                     <li class="uk-parent">
                                         <a href="#" class="uk-text-uppercase">Pages<span uk-nav-parent-icon></span></a>
                                         
                                             <ul class="uk-nav-sub">
-                                                <li class="uk-active"><a href="{{ route('about') }}">About Us</a></li>
-                                                <li><a href="{{ route('gallery') }}">Gallery</a></li>
-                                                <li><a href="{{ route('packages') }}">Package List</a></li>
-                                                <li><a href="{{ route('howItWork') }}">How it Work</a></li>
+                                                <li class="uk-active"><a href="<?php echo e(route('about')); ?>">About Us</a></li>
+                                                <li><a href="<?php echo e(route('gallery')); ?>">Gallery</a></li>
+                                                <li><a href="<?php echo e(route('packages')); ?>">Package List</a></li>
+                                                <li><a href="<?php echo e(route('howItWork')); ?>">How it Work</a></li>
                                             </ul>
                                         
                                     </li>
@@ -206,7 +199,7 @@
                                         <a href="#" class="uk-text-uppercase">Shop <span uk-nav-parent-icon></span></a>
                                         
                                             <ul class="uk-nav-sub">
-                                                <li class="uk-active"><a href="{{ route('shop') }}">Shop</a></li>
+                                                <li class="uk-active"><a href="<?php echo e(route('shop')); ?>">Shop</a></li>
                                                 <li><a href="layout.html">Layout</a></li>
                                                 <li><a href="shop-detail.html">Shop Single</a></li>
                                                 <li><a href="shop-page.html">Shop Page</a></li>
@@ -217,7 +210,7 @@
                                         <a href="#" class="uk-text-uppercase">Listings <span uk-nav-parent-icon></span></a>
                                         
                                             <ul class="uk-nav-sub">
-                                                <li class="uk-active"><a href="{{ route('listing') }}">Listing</a></li>
+                                                <li class="uk-active"><a href="<?php echo e(route('listing')); ?>">Listing</a></li>
                                                 <li><a href="listing-map.html">Listing Maps</a></li>
                                                 <li><a href="listing-compact.html">Listing List Compact</a></li>
                                                 <li><a href="listing-location.html">Location Filter</a></li>
@@ -228,14 +221,14 @@
                                         <a href="#" class="uk-text-uppercase">Blog <span uk-nav-parent-icon></span></a>
                                         
                                         <ul class="uk-nav-sub">
-                                            <li class="uk-active"><a href="{{ route('blog') }}">Blog</a></li>
+                                            <li class="uk-active"><a href="<?php echo e(route('blog')); ?>">Blog</a></li>
                                             <li><a href="sidebar-right.html">Right Sidebar</a></li>
                                             <li><a href="sidebar-left.html">Left Sidebar</a></li>
                                             <li><a href="no-sidebar.html">No Sidebar</a></li>
                                         </ul>
                                         
                                     </li>
-                                    <li class="uk-active"><a href="{{ route('contact') }}" class="uk-text-uppercase">Contact</a></li>
+                                    <li class="uk-active"><a href="<?php echo e(route('contact')); ?>" class="uk-text-uppercase">Contact</a></li>
 
                                     <li class="uk-nav-header">OTHER</li>
                                     <li><a href="https://www.facebook.com/luxima.photo" target="_blank"><span class="uk-margin-small-right" uk-icon="icon: facebook"></span> Facebook</a></li>
@@ -258,4 +251,4 @@
     
 </div>
 
-</div>
+</div><?php /**PATH C:\Users\Ricky\Herd\LISTING\resources\views/frontend/partials/header.blade.php ENDPATH**/ ?>

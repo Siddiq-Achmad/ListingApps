@@ -7,6 +7,7 @@ use App\Models\Survey;
 use App\Models\SurveyAnswer;
 use App\Models\SurveyResponse;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\FuncCall;
 use SebastianBergmann\CodeUnit\FunctionUnit;
 
 class FrontendController extends Controller
@@ -115,6 +116,16 @@ class FrontendController extends Controller
         return view('frontend.blogs.blog');
     }
 
+    public function rigthSidebar()
+    {
+        return view('frontend.blogs.right-sidebar');
+    }
+
+    public function leftSidebar()
+    {
+        return view('frontend.blogs.left-sidebar');
+    }
+
     public function blogDetails()
     {
         return view('frontend.blog-single');
@@ -125,9 +136,15 @@ class FrontendController extends Controller
         return view('frontend.listings.listing');
     }
 
-    public function listingDetails()
+    public function listingMaps()
     {
-        return view('frontend.listing-single');
+        return view('frontend.listings.listingMaps');
+    }
+
+    public function listingDetails($slug)
+    {
+        
+        return view('frontend.listings.listingDetails');
     }
 
     public function shop()
