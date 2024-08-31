@@ -54,10 +54,6 @@ Auth::routes();
     Route::get('/noSidebar', [FrontendController::class, 'noSidebar'])->name('noSidebar');
     Route::get('/shop', [FrontendController::class, 'shop'])->name('shop');
     Route::get('/listings', [FrontendController::class, 'listing'])->name('listing');
-<<<<<<< HEAD
-    Route::get('/listingsmaps', [FrontendController::class, 'listingMaps'])->name('listing.maps');
-=======
->>>>>>> af104a527432f2f4c07d687032d8fbea6f8661c2
     Route::get('/listing/{slug}', [FrontendController::class, 'listingDetails'])->name('listingDetails');
     Route::get('/auth', [FrontendController::class, 'auth'])->name('auth');
     Route::get('/404', [FrontendController::class, 'notFound'])->name('errors.404');
