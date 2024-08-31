@@ -55,6 +55,7 @@ Auth::routes();
     Route::get('/shop', [FrontendController::class, 'shop'])->name('shop');
     Route::get('/listings', [FrontendController::class, 'listing'])->name('listing');
     Route::get('/listing/{slug}', [FrontendController::class, 'listingDetails'])->name('listingDetails');
+    Route::get('/listingmaps', [FrontendController::class, 'listingMaps'])->name('listing.maps');
     Route::get('/auth', [FrontendController::class, 'auth'])->name('auth');
     Route::get('/404', [FrontendController::class, 'notFound'])->name('errors.404');
 
