@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     let row = `
                         <tr>
                             <td>${answer.question.survey.title}</td>
-                            <td><a href="/respondents/${answer.response.id}">${answer.response.name}</a></td>
+                            <td>${answer.response.name}</td>
                             <td>${answer.question.question_text}</td>
                             <td>${answer.answer}</td>
                             <td>${formatTanggal(answer.created_at)}</td>
