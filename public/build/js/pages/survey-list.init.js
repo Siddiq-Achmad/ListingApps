@@ -1,9 +1,9 @@
 /*
-Template Name: Luxima - Admin & Dashboard Template
-Author: luxima
+Template Name: LUXIMA - Admin & Dashboard 
+Author: LUXIMA
 Website: https://luxima.id/
 Contact: admin@luxima.id
-File: ecommerce survey Js File
+File: Ticket list init js
 */
 
 

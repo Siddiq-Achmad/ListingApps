@@ -1,16 +1,16 @@
-@extends('frontend.layouts.app')
 
-@section('title', 'Home')
 
-@section('styles')
+<?php $__env->startSection('title', 'Home'); ?>
+
+<?php $__env->startSection('styles'); ?>
     <!-- Additional styles for this page -->
     <style>
         /* Custom styles specific to this page */
     </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <main id="page-content" class="lxm_grid">
     <div id="grid-inner" class="grid_inner clear">
         <div id="grid-item" class="grid_item page_content_section grid_col">
@@ -752,7 +752,7 @@
     </div>
 </main>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
 
 
@@ -760,52 +760,10 @@
 
 
 
-@section('scripts')
-@include('layouts.message')
+<?php $__env->startSection('scripts'); ?>
+<?php echo $__env->make('layouts.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     
-    {{-- <script>
-        //cookie
-        document.addEventListener("DOMContentLoaded", function () {
-            "use strict";
-           
-            var cookieAlert = document.getElementById("cookie-alert");
-            var acceptCookies = document.getElementById("accept-cookies");
-            
-            cookieAlert.classList.remove("show");
-            if (!getCookie("acceptCookies")) {
-                cookieAlert.classList.add("show");
-            }
-            acceptCookies.addEventListener("click", function () {
-                setCookie("acceptCookies", true, 60);
-                cookieAlert.classList.remove("show");
-            });
-            
-        })
-
-        //cookie functions
-        function setCookie(cname, cvalue, exdays) {
-            var d = new Date();
-            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-            var expires = "expires=" + d.toUTCString();
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-        }
-        
-        function getCookie(cname) {
-            var name = cname + "=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var ca = decodedCookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) === ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) === 0) {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
-        }
-        
-    </> --}}
-@endsection
+    
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('frontend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\Ricky\Herd\ListingApps\resources\views/frontend/index.blade.php ENDPATH**/ ?>

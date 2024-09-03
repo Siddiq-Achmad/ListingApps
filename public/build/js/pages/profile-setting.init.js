@@ -6,40 +6,6 @@ Contact: Themesbrand@gmail.com
 File: Profile-setting init js
 */
 
-
-function timeConvert(time) {
-    var d = new Date(time);
-    time_s = (d.getHours() + ':' + d.getMinutes());
-    var t = time_s.split(":");
-    var hours = t[0];
-    var minutes = t[1];
-    var newformat = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    return (hours + ':' + minutes + '' + newformat);
-}
-
-function formatDate(date) {
-    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var d = new Date(date),
-        month = '' + monthNames[(d.getMonth())],
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-    if (month.length < 2)
-        month = '0' + month;
-    if (day.length < 2)
-        day = '0' + day;
-    return [day + " " + month, year].join(', ');
-};
-
-function formatTanggal(date) {
-    var a = new Date(date);
-    return a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate();
-
-}
-
-
 // Profile Foreground Img
 if (document.querySelector("#profile-foreground-img-file-input")) {
     document.querySelector("#profile-foreground-img-file-input").addEventListener("change", function () {
@@ -91,10 +57,6 @@ var count = 2;
 //         searchEnabled: false,
 //     });
 // }
-
-
-
-
 
 function new_link() {
     count++;
@@ -197,120 +159,3 @@ function deleteEl(eleId) {
     var parentEle = d.getElementById('newlink');
     parentEle.removeChild(ele);
 }
-
-var skills = new Choices('#skillsInput', {
-    removeItemButton: true,
-  }
-);
-var skillInputFieldValue = skills.getValue(true);
-var skillHtmlValue = '';
-var skillData = '';
-Array.from(skillInputFieldValue).forEach((skill, index) => {
-    skillHtmlValue += '<span class="badge bg-primary-subtle text-primary me-1">'+skill+'</span>'
-    skillData += skill + ',';
-})
-
-
-var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-var firstname = document.getElementById("firstnameInput"),
-    lastname = document.getElementById("lastnameInput"),
-    phonenumber = document.getElementById("phonenumberInput"),
-    email = document.getElementById("emailInput"),
-    Joiningdate = document.getElementById("JoiningdateInput"),
-    designation = document.getElementById("designationInput"),
-    website = document.getElementById("websiteInput1"),
-    city = document.getElementById("cityInput"),
-    country = document.getElementById("countryInput"),
-    zipcode = document.getElementById("zipcodeInput"),
-    description = document.getElementById("exampleFormControlTextarea");
-
-var formProfile = document.getElementById('formProfile'); //form element
-
-document.addEventListener('DOMContentLoaded', function() {
-    formProfile.addEventListener("submit", function (e) {
-       if(!formProfile.checkValidity()){
-           e.preventDefault();
-           e.stopPropagation();
-           formProfile.classList.add('was-validated');
-       }else
-       {
-           e.preventDefault();
-           if(firstname.value !== "" &&
-            lastname.value !== "" && 
-            email.value !== "" 
-            ) {
-                var skillInputFieldValue = skills.getValue(true);
-                    var skillHtmlValue = '';
-                    var skillData = '';
-                    Array.from(skillInputFieldValue).forEach((skill, index) => {
-                        skillHtmlValue += '<span class="badge bg-primary-subtle text-primary me-1">' + skill + '</span>'
-                        skillData += skill + ',';
-                    })
-                var formData = new FormData();
-
-                formData.append('f_name', firstname.value);
-                formData.append('l_name', lastname.value);
-                formData.append('phone', phonenumber.value);
-                formData.append('email', email.value);
-                formData.append('joining_date', formatTanggal(Joiningdate.value));
-                formData.append('skills', skillData);
-                formData.append('designation', designation.value);
-                formData.append('website', website.value);
-                formData.append('city', city.value);
-                formData.append('country', country.value);
-                formData.append('zip', zipcode.value);
-                formData.append('biography', description.value);
-                var avatarFile = document.querySelector("#profile-img-file-input").files[0];
-                if (avatarFile) {
-                    formData.append('avatar', avatarFile);
-                }
-                formData.append('_method', 'PUT');
-                formData.append('_token', csrfToken);
-
-                fetch(`/profile-settings`, {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(response.statusText);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);
-                    Toastify({
-                        text: data.message,
-                        duration: 3000,
-                        close: true,
-                        gravity: "top", // `top` or `bottom`
-                        position: "right", // `left`, `center` or `right`
-                        stopOnFocus: true, // Prevents dismissing of toast on hover
-                        className: "bg-success",
-                    }).showToast();
-
-                    formProfile.reset();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    Toastify({
-                        text: error.message,
-                        duration: 3000,
-                        close: true,
-                        gravity: "top", // `top` or `bottom`
-                        position: "right", // `left`, `center` or `right`
-                        stopOnFocus: true, // Prevents dismissing of toast on hover
-                        className: "bg-danger",
-                    }).showToast();
-
-                });
-
-            }
-       }
-
-    });
-
-});
-
-
-    
