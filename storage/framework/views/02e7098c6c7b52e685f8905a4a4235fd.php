@@ -7,36 +7,64 @@
                 <div class="uk-padding-large">
                     <h1>Log in</h1>
                     <p>Welcome to LUXIMA Directory & Listing App </p>
-                    <form id="form_login" class="uk-form-stacked uk-width-1-2@s" action="{{ route('login') }}" method="post">
-                        @csrf
+                    <form id="form_login" class="uk-form-stacked uk-width-1-2@s" action="<?php echo e(route('login')); ?>" method="post">
+                        <?php echo csrf_field(); ?>
                         <fieldset class="uk-fieldset">
 
                             <legend class="uk-legend">Sign In</legend>
     
                             <div class="uk-margin">
                                 <label class="uk-form-label" for="form-s-email">Email</label>
-                                <input class="uk-input @error('email') uk-form-danger @enderror" id="form-s-email" type="email"  value="{{ old('email' ) }}" id="username" name="email" placeholder="Enter username">
-                                @error('email')
+                                <input class="uk-input <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> uk-form-danger <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="form-s-email" type="email"  value="<?php echo e(old('email' )); ?>" id="username" name="email" placeholder="Enter username">
+                                <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                        <strong><?php echo e($message); ?></strong>
                                     </span>
-                                @enderror
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                             </div>
                             <div class="uk-margin">
                                 <label class="uk-form-label" for="form-s-password">Password</label>
-                                <input class="uk-input @error('password') uk-form-danger @enderror" id="form-s-password" type="password"  name="password" placeholder="Enter password" id="password-input" value="" >
-                                @error('password')
+                                <input class="uk-input <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> uk-form-danger <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="form-s-password" type="password"  name="password" placeholder="Enter password" id="password-input" value="" >
+                                <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                        <strong><?php echo e($message); ?></strong>
                                     </span>
-                                @enderror
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                             </div>
                             <div class="uk-margin">
                                 <button type="submit" class="uk-button uk-button-primary">Log in</button>
                                 <button type="reset" class="uk-button uk-button-default uk-modal-close" >Cancel</button>
                             </div>
                             <div class="uk-text-light">
-                                Not registered? <a href="{{ route('register') }}" class="login-opener" uk-switcher-item="0" uk-toggle>Sign Up</a>
+                                Not registered? <a href="<?php echo e(route('register')); ?>" class="login-opener" uk-switcher-item="0" uk-toggle>Sign Up</a>
                               </div>
                         </fieldset>
                             
@@ -56,24 +84,24 @@
           <button class="uk-offcanvas-close uk-close-large uk-icon uk-close" type="button" uk-close="" uk-toggle="cls: uk-close-large; mode: media; media: @s" aria-label="Close"><svg width="20" height="20" viewBox="0 0 20 20"><line fill="none" stroke="#000" stroke-width="1.4" x1="1" y1="1" x2="19" y2="19"></line><line fill="none" stroke="#000" stroke-width="1.4" x1="19" y1="1" x2="1" y2="19"></line></svg></button>
   
           <div class="uk-margin">
-              <img src="{{ asset('assets/images/luxima.png') }}" class="" alt="logo main"/>
+              <img src="<?php echo e(asset('assets/images/luxima.png')); ?>" class="" alt="logo main"/>
           </div>
           <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical" uk-nav="">
-              <li class="uk-active"><a href="{{ route('index') }}">HOME</a></li>
+              <li class="uk-active"><a href="<?php echo e(route('index')); ?>">HOME</a></li>
               <li class="uk-parent">
                   <a href="#" id="uk-nav-9" role="button" aria-controls="uk-nav-10" aria-expanded="false" aria-disabled="false">PAGES <span uk-nav-parent-icon="" class="uk-icon uk-nav-parent-icon"><svg width="14" height="14" viewBox="0 0 14 14"><polyline fill="none" stroke="#000" stroke-width="1.1" points="1 4 7 10 13 4"></polyline></svg></span></a>
                   <ul class="uk-nav-sub" hidden="" id="uk-nav-10" role="region" aria-labelledby="uk-nav-9">
-                      <li role="presentation"><a href="{{ route('about') }}">About Us</a></li>
-                      <li role="presentation"><a href="{{ route('gallery') }}">Gallery</a></li>
-                      <li role="presentation"><a href="{{ route('packages') }}">Package List</a></li>
-                      <li role="presentation"><a href="{{ route('howItWork') }}">How it Work</a></li>
+                      <li role="presentation"><a href="<?php echo e(route('about')); ?>">About Us</a></li>
+                      <li role="presentation"><a href="<?php echo e(route('gallery')); ?>">Gallery</a></li>
+                      <li role="presentation"><a href="<?php echo e(route('packages')); ?>">Package List</a></li>
+                      <li role="presentation"><a href="<?php echo e(route('howItWork')); ?>">How it Work</a></li>
                       
                   </ul>
               </li>
               <li class="uk-parent">
                   <a href="#" id="uk-nav-9" role="button" aria-controls="uk-nav-10" aria-expanded="false" aria-disabled="false">LISTINGS <span uk-nav-parent-icon="" class="uk-icon uk-nav-parent-icon"><svg width="14" height="14" viewBox="0 0 14 14"><polyline fill="none" stroke="#000" stroke-width="1.1" points="1 4 7 10 13 4"></polyline></svg></span></a>
                   <ul class="uk-nav-sub" hidden="" id="uk-nav-10" role="region" aria-labelledby="uk-nav-9">
-                      <li role="presentation"><a href="{{ route('listing') }}">Listing</a></li>
+                      <li role="presentation"><a href="<?php echo e(route('listing')); ?>">Listing</a></li>
                       <li role="presentation"><a href="#">Listing Maps</a></li>
                       <li role="presentation"><a href="#">Listing Detail</a></li>
                       <li role="presentation"><a href="#">Listing Category</a></li>
@@ -83,7 +111,7 @@
               <li class="uk-parent">
                   <a href="#" id="uk-nav-9" role="button" aria-controls="uk-nav-10" aria-expanded="false" aria-disabled="false">BLOGS <span uk-nav-parent-icon="" class="uk-icon uk-nav-parent-icon"><svg width="14" height="14" viewBox="0 0 14 14"><polyline fill="none" stroke="#000" stroke-width="1.1" points="1 4 7 10 13 4"></polyline></svg></span></a>
                   <ul class="uk-nav-sub" hidden="" id="uk-nav-10" role="region" aria-labelledby="uk-nav-9">
-                      <li role="presentation"><a href="{{ route('blog') }}">Blog</a></li>
+                      <li role="presentation"><a href="<?php echo e(route('blog')); ?>">Blog</a></li>
                       <li role="presentation"><a href="#">Listing Maps</a></li>
                       <li role="presentation"><a href="#">Listing Detail</a></li>
                       <li role="presentation"><a href="#">Listing Category</a></li>
@@ -93,7 +121,7 @@
               <li class="uk-parent">
                   <a href="#" id="uk-nav-9" role="button" aria-controls="uk-nav-10" aria-expanded="false" aria-disabled="false">SHOP <span uk-nav-parent-icon="" class="uk-icon uk-nav-parent-icon"><svg width="14" height="14" viewBox="0 0 14 14"><polyline fill="none" stroke="#000" stroke-width="1.1" points="1 4 7 10 13 4"></polyline></svg></span></a>
                   <ul class="uk-nav-sub" hidden="" id="uk-nav-10" role="region" aria-labelledby="uk-nav-9">
-                      <li role="presentation"><a href="{{ route('shop') }}">Shop</a></li>
+                      <li role="presentation"><a href="<?php echo e(route('shop')); ?>">Shop</a></li>
                       <li role="presentation"><a href="#">Listing Maps</a></li>
                       <li role="presentation"><a href="#">Listing Detail</a></li>
                       <li role="presentation"><a href="#">Listing Category</a></li>
@@ -101,7 +129,7 @@
                   </ul>
               </li>
               
-              <li><a href="{{ route('contact') }}">CONTACT</a></li>
+              <li><a href="<?php echo e(route('contact')); ?>">CONTACT</a></li>
           </ul>
   
           <div>
@@ -136,18 +164,18 @@
             <div>
 
                 <ul class="uk-nav-primary uk-nav-center uk-nav" uk-nav="">
-                    <li class="uk-active"><a href="{{ route('index') }}">HOME</a></li>
+                    <li class="uk-active"><a href="<?php echo e(route('index')); ?>">HOME</a></li>
                     <li class="uk-parent"><a href="#">PAGES</a>
                         <ul class="uk-nav-sub">
-                            <li><a href="{{ route('about') }}">About Us</a></li>
-                            <li><a href="{{ route('gallery') }}">Gallery</a></li>
-                            <li><a href="{{ route('packages') }}">Package List</a></li>
-                            <li><a href="{{ route('howItWork') }}">How it Work</a></li>
+                            <li><a href="<?php echo e(route('about')); ?>">About Us</a></li>
+                            <li><a href="<?php echo e(route('gallery')); ?>">Gallery</a></li>
+                            <li><a href="<?php echo e(route('packages')); ?>">Package List</a></li>
+                            <li><a href="<?php echo e(route('howItWork')); ?>">How it Work</a></li>
                         </ul>
                     </li>
                     <li class="uk-parent"><a href="#">SHOP</a>
                         <ul class="uk-nav-sub">
-                            <li><a href="{{ route('shop') }}">Shop</a></li>
+                            <li><a href="<?php echo e(route('shop')); ?>">Shop</a></li>
                             <li><a href="#">Layout</a></li>
                             <li><a href="#">Shop Single</a></li>
                             <li><a href="#">Shop Page</a></li>
@@ -155,7 +183,7 @@
                     </li>
                     <li class="uk-parent"><a href="#">LISTING</a>
                         <ul class="uk-nav-sub">
-                            <li><a href="{{ route('listing') }}">Listing</a></li>
+                            <li><a href="<?php echo e(route('listing')); ?>">Listing</a></li>
                             <li><a href="#">Listing Maps</a></li>
                             <li><a href="#">Listing Single</a></li>
                             <li><a href="#">Listing Page</a></li>
@@ -163,13 +191,13 @@
                     </li>
                     <li class="uk-parent"><a href="#">BLOG</a>
                         <ul class="uk-nav-sub">
-                            <li><a href="{{ route('blog') }}">Blog Detail</a></li>
+                            <li><a href="<?php echo e(route('blog')); ?>">Blog Detail</a></li>
                             <li><a href="#">Right Sidebar</a></li>
                             <li><a href="#">Left Sidebar</a></li>
                             <li><a href="#">No Sidebar</a></li>
                         </ul>
                     </li>
-                    <li><a href="{{ route('contact') }}">CONTACT</a></li>
+                    <li><a href="<?php echo e(route('contact')); ?>">CONTACT</a></li>
                 </ul>
 
                 <div class="uk-margin">
@@ -183,4 +211,4 @@
         </div>
     </div>
 
-   
+   <?php /**PATH C:\Users\Ricky\Herd\ListingApps\resources\views/frontend/partials/modals.blade.php ENDPATH**/ ?>

@@ -9,7 +9,7 @@ File: Ticket list init js
 
 
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-
+var authId = document.getElementById('_auth_id').value;
 
 function calculateAge(birthDate) {
     // Mengubah string tanggal lahir menjadi objek Date
@@ -159,7 +159,7 @@ xhttp.onload = function () {
     var json_records = JSON.parse(this.responseText);
     Array.from(json_records).forEach(function (raw){
         var skills = raw.detail ? raw.detail.skills : '';
-        var skillArray = skills ? skills.split(',') : [];
+        var skillArray = skills ? skills.split(',') : '';
         var skillHtml = '';
         //console.log(skillArray);
         Array.from(skillArray).forEach((skillArray, index) => {
@@ -201,8 +201,8 @@ xhttp.onload = function () {
         contactList.sort('id', { order: "asc" });
         refreshCallbacks();
     });
-    contactList.remove('id', `<a href="javascript:void(0);" class="fw-medium link-primary">#USR001</a>`);
-    //console.log('Auth Id:'+authIdauthId);
+    contactList.remove('id', `<a href="javascript:void(0);" class="fw-medium link-primary">${authId}</a>`);
+    //console.log('Auth Id:'+authId);
 }
 xhttp.open("GET", "/users-list", true);
 xhttp.send();
@@ -607,7 +607,25 @@ function refreshCallbacks() {
                     if (isdeleteid == itemId) {
                         document.getElementById("delete-record").addEventListener("click", function () {
                             
-                            deleteItem(itemId);
+                            var deleteForm = document.getElementById("delete-record-form");
+                           
+                            fetch(`users/${itemId}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': csrfToken 
+                                },
+                            }).then(response => response.json())
+                            .then(data => {
+                                Toastify({
+                                    text:  data.message,
+                                    duration: 3000,
+                                    close: true,
+                                    gravity: "top", // `top` or `bottom`
+                                    position: "right", // `left`, `center` or `right`
+                                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                                    className: "bg-danger",
+                                }).showToast();                                    
+                            })
                             contactList.remove("id", isElem.outerHTML);
                             document.getElementById("deleteRecord-close").click();
                             
@@ -796,37 +814,6 @@ function clearFields() {
     phoneField.value = "";
     skillInputField.removeActiveItems();
     skillInputField.setChoiceByValue("0");
-}
-
-
-// Delete Single Record
-function deleteItem(itemId) {
-    var deleteForm = document.getElementById("delete-record-form");
-    fetch(`users/${itemId}`, {
-        method: 'DELETE',
-        headers: {
-            'X-CSRF-TOKEN': csrfToken 
-        },
-        body: deleteForm
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        Toastify({
-            text: data.message,
-            duration: 3000,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "right", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            className: "bg-success",
-        }).showToast();
-
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-
 }
 
 // Delete All Records
