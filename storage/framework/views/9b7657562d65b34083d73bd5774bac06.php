@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('title'); ?>
 <?php echo app('translator')->get('translation.to-do'); ?>
 <?php $__env->stopSection(); ?>

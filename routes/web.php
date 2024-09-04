@@ -57,7 +57,7 @@ Auth::routes();
 
     Route::get('/search', [FrontendController::class, 'search'])->name('search');
 
-    Route::get('/survey', [FrontendController::class, 'survey'])->name('survey');
+    Route::get('/survey/{slug}', [FrontendController::class, 'survey'])->name('survey');
     Route::post('/survey', [FrontendController::class, 'surveyStore'])->name('surveyStore');
     
 
