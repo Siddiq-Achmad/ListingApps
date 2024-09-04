@@ -34,7 +34,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> uk-form-danger <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="form-s-email" type="email"  value="<?php echo e(old('email', 'admin@luxima.id')); ?>" id="username" name="email" placeholder="Enter username">
+unset($__errorArgs, $__bag); ?>" id="form-s-email" type="email"  value="<?php echo e(old('email')); ?>" id="username" name="email" placeholder="Enter username">
                     <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -58,7 +58,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> uk-form-danger <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="form-s-password" type="password"  name="password" placeholder="Enter password" id="password-input" value="12345678" >
+unset($__errorArgs, $__bag); ?>" id="form-s-password" type="password"  name="password" placeholder="Enter password" id="password-input" value="" >
                     <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :

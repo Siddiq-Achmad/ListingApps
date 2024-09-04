@@ -761,6 +761,7 @@
 
 
 @section('scripts')
+@include('layouts.message')
 
     
     {{-- <script>

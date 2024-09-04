@@ -75,6 +75,86 @@
             <div class="uk-width-expand">
                 <nav class="uk-navbar-container uk-navbar-transparent header-navigation uk-dropnav" uk-dropnav="align: center">
                     <ul id="menu-global" class="menu uk-tab uk-subnav uk-flex-center">
+
+                        <li class="menu_item uk-active">
+                            <a href="{{ route('index') }}">
+                                <span>Home</span>
+                            </a>
+                        </li>
+
+                        <li class="menu_item">
+                            <a href>Pages <span uk-drop-parent-icon></span></a>
+                            <div class="uk-dropdown">
+                                <ul class="uk-nav uk-dropdown-nav">
+                                    <li class="uk-active"><a href="{{ route('about') }}">About Us</a></li>
+                                    <li><a href="{{ route('gallery') }}">Gallery</a></li>
+                                    <li><a href="{{ route('packages') }}">Package List</a></li>
+                                    <li><a href="{{ route('howItWork') }}">How it Work</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        
+                        <li class="menu_item">
+                            <a href>Listings <span uk-drop-parent-icon></span></a>
+                            <div class="uk-dropdown">
+                                <ul class="uk-nav uk-dropdown-nav">
+                                    <li class="uk-parent">
+                                        <li class="uk-nav-header">LISTING
+                                        </li>
+                                        <ul class="uk-nav-sub">
+                                            <li><a href="{{ route('listing') }}">Listing</a></li>
+                                            <li><a href="{{ route('listing.maps') }}">Listing Maps</a></li>
+                                            <li><a href="{{ route('listingDetails','detail') }}">Listing Detail</a></li>
+                                            
+                                        </ul>
+                                        <li class="uk-nav-divider"></li>
+                                    </li>
+
+                                    <li class="uk-parent">
+                                        <li class="uk-active"><a href="{{ route('blog') }}">Blog </a></li>
+                                        <li><a href="{{ route('rigthSidebar') }}">Right Sidebar</a></li>
+                                        <li><a href="{{ route('leftSidebar') }}">Left Sidebar</a></li>
+                                        <li><a href="#">No Sidebar</a></li>
+                                        <li class="uk-nav-divider"></li>
+                                    </li>
+                                    <li class="uk-parent">
+                                        <li class="uk-nav-header">OTHER</li>
+                                        <li><a href="error404">404</a></li>
+                                    </li>
+                                   
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="menu_item">
+                            <a href>Shops <span uk-drop-parent-icon></span></a>
+                            <div class="uk-dropdown">
+                                <ul class="uk-nav uk-dropdown-nav">
+                                    <li class="uk-nav-header">SHOP
+                                        <a href="{{ route('shop') }}">Shop</a>
+                                    </li>
+                                
+                                    <li><a href="#">Shop item</a></li>
+                                    <li><a href="#">Cart</a></li>
+                                    <li><a href="#">Checkout</a></li>
+                                    <li><a href="#">Whishlist</a></li>
+                                    
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="menu_item">
+                            <a href="{{ route('contact') }}">
+                                <span>Contact</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+            {{-- <div class="uk-width-expand">
+                <nav class="uk-navbar-container uk-navbar-transparent header-navigation uk-dropnav" uk-dropnav="align: center">
+                    <ul id="menu-global" class="menu uk-tab uk-subnav uk-flex-center">
                         <li class="menu_item uk-active">
                             <a href="{{ route('index') }}">
                                 <span>Home</span>
@@ -107,7 +187,7 @@
                             <div class="uk-dropdown">
                                 <ul class="uk-nav uk-dropdown-nav">
                                     <li class="uk-active"><a href="{{ route('listing') }}">Listing </a></li>
-                                    <li><a href="listing-maps">Listing Maps</a></li>
+                                    <li><a href="{{ route('listing.maps') }}">Listing Maps</a></li>
                                     <li><a href="listing-list">Listing List Compact</a></li>
                                     <li><a href="error404">404</a></li>
                                 </ul>
@@ -131,7 +211,8 @@
                         </li>
                     </ul>
                 </nav>
-            </div>
+            </div> --}}
+
             <div class="uk-width-1-4">
                 <div class="widget ">
                     <div class="dropdown-cart ">

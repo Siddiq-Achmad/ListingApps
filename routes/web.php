@@ -49,9 +49,13 @@ Auth::routes();
     Route::get('/packages', [FrontendController::class, 'packages'])->name('packages');
     Route::get('/how-it-work', [FrontendController::class, 'howItWork'])->name('howItWork');
     Route::get('/blog', [FrontendController::class, 'blog'])->name('blog');
+    Route::get('/rigthSidebar', [FrontendController::class, 'rigthSidebar'])->name('rigthSidebar');
+    Route::get('/leftSidebar', [FrontendController::class, 'leftSidebar'])->name('leftSidebar');
+    Route::get('/noSidebar', [FrontendController::class, 'noSidebar'])->name('noSidebar');
     Route::get('/shop', [FrontendController::class, 'shop'])->name('shop');
     Route::get('/listings', [FrontendController::class, 'listing'])->name('listing');
     Route::get('/listing/{slug}', [FrontendController::class, 'listingDetails'])->name('listingDetails');
+    Route::get('/listingmaps', [FrontendController::class, 'listingMaps'])->name('listing.maps');
     Route::get('/auth', [FrontendController::class, 'auth'])->name('auth');
     Route::get('/404', [FrontendController::class, 'notFound'])->name('errors.404');
 
