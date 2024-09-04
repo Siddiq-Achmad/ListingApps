@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('title'); ?> Statistics <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <?php $__env->startComponent('components.breadcrumb'); ?>

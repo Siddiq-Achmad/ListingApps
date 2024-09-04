@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('title'); ?> Job Overview <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 

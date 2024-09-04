@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('title'); ?> Candidate Lists View <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <?php $__env->startComponent('components.breadcrumb'); ?>

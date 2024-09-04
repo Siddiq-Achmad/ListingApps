@@ -113,14 +113,23 @@ class QuestionController extends Controller
         if(Auth::user()->id == $surveys->user_id){
             $delete = $question->delete();
             if($delete){
-                return redirect()->route('surveys.show', $question->survey_id)->with('success', 'Question deleted successfully. ');
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Question deleted successfully'
+                ]);
             }
             else{
-                return redirect()->route('surveys.show', $question->survey_id)->with('error', 'Question not deleted. ');
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Question not found'
+                ]);
             }
         }
 
-        return redirect()->route('surveys.show', $question->survey_id)->with('error', 'You are not authorized to delete this question. ');
+        return response()->json([
+            'status' => 'error',
+            'message' => 'You are not authorized to delete this question'
+        ]);
 
         
     }

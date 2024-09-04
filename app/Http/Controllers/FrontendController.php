@@ -32,10 +32,9 @@ class FrontendController extends Controller
     }
 
 
-    public function survey()
+    public function survey($slug)
     {
-        $dataId = 26;
-        $survey = Survey::with('questions')->findOrFail($dataId);
+        $survey = Survey::where('slug', $slug)->firstOrFail();
         $questions = $survey->questions();
         return view('frontend.surveys.survey', compact('survey', 'questions'));
     }

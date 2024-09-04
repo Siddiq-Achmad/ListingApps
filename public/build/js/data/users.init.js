@@ -168,7 +168,7 @@ xhttp.onload = function () {
         
 
         var avatar = raw.avatar;
-        var r = avatar ? 'images/users/'+avatar : 'images/users/user-dummy-img.jpg';
+        var r = avatar ? '/images/users/'+avatar : '/images/users/user-dummy-img.jpg';
 
         
         contactList.add({
@@ -481,14 +481,19 @@ Array.prototype.slice.call(forms).forEach(function (form) {
                         var avatarFile = document.querySelector("#user-image-input").files[0];
                         if (avatarFile) {
                             formData.append('avatar', avatarFile);
-                        }else{
-                            formData.append('avatar', x._values.avatar);
                         }
-                        formData.append('_method', 'PUT');
-                        formData.append('_token', csrfToken);
+                        else{
+                            formData.append('avatar', '');
+                        }
+                        // formData.append('_method', 'PUT');
+                        // formData.append('_token', csrfToken);
 
-                        fetch(`users/${itemId}`, {
-                            method: 'POST', 
+                        fetch(`/users/${itemId}`, {
+                            method: 'PUT', 
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json'
+                            },
                             body: formData
                         })
                         .then(response => {
@@ -800,7 +805,7 @@ function refreshCallbacks() {
 }
 
 function clearFields() {
-    userImg.src = "images/users/user-dummy-img.jpg";
+    userImg.src = "/images/users/user-dummy-img.jpg";
     userNameField.value = "";
     f_nameField.value = "";
     l_nameField.value = "";
@@ -815,6 +820,37 @@ function clearFields() {
     skillInputField.removeActiveItems();
     skillInputField.setChoiceByValue("0");
 }
+
+// Delete Single Record
+function deleteItem(itemId) {
+    var deleteForm = document.getElementById("delete-record-form");
+    fetch(`/users/${itemId}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken 
+        },
+        body: deleteForm
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        Toastify({
+            text: data.message,
+            duration: 3000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            className: "bg-success",
+        }).showToast();
+
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
+}
+
 
 // Delete All Records
 function deleteMultiple(){

@@ -130,11 +130,14 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
 
-        //dd($request->all());
-       try {
+        $user = User::findOrFail($id);
+    //dd($request->all());
 
-        $validated = $request->validate([
+        // Validasi input
+        $request->validate([
             'name' => 'required|string|max:255',
+            'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'email' => 'required|string|email|max:255',
             'company' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',
             'f_name' => 'nullable|string|max:255',
@@ -143,8 +146,8 @@ class UserController extends Controller
             'dob' => 'nullable|date',
             'skills' => 'nullable|string|max:255',
             'designation' => 'nullable|string|max:255',
-        ]);
 
+        ]);
         // Simpan avatar
         if($request->hasFile('avatar')) {
             // Get filename with the extension
@@ -156,10 +159,10 @@ class UserController extends Controller
             $avatar = $request->avatar;
         }
 
-        $user = User::find($id);
+        
         // update data User
         $user->update([
-            'name' => $validated['name'],
+            'name' => $request->name,
             'avatar' => $avatar
         ]);
 
@@ -193,19 +196,12 @@ class UserController extends Controller
         ]);
         }
 
-        Log::info('User updated: ' . $user->name);
+        
         return response()->json([
             'success' => true,
             'message' => 'User and detail updated successfully'
         ], 200);
-       } catch (ValidationException $e) {
-        return response()->json([
-            'success' => false,
-            'errors' => $e->errors()
-        ], 422);
-       }
-
-
+      
 
     }
 

@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('title'); ?>
     NFT Dashboard
 <?php $__env->stopSection(); ?>

@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('title'); ?> <?php echo app('translator')->get('translation.ranking'); ?> <?php $__env->stopSection(); ?>
 <?php $__env->startSection('css'); ?>
 <link href="<?php echo e(URL::asset('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap')); ?>" rel="stylesheet" type="text/css" />
