@@ -15,7 +15,11 @@
     
                             <div class="uk-margin">
                                 <label class="uk-form-label" for="form-s-email">Email</label>
+
                                 <input class="uk-input @error('email') uk-form-danger @enderror" id="form-s-email" type="email"  value="{{ old('email' ) }}" id="username" name="email" placeholder="Enter username">
+
+                                <input class="uk-input @error('email') uk-form-danger @enderror" id="form-s-email" type="email"  value="{{ old('email') }}" id="username" name="email" placeholder="Enter username">
+
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

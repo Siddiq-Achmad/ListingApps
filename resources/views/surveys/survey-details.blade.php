@@ -71,24 +71,27 @@
     <div class="col-xxl-9">
         <div class="card">
             <div class="card-body p-4">
-                <h6 class="fw-semibold text-uppercase mb-3">Survey Description</h6>
-                <p class="text-muted">{{ $survey->description }}. <a href="javascript:void(0);" class="link-secondary text-decoration-underline">Example</a></p>
-                <h6 class="fw-semibold text-uppercase mb-3">Requirements Criteria</h6>
-                <ul class="text-muted vstack gap-2 mb-4">
-                    <li>Pick a Dashboard Type</li>
-                    <li>Categorize information when needed</li>
-                    <li>Provide Context</li>
-                    <li>On using colors</li>
-                    <li>On using the right graphs</li>
-                </ul>
-                <div class="mt-4">
-                    <h6 class="fw-semibold text-uppercase mb-3">Here is the code you've requested</h6>
-                    <div>
-                       
-                    </div>
-                </div>
+                
+                    <h6 class="fw-semibold text-uppercase mb-3">Survey Description</h6>
+                    <p class="text-muted">{{ $survey->description }}. </p>
+                    <h6 class="fw-semibold text-uppercase mb-3">Optional Requirements Type of Question</h6>
+                    <ul class="text-muted vstack gap-2 mb-4">
+                        <li>Text : No Option Required</li>
+                        <li>Select : Single Option. Eg. Yes or No</li>
+                        <li>Radio : Single Option like Rating. Eg. 1, 2, 3, 4, 5</li>
+                        <li>Checkbox : Multiple Option, Eg. On using the left graphs</li>
+                        <li>Date : No Option Required</li>
+                        <li>Time : No Option Required</li>
+
+                    </ul>
             </div><!--end card-body-->
+            
         </div><!--end card-->
+
+        
+
+
+
         
         
         <div class="card" id="questionsList">
@@ -336,38 +339,22 @@
         </div><!--end card-->
         <div class="card">
             <div class="card-header">
-                <h6 class="card-title fw-semibold mb-0">Files Attachment</h6>
+                <h6 class="card-title fw-semibold mb-0">Link Survey</h6>
             </div>
             <div class="card-body">
-                <div class="d-flex align-items-center border border-dashed p-2 rounded">
-                    <div class="flex-shrink-0 avatar-sm">
-                        <div class="avatar-title bg-light rounded">
-                            <i class="ri-file-zip-line fs-20 text-primary"></i>
+                <div class="text-center border border-dashed p-2 rounded">
+                    
+                        <div class="text-center mt-2" id="qrcode">
+                        {{ QrCode::size(200)->generate(route('survey', $survey->slug)) }} 
                         </div>
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <h6 class="mb-1"><a href="javascript:void(0);" class="link-secondary">Velzon-admin.zip</a></h6>
-                        <small class="text-muted">3.2 MB</small>
-                    </div>
-                    <div class="hstack gap-3 fs-16">
-                        <a href="javascript:void(0);" class="text-muted"><i class="ri-download-2-line"></i></a>
-                        <a href="javascript:void(0);" class="text-muted"><i class="ri-delete-bin-line"></i></a>
-                    </div>
-                </div>
-                <div class="d-flex  align-items-center border border-dashed p-2 rounded mt-2">
-                    <div class="flex-shrink-0 avatar-sm">
-                        <div class="avatar-title bg-light rounded">
-                            <i class="ri-file-ppt-2-line fs-20 text-primary"></i>
+                        <div class="mt-2 text-center">
+                            <button id="download" class="mt-2 btn btn-info text-light" onclick="downloadSVG()">Download SVG</button>
                         </div>
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <h6 class="mb-1"><a href="javascript:void(0);" class="link-secondary">Velzon-admin.ppt</a></h6>
-                        <small class="text-muted">4.5 MB</small>
-                    </div>
-                    <div class="hstack gap-3 fs-16">
-                        <a href="javascript:void(0);" class="text-muted"><i class="ri-download-2-line"></i></a>
-                        <a href="javascript:void(0);" class="text-muted"><i class="ri-delete-bin-line"></i></a>
-                    </div>
+                        <p class="text-muted text-center">
+                            <br>
+                            <a href="{{ route('survey', $survey->slug) }}" target="_blank" class="link-secondary text-decoration-underline">Click here to View Survey</a>
+                        </p>
+                    
                 </div>
             </div>
         </div>
@@ -434,6 +421,18 @@
 @endsection
 @section('script')
 @include('layouts.message')
+
+    <script>
+        function downloadSVG() {
+      const svg = document.getElementById('qrcode').innerHTML;
+      const blob = new Blob([svg.toString()]);
+      const element = document.createElement("a");
+      element.download = "qrcode.svg";
+      element.href = window.URL.createObjectURL(blob);
+      element.click();
+      element.remove();
+    }
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 

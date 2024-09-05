@@ -11,6 +11,7 @@ use App\Http\Controllers\Surveys\QuestionController;
 use App\Http\Controllers\Surveys\ResponseController;
 use App\Http\Controllers\Surveys\SurveyController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\QRcodeGenerateController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Controllers\Users\UserDetailController;
 use App\Http\Controllers\Users\UserProfileController;
@@ -112,6 +113,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/questions-list', [QuestionController::class, 'questions'])->name('questions.list');
     Route::get('/responses-list', [ResponseController::class, 'responses'])->name('responses.list');
     Route::get('/answers-list', [AnswerController::class, 'answers'])->name('answers.list');
+
+    //QRCode
+    Route::get('/qrcode', [QRcodeGenerateController::class, 'qrcode'])->name('qrcode');
+    Route::get('/qrcode/{{text}}', [QRcodeGenerateController::class, 'qrcodetext'])->name('qrcode.text');
 
     
 
