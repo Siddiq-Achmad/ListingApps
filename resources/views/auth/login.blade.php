@@ -30,7 +30,7 @@
                 <div class="uk-margin">
                     <label class="uk-form-label" for="form-s-email">Email</label>
                     
-                    <input class="uk-input @error('email') uk-form-danger @enderror" id="form-s-email" type="email"  value="{{ old('email', 'admin@luxima.id') }}" id="username" name="email" placeholder="Enter username">
+                    <input class="uk-input @error('email') uk-form-danger @enderror" id="form-s-email" type="email"  value="{{ old('email') }}" id="username" name="email" placeholder="Enter username">
                     @error('email')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -40,7 +40,7 @@
                 <div class="uk-margin">
                     <label class="uk-form-label" for="form-s-password">Password</label>
                     
-                    <input class="uk-input @error('password') uk-form-danger @enderror" id="form-s-password" type="password"  name="password" placeholder="Enter password" id="password-input" value="12345678" >
+                    <input class="uk-input @error('password') uk-form-danger @enderror" id="form-s-password" type="password"  name="password" placeholder="Enter password" id="password-input" value="" >
                     @error('password')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
