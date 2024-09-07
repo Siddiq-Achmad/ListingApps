@@ -159,3 +159,163 @@ function deleteEl(eleId) {
     var parentEle = d.getElementById('newlink');
     parentEle.removeChild(ele);
 }
+
+function formatDate(date) {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
+}
+
+var skillInputField = new Choices('#skillsInput', {
+    removeItemButton: true,
+  }
+);
+
+var skillInputFieldValue = skillInputField.getValue(true);
+var skillHtmlValue = '';
+var skillData = '';
+Array.from(skillInputFieldValue).forEach((skill, index) => {
+  skillHtmlValue += '<span class="badge bg-primary-subtle text-primary me-1">'+skill+'</span>'
+  skillData += skill + ',';
+})
+
+document.addEventListener('DOMContentLoaded', function() {
+    const formProfile = document.getElementById('formProfile');
+    
+    formProfile.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var joiningDateInput = document.getElementById('joiningdateInput');
+        if (joiningDateInput) {
+            flatpickr(joiningDateInput, {
+                dateFormat: "d M, Y",
+                defaultDate: joiningDateInput.getAttribute('data-default-date'),
+            });
+            var selectedDate = formatDate(joiningDateInput.value);   
+        }
+        
+        
+        var skillInputFieldValue = skillInputField.getValue(true);
+        
+        var skillData = '';
+        Array.from(skillInputFieldValue).forEach((skill, index) => {
+            skillData += skill + ',';
+        })
+        skillData = skillData.slice(0, -1); 
+
+        const formData = {
+            f_name: document.getElementById('firstnameInput').value,
+            l_name: document.getElementById('lastnameInput').value,
+            phone: document.getElementById('phonenumberInput').value,
+            email: document.getElementById('emailInput').value,
+            city: document.getElementById('cityInput').value,
+            country: document.getElementById('countryInput').value,
+            zip: document.getElementById('zipcodeInput').value,
+            joining_date: selectedDate,
+            skills: skillData,  
+            designation: document.getElementById('designationInput').value,
+            website: document.getElementById('websiteInput1').value,
+            biography: document.getElementById('exampleFormControlTextarea').value,
+            avatar: document.getElementById('profile-img-file-input').files[0],
+        };  
+
+        axios.put('/profile-settings', formData, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            }
+        })
+        .then(function (response) {
+            console.log(response.data);
+            Toastify({
+                text: response.data.message,
+                duration: 3000,
+                close: true,
+                gravity: "top", 
+                position: "right", 
+                stopOnFocus: true,
+                className: "bg-success",
+            }).showToast();
+        })
+        .catch(function (error) {
+            console.error('Error:', error);
+            Toastify({
+                text: error.response.data.message || 'Something went wrong!',
+                duration: 3000,
+                close: true,
+                gravity: "top", 
+                position: "right", 
+                stopOnFocus: true,
+                className: "bg-danger",
+            }).showToast();
+        });
+    });
+
+    const changePasswordForm = document.getElementById('changePasswordForm');
+
+    changePasswordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var currentPasswordInput = document.getElementById('oldpasswordInput');
+        var newPasswordInput = document.getElementById('newpasswordInput');
+        var confirmPasswordInput = document.getElementById('confirmpasswordInput');
+        
+        //Check password
+        if (newPasswordInput.value != confirmPasswordInput.value) {
+            Toastify({
+                text: 'Password and confirm password does not match!',
+                duration: 3000,
+                close: true,
+                gravity: "top", 
+                position: "right", 
+                stopOnFocus: true,
+                className: "bg-danger",
+            }).showToast();
+            return false;
+        }
+        axios.put('/profile/change-password', {
+            current_password: currentPasswordInput.value,
+            password: newPasswordInput.value,
+            password_confirmation: confirmPasswordInput.value,
+        })
+        .then(function (response) {
+            console.log(response.data);
+            if(response.data.success == true) {
+            Toastify({
+                text: response.data.message || 'Password changed successfully!',
+                duration: 3000,
+                close: true,
+                gravity: "top", 
+                position: "right", 
+                stopOnFocus: true,
+                className: "bg-success",
+            }).showToast();
+        } else {
+            Toastify({
+                text: response.data.message || 'Something went wrong!',
+                duration: 3000,
+                close: true,
+                gravity: "top", 
+                position: "right", 
+                stopOnFocus: true,
+                className: "bg-danger",
+            }).showToast();
+        }
+        })
+        .catch(function (error) {
+            console.error('Error:', error);
+            Toastify({
+                text: error.response.data.message || 'Something went wrong!',
+                duration: 3000,
+                close: true,
+                gravity: "top", 
+                position: "right", 
+                stopOnFocus: true,
+                className: "bg-danger",
+            }).showToast();
+        });
+    });
+});

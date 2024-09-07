@@ -9,7 +9,7 @@ File: Ticket list init js
 
 
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-var authId = document.getElementById('_auth_id').value;
+var authId = document.getElementById('_auth_id') ? document.getElementById('_auth_id').value : 0;
 
 function calculateAge(birthDate) {
     // Mengubah string tanggal lahir menjadi objek Date
@@ -201,7 +201,7 @@ xhttp.onload = function () {
         contactList.sort('id', { order: "asc" });
         refreshCallbacks();
     });
-    contactList.remove('id', `<a href="javascript:void(0);" class="fw-medium link-primary">${authId}</a>`);
+    contactList.remove('id', `<a href="javascript:void(0);" class="fw-medium link-primary">#USR001</a>`);
     //console.log('Auth Id:'+authId);
 }
 xhttp.open("GET", "/users-list", true);
@@ -258,10 +258,12 @@ refreshCallbacks();
 
 document.getElementById("showModal").addEventListener("show.bs.modal", function (e) {
     if (e.relatedTarget.classList.contains("edit-item-btn")) {
+        
         document.getElementById("exampleModalLabel").innerHTML = "Edit User";
         document.getElementById("showModal").querySelector(".modal-footer").style.display = "block";
         document.getElementById("add-btn").innerHTML = "Update";
         disablePass();
+        
     } else if (e.relatedTarget.classList.contains("add-btn")) {
         document.getElementById("exampleModalLabel").innerHTML = "Add User";
         document.getElementById("showModal").querySelector(".modal-footer").style.display = "block";
@@ -418,7 +420,7 @@ Array.prototype.slice.call(forms).forEach(function (form) {
                 });
                     
                 contactList.add({
-                    id: `<a href="javascript:void(0);" class="fw-medium link-primary">#VZ${count}</a>`,
+                    id: `<a href="javascript:void(0);" class="fw-medium link-primary">${count}</a>`,
                     // name: userNameField.value,
                     name: '<div class="d-flex align-items-center">\
                     <div class="flex-shrink-0"><img src="'+ userImg.src + '" alt="" class="avatar-xs rounded-circle object-fit-cover"></div>\
@@ -463,7 +465,10 @@ Array.prototype.slice.call(forms).forEach(function (form) {
                         skillData += skill + ',';
                     })
                     if (selectedid == itemId) {
+
                         
+                        var skillData = skillData.slice(0, -1);
+                        var avatarFile = document.querySelector("#user-image-input").files[0];
                         // Update values
                         var formData = new FormData();
 
@@ -478,35 +483,23 @@ Array.prototype.slice.call(forms).forEach(function (form) {
                         formData.append('address', addressField.value);
                         formData.append('skills', skillData);
                         
-                        var avatarFile = document.querySelector("#user-image-input").files[0];
                         if (avatarFile) {
                             formData.append('avatar', avatarFile);
                         }
-                        else{
-                            formData.append('avatar', '');
-                        }
-                        // formData.append('_method', 'PUT');
-                        // formData.append('_token', csrfToken);
+                        
+                        formData.append('_method', 'PUT');
 
-                        fetch(`/users/${itemId}`, {
-                            method: 'PUT', 
+                        // Send PUT request
+
+                        axios.post(`/users/${itemId}`,  formData, {
                             headers: {
-                                'X-CSRF-TOKEN': csrfToken,
-                                'Accept': 'application/json'
-                            },
-                            body: formData
+                                'X-CSRF-TOKEN': csrfToken
+                            }
                         })
                         .then(response => {
-                            if (!response.ok) {
-                                throw new Error(response.statusText);
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            // Menangani respon sukses
-                            console.log('Success:', data);
+                            console.log('Data updated successfully:', response.data);
                             Toastify({
-                                text: data.message,
+                                text: response.data.message,
                                 duration: 3000,
                                 close: true,
                                 gravity: "top", // `top` or `bottom`
@@ -514,17 +507,8 @@ Array.prototype.slice.call(forms).forEach(function (form) {
                                 stopOnFocus: true, // Prevents dismissing of toast on hover
                                 className: "bg-success",
                             }).showToast();
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Updated Successfully',
-                                showConfirmButton: false,
-                                timer: 2000,
-                                showCloseButton: true
-                            });
                         })
                         .catch(error => {
-                            // Menangani respon error
                             console.error('Error:', error);
                             Toastify({
                                 text: error.message,

@@ -15,6 +15,7 @@
     
                             <div class="uk-margin">
                                 <label class="uk-form-label" for="form-s-email">Email</label>
+
                                 <input class="uk-input <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -22,7 +23,9 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> uk-form-danger <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="form-s-email" type="email"  value="<?php echo e(old('email')); ?>" id="username" name="email" placeholder="Enter username">
+unset($__errorArgs, $__bag); ?>" id="form-s-email" type="email"  value="<?php echo e(old('email' )); ?>" id="username" name="email" placeholder="Enter username">
+
+
                                 <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :

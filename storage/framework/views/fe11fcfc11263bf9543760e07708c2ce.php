@@ -46,23 +46,18 @@
                                         </li>
                                         <ul class="uk-nav-sub">
                                             <li><a href="<?php echo e(route('listing')); ?>">Listing</a></li>
-                                            <li><a href="#">Listing Maps</a></li>
-                                            <li><a href="#">Listing List</a></li>
+                                            <li><a href="<?php echo e(route('listing.maps')); ?>">Listing Maps</a></li>
+                                            <li><a href="<?php echo e(route('listingDetails','detail')); ?>">Listing Detail</a></li>
                                             
                                         </ul>
                                         <li class="uk-nav-divider"></li>
                                     </li>
+
                                     <li class="uk-parent">
-                                        <li class="uk-nav-header">SHOP
-                                            <a href="<?php echo e(route('shop')); ?>">Shop</a>
-                                        </li>
-                                        <ul class="uk-nav-sub">
-                                            <li><a href="#">Shop item</a></li>
-                                            <li><a href="#">Cart</a></li>
-                                            <li><a href="#">Checkout</a></li>
-                                            <li><a href="#">Whishlist</a></li>
-                                           
-                                        </ul>
+                                        <li class="uk-active"><a href="<?php echo e(route('blog')); ?>">Blog </a></li>
+                                        <li><a href="<?php echo e(route('rigthSidebar')); ?>">Right Sidebar</a></li>
+                                        <li><a href="<?php echo e(route('leftSidebar')); ?>">Left Sidebar</a></li>
+                                        <li><a href="#">No Sidebar</a></li>
                                         <li class="uk-nav-divider"></li>
                                     </li>
                                     <li class="uk-parent">
@@ -73,17 +68,24 @@
                                 </ul>
                             </div>
                         </li>
+
                         <li class="menu_item">
-                            <a href>Blog <span uk-drop-parent-icon></span></a>
+                            <a href>Shops <span uk-drop-parent-icon></span></a>
                             <div class="uk-dropdown">
                                 <ul class="uk-nav uk-dropdown-nav">
-                                    <li class="uk-active"><a href="<?php echo e(route('blog')); ?>">Blog </a></li>
-                                    <li><a href="sidebar-right">Right Sidebar</a></li>
-                                    <li><a href="sidebar-left">Left Sidebar</a></li>
-                                    <li><a href="no-sidebar">No Sidebar</a></li>
+                                    <li class="uk-nav-header">SHOP
+                                        <a href="<?php echo e(route('shop')); ?>">Shop</a>
+                                    </li>
+                                
+                                    <li><a href="#">Shop item</a></li>
+                                    <li><a href="#">Cart</a></li>
+                                    <li><a href="#">Checkout</a></li>
+                                    <li><a href="#">Whishlist</a></li>
+                                    
                                 </ul>
                             </div>
                         </li>
+
                         <li class="menu_item">
                             <a href="<?php echo e(route('contact')); ?>">
                                 <span>Contact</span>

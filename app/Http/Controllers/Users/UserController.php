@@ -129,10 +129,8 @@ class UserController extends Controller
     // Metode untuk memperbarui informasi pengguna
     public function update(Request $request, $id)
     {
-
+        //dd($request->all());
         $user = User::findOrFail($id);
-    //dd($request->all());
-
         // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
@@ -150,13 +148,17 @@ class UserController extends Controller
         ]);
         // Simpan avatar
         if($request->hasFile('avatar')) {
+            // hapus avatar lama
+            if($user->avatar) {
+                unlink(public_path('images/users/'.$user->avatar));
+            }
             // Get filename with the extension
             $imageName = time().'.'.$request->avatar->extension();
             $request->avatar->move(public_path('images/users'), $imageName);
             $avatar = $imageName; 
         }
         else {
-            $avatar = $request->avatar;
+            $avatar = $user->avatar;
         }
 
         

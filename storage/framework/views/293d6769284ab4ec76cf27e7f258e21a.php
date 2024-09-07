@@ -147,7 +147,7 @@
                         <div class="tab-pane active" id="personalDetails" role="tabpanel">
                             <form id="formProfile" method="POST"  novalidate>
                                 <?php echo csrf_field(); ?>
-                                <?php echo method_field('PUT'); ?>
+                                
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
@@ -187,10 +187,10 @@
                                     <!--end col-->
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <label for="JoiningdateInput" class="form-label">Joining
+                                            <label for="joiningdateInput" class="form-label">Joining
                                                 Date</label>
                                             <input type="text" class="form-control" data-provider="flatpickr"
-                                                id="JoiningdateInput" data-date-format="d M, Y"
+                                                id="joiningdateInput" data-date-format="d M, Y"
                                                 data-deafult-date="<?php echo e(auth()->user()->detail ? \Carbon\Carbon::parse(auth()->user()->detail->joining_date)->format('d M, Y') : ''); ?>" placeholder="Select date" />
                                         </div>
                                     </div>
@@ -202,7 +202,7 @@
                                                     $skills = explode(',', auth()->user()->detail ? auth()->user()->detail->skills : '');
                                                     
                                                 ?>
-                                            <select class="form-control" name="skillsInput" data-choices
+                                            <select class="form-control" name="skillsInput" data-choices 
                                                 data-choices-removetext-unique-true Item multiple id="skillsInput">
                                                 
                                                     
@@ -287,7 +287,7 @@
                         </div>
                         <!--end tab-pane-->
                         <div class="tab-pane" id="changePassword" role="tabpanel">
-                            <form action="javascript:void(0);">
+                            <form class="needs-validation" novalidate id="changePasswordForm">
                                 <div class="row g-2">
                                     <div class="col-lg-4">
                                         <div>
@@ -654,7 +654,7 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
 <?php echo $__env->make('layouts.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="<?php echo e(URL::asset('build/js/pages/profile-setting.init.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 <?php $__env->stopSection(); ?>

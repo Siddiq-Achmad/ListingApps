@@ -70,7 +70,7 @@ Auth::routes();
 //BACKEND ROUTES
 Route::group(['middleware' => 'auth'], function () {
 
-    //Route::resource('users', UserController::class);
+    Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('posts', PostController::class);
     Route::resource('tags', TagController::class);
@@ -83,21 +83,21 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     //Language Translation
     Route::get('index/{locale}', [HomeController::class, 'lang']);
-    Route::post('/logout-device/{id}', [LoginHistoryController::class, 'logoutDevice'])->name('logout.device');
+    Route::post('/logout-device/{id}', [UserProfileController::class, 'logoutDevice'])->name('logout.device');
     //User 
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    // Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    // Route::post('/users', [UserController::class, 'store'])->name('users.store');
     
-    Route::get('/user/{id}', [UserController::class, 'show'])->name('users.show');
-    Route::put('/user/{id}', [UserController::class, 'update'])->name('users.update');
-    Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+    // Route::get('/user/{id}', [UserController::class, 'show'])->name('users.show');
+    // Route::put('/user/{id}', [UserController::class, 'update'])->name('users.update');
+    // Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+    // Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::post('/update-profile/{id}', [HomeController::class, 'updateProfile'])->name('updateProfile');
     Route::post('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
 
-    Route::get('/users/deleted', [UserController::class, 'deletedUsers'])->name('users.deleted');
-    Route::post('/users/restore/{id}', [UserController::class, 'restoreUser'])->name('users.restore');
-    Route::post('/users/force-delete/{id}', [UserController::class, 'forceDelete'])->name('users.forceDelete');
+    Route::get('/user/trashed', [UserController::class, 'deletedUsers'])->name('users.deleted');
+    Route::post('/user/restore/{id}', [UserController::class, 'restoreUser'])->name('users.restore');
+    Route::post('/user/force-delete/{id}', [UserController::class, 'forceDelete'])->name('users.forceDelete');
     Route::get('/users-list', [UserController::class, 'users'])->name('users.list');
     Route::get('/userdetails', [UserDetailController::class, 'show'])->name('userdetail');
     Route::post('/userdetails', [UserDetailController::class, 'update'])->name('userdetail.update');

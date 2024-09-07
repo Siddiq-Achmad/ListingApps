@@ -20,7 +20,7 @@
                                 <div class="col-md-auto">
                                     <div class="avatar-md mb-md-0 mb-4">
                                         <div class="avatar-title bg-white rounded-circle">
-                                            <img src="<?php echo e(URL::asset('build/images/companies/img-4.png')); ?>" alt="" class="avatar-sm" />
+                                            <img src="<?php echo e(URL::asset('/build/images/companies/img-9.png')); ?>" alt="" class="avatar-sm" />
                                         </div>
                                     </div>
                                 </div><!--end col-->
@@ -356,6 +356,13 @@
             </div>
             <form class="tablelist-form" autocomplete="off">
                 <div class="modal-body">
+                    <div class="view-modal">
+                        <div class='text-muted' id='question-field'>
+                            <p>Question Text : <span id='question-text'></span></p>
+                            <p>Question Type : <span id='question-type'></span></p>
+                            <p>Options : <span id='options'></span></p>
+                        </div>
+                    </div>
                     <div class="row g-3">
                         <input type="hidden" id="questionId" name="id" />
                         <div class="col-lg-12">

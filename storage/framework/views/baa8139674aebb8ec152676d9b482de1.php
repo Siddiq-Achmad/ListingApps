@@ -759,6 +759,7 @@
 
 
 <?php $__env->startSection('scripts'); ?>
+<?php echo $__env->make('layouts.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     
     

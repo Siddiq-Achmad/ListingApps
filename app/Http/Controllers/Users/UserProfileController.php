@@ -40,6 +40,29 @@ class UserProfileController extends Controller
     }
     
  
+    public function logoutDevice($id)
+    {
+        $loginHistory = LoginHistory::find($id);
+
+        if ($loginHistory && $loginHistory->user_id === auth()->id()) {
+            // Hapus session dari device lain
+            Session::getHandler()->destroy($loginHistory->session_id);
+
+            $token = PersonalAccessToken::findToken($loginHistory->token);
+            if ($token) {
+                $token->delete();
+            }
+    
+    
+            // Hapus riwayat login
+            $loginHistory->delete();
+    
+            return redirect()->back()->with('success', 'Berhasil logout dari device lain.');
+        }
+    
+        return redirect()->back()->with('error', 'Gagal logout dari device.');
+
+    }
 
 
     public function updateProfile(Request $request)
@@ -55,6 +78,7 @@ class UserProfileController extends Controller
                 'l_name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255',
                 'phone' => 'required|string|max:255',
+                'joining_date' => 'nullable|date',
                 'city' => 'nullable|string|max:255',
                 'country' => 'nullable|string|max:255',
                 'zip' => 'nullable|string|max:255',
@@ -95,6 +119,7 @@ class UserProfileController extends Controller
                 $detail->country = $request->country;
                 $detail->zip = $request->zip;
                 $detail->skills = $request->skills;
+                $detail->joining_date = $request->joining_date;
                 $detail->designation = $request->designation;
                 $detail->website = $request->website;
                 $detail->biography = $request->biography;
@@ -112,6 +137,7 @@ class UserProfileController extends Controller
                     'designation' => $request->designation,
                     'website' => $request->website,
                     'biography' => $request->biography,
+                    'joining_date' => $request->joining_date,
                 ]);
             }
     
@@ -124,38 +150,29 @@ class UserProfileController extends Controller
         }
     }
 
-    public function changePassword(Request $request, $id)
+    public function changePassword(Request $request)
     {
         $request->validate([
-            'current_password' => ['required', 'string'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'current_password' => 'required|string',
+            'password' => 'required|string|confirmed',
         ]);
 
         if (!(Hash::check($request->get('current_password'), Auth::user()->password))) {
             return response()->json([
-                'isSuccess' => false,
-                'Message' => "Your Current password does not matches with the password you provided. Please try again."
+                'success' => false,
+                'message' => "Your Current password does not matches with the password you provided. Please try again."
             ], 200); // Status code
         } else {
-            $user = User::find($id);
+            $user = User::find(auth()->user()->id);
             $user->password = Hash::make($request->get('password'));
             $user->update();
-            if ($user) {
-                Session::flash('message', 'Password updated successfully!');
-                Session::flash('alert-class', 'alert-success');
-                return response()->json([
-                    'isSuccess' => true,
-                    'Message' => "Password updated successfully!"
-                ], 200); // Status code here
-            } else {
-                Session::flash('message', 'Something went wrong!');
-                Session::flash('alert-class', 'alert-danger');
-                return response()->json([
-                    'isSuccess' => true,
-                    'Message' => "Something went wrong!"
-                ], 200); // Status code here
-            }
+            
+            return response()->json([
+                'success' => true,
+                'message' => "Password updated successfully!"
+            ], 200); // Status code
         }
+        
     }
 
     public function changeEmail(Request $request, $id)
@@ -167,15 +184,11 @@ class UserProfileController extends Controller
         $user->email = $request->get('email');
         $user->update();
         if ($user) {
-            Session::flash('message', 'Email updated successfully!');
-            Session::flash('alert-class', 'alert-success');
             return response()->json([
                 'isSuccess' => true,
                 'Message' => "Email updated successfully!"
             ], 200); // Status code here
         } else {
-            Session::flash('message', 'Something went wrong!');
-            Session::flash('alert-class', 'alert-danger');
             return response()->json([
                 'isSuccess' => true,
                 'Message' => "Something went wrong!"

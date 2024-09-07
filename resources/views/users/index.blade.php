@@ -101,8 +101,7 @@
                                                     value="option1">
                                             </div>
                                         </th>
-                                        <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#USR001</a>
-                                        </td>
+                                        <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#USR001</a></td>
                                         <td class="name">
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-shrink-0">
@@ -350,7 +349,7 @@
                                         <div class="hstack gap-2 justify-content-end">
                                             <button type="button" class="btn btn-light"
                                                 data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-success" id="add-btn">Add Contact</button>
+                                            <button type="submit" class="btn btn-success" id="add-btn">Add User</button>
                                             {{-- <button type="button" class="btn btn-primary" id="edit-btn">Update</button> --}}
                                         </div>
                                     </div>
@@ -502,6 +501,7 @@
 @endsection
 @section('script')
 @include('layouts.message')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ URL::asset('build/libs/list.js/list.min.js') }}"></script>
     <script src="{{ URL::asset('build/libs/list.pagination.js/list.pagination.min.js') }}"></script>
     <script src="{{ URL::asset('build/js/data/users.init.js') }}"></script>
