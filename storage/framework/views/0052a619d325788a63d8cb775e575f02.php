@@ -357,7 +357,7 @@
             <form class="tablelist-form" autocomplete="off">
                 <div class="modal-body">
                     <div class="view-modal">
-                        <div class='text-muted' id='question-field'>
+                        <div class='text-muted' id='questions'>
                             <p>Question Text : <span id='question-text'></span></p>
                             <p>Question Type : <span id='question-type'></span></p>
                             <p>Options : <span id='options'></span></p>

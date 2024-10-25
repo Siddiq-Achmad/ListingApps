@@ -584,6 +584,7 @@ function ischeckboxcheck() {
 
 function refreshCallbacks() {
     if(removeBtns){
+        
         Array.from(removeBtns).forEach(function (btn) {
             btn.addEventListener("click", function (e) {
                 e.target.closest("tr").children[1].innerText;
@@ -591,16 +592,19 @@ function refreshCallbacks() {
                 var itemValues = questionsList.get({
                     id: itemId,
                 });
-    
+                
                 Array.from(itemValues).forEach(function (x) {
                     deleteid = new DOMParser().parseFromString(x._values.id, "text/html");
     
                     var isElem = deleteid.body.firstElementChild;
                     var isdeleteid = deleteid.body.firstElementChild.innerHTML;
+                    
     
                     if (isdeleteid == itemId) {
                         document.getElementById("delete-record").addEventListener("click", function () {
                             questionsList.remove("id", isElem.outerHTML);
+                            questionsList.remove("id", itemId);
+                            
                             document.getElementById("deleteRecord-close").click();
                         });
                     }

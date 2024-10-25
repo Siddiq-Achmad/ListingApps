@@ -22,7 +22,7 @@
                     </div>
                 </div><!-- end card header -->
                 <div class="card-body">
-                    <form id="form_survey" action="survey" method="POST" class="form-steps" autocomplete="off" novalidate>
+                    <form id="form_survey" action="/survey/survey" method="POST" class="form-steps" autocomplete="off" novalidate>
                         <?php echo csrf_field(); ?>
                         <input type="hidden" name="survey_id" value="<?php echo e($survey->id); ?>">
                         <div class="text-center pt-3 pb-4 mb-1 d-flex justify-content-center">
@@ -73,7 +73,7 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Email</label>
                                                 <input type="email" class="form-control"
-                                                    id="steparrow-gen-info-email-input" name="email" placeholder="Enter Email">
+                                                    id="steparrow-gen-info-email-input" name="email" placeholder="Enter Email" required>
                                                 <div class="invalid-feedback">Please enter an email address</div>
                                             </div>
                                         </div>
@@ -95,7 +95,7 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-age-input">Age</label>
                                                 <input type="number" class="form-control"
-                                                    id="steparrow-gen-info-age-input" name="age" placeholder="Enter Age">
+                                                    id="steparrow-gen-info-age-input" name="age" placeholder="Enter Age" required>
                                             </div>
                                         </div>
                                     </div>
@@ -211,6 +211,11 @@
 <?php if(session()->has('success')): ?>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        Toastify({
+                text: "Terima Kasih Sudah mengisi Survey",
+                duration: 3000,
+                className:  "success",
+                }).showToast();
         setTimeout(function() {
             // Deactivate all tabs
             document.querySelectorAll('.nav-link').forEach(function(tab) {
@@ -226,9 +231,66 @@
             });
             document.getElementById('pills-experience').classList.add('show', 'active');
         }, 1000); // Simulated delay for form submission process
+        
     });
 </script>
+<?php elseif(session()->has('error')): ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            // Deactivate all tabs
+            document.querySelectorAll('.nav-link').forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+
+            // Activate the fisrt tab 
+            document.getElementById('steparrow-gen-info-tab').classList.add('active');
+            
+            // Switch the tab content to the third tab
+            document.querySelectorAll('.tab-pane').forEach(function(pane) {
+                pane.classList.remove('show', 'active');
+            });
+            document.getElementById('steparrow-gen-info').classList.add('show', 'active');
+        }, 1000); // Simulated delay for form submission process
+        Toastify({
+            text:  "Maaf, Anda Sudah Pernah Mengisi Kuisioner",
+            duration: 3000,
+            className:  "error",
+            gravity: "top", // `top` or `bottom`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+            }).showToast();
+    });
+    </script>
+<?php elseif(session()->has('warning')): ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Toastify({
+            text:  "Warning,  Anda Belum Mengisi Semua Pertanyaan",
+            duration: 3000,
+            className:  "warning",
+            }).showToast();
+        setTimeout(function() {
+            // Deactivate all tabs
+            document.querySelectorAll('.nav-link').forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+
+            // Activate the fisrt tab 
+            document.getElementById('steparrow-description-info-tab').classList.add('active');
+            
+            // Switch the tab content to the third tab
+            document.querySelectorAll('.tab-pane').forEach(function(pane) {
+                pane.classList.remove('show', 'active');
+            });
+            document.getElementById('steparrow-description-info').classList.add('show', 'active');
+        }, 1000); // Simulated delay for form submission process
+    });
+    </script>
 <?php endif; ?>
+
     <script src="<?php echo e(URL::asset('build/js/pages/form-wizard.init.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 <?php $__env->stopSection(); ?>

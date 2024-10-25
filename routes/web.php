@@ -42,29 +42,29 @@ Auth::routes();
 
 //FRONTEND ROUTES
 
-   
-    Route::get('/', [FrontendController::class, 'index'])->name('index');
-    Route::get('/about', [FrontendController::class, 'about'])->name('about');
-    Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
-    Route::get('/gallery', [FrontendController::class, 'gallery'])->name('gallery');
-    Route::get('/packages', [FrontendController::class, 'packages'])->name('packages');
-    Route::get('/how-it-work', [FrontendController::class, 'howItWork'])->name('howItWork');
-    Route::get('/blog', [FrontendController::class, 'blog'])->name('blog');
-    Route::get('/rigthSidebar', [FrontendController::class, 'rigthSidebar'])->name('rigthSidebar');
-    Route::get('/leftSidebar', [FrontendController::class, 'leftSidebar'])->name('leftSidebar');
-    Route::get('/noSidebar', [FrontendController::class, 'noSidebar'])->name('noSidebar');
-    Route::get('/shop', [FrontendController::class, 'shop'])->name('shop');
-    Route::get('/listings', [FrontendController::class, 'listing'])->name('listing');
-    Route::get('/listing/{slug}', [FrontendController::class, 'listingDetails'])->name('listingDetails');
-    Route::get('/listingmaps', [FrontendController::class, 'listingMaps'])->name('listing.maps');
-    Route::get('/auth', [FrontendController::class, 'auth'])->name('auth');
-    Route::get('/404', [FrontendController::class, 'notFound'])->name('errors.404');
 
-    Route::get('/search', [FrontendController::class, 'search'])->name('search');
+Route::get('/', [FrontendController::class, 'index'])->name('index');
+Route::get('/about', [FrontendController::class, 'about'])->name('about');
+Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
+Route::get('/gallery', [FrontendController::class, 'gallery'])->name('gallery');
+Route::get('/packages', [FrontendController::class, 'packages'])->name('packages');
+Route::get('/how-it-work', [FrontendController::class, 'howItWork'])->name('howItWork');
+Route::get('/blog', [FrontendController::class, 'blog'])->name('blog');
+Route::get('/rigthSidebar', [FrontendController::class, 'rigthSidebar'])->name('rigthSidebar');
+Route::get('/leftSidebar', [FrontendController::class, 'leftSidebar'])->name('leftSidebar');
+Route::get('/noSidebar', [FrontendController::class, 'noSidebar'])->name('noSidebar');
+Route::get('/shop', [FrontendController::class, 'shop'])->name('shop');
+Route::get('/listings', [FrontendController::class, 'listing'])->name('listing');
+Route::get('/listing/{slug}', [FrontendController::class, 'listingDetails'])->name('listingDetails');
+Route::get('/listingmaps', [FrontendController::class, 'listingMaps'])->name('listing.maps');
+Route::get('/auth', [FrontendController::class, 'auth'])->name('auth');
+Route::get('/404', [FrontendController::class, 'notFound'])->name('errors.404');
 
-    Route::get('/survey/{slug}', [FrontendController::class, 'survey'])->name('survey');
-    Route::post('/survey', [FrontendController::class, 'surveyStore'])->name('surveyStore');
-    
+Route::get('/search', [FrontendController::class, 'search'])->name('search');
+
+Route::get('/survey/{slug}', [FrontendController::class, 'survey'])->name('survey');
+Route::post('/survey/survey', [FrontendController::class, 'store'])->name('surveyStore');
+
 
 
 //BACKEND ROUTES
@@ -79,7 +79,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('questions', QuestionController::class);
     Route::resource('answers', AnswerController::class);
     Route::resource('respondents', ResponseController::class);
-    
+
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     //Language Translation
     Route::get('index/{locale}', [HomeController::class, 'lang']);
@@ -87,7 +87,7 @@ Route::group(['middleware' => 'auth'], function () {
     //User 
     // Route::get('/users', [UserController::class, 'index'])->name('users.index');
     // Route::post('/users', [UserController::class, 'store'])->name('users.store');
-    
+
     // Route::get('/user/{id}', [UserController::class, 'show'])->name('users.show');
     // Route::put('/user/{id}', [UserController::class, 'update'])->name('users.update');
     // Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
@@ -108,7 +108,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/profile/change-email', [UserProfileController::class, 'changeEmail'])->name('profile.changeEmail');
 
     Route::get('/login-history', [LoginHistoryController::class, 'index'])->name('loginHistory');
-    
+
     Route::get('/surveys-list', [SurveyController::class, 'survey'])->name('surveys.list');
     Route::get('/questions-list', [QuestionController::class, 'questions'])->name('questions.list');
     Route::get('/responses-list', [ResponseController::class, 'responses'])->name('responses.list');
@@ -118,27 +118,21 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/qrcode', [QRcodeGenerateController::class, 'qrcode'])->name('qrcode');
     Route::get('/qrcode/{{text}}', [QRcodeGenerateController::class, 'qrcodetext'])->name('qrcode.text');
 
-    
+
 
     //ON PRODUCTION ONLY
     //Route::get('{any}', [HomeController::class, 'index'])->where('any', '.*');
 
-    
+
     Route::fallback(function () {
         return view('errors.404'); // Halaman 404 untuk pengguna yang tidak terautentikasi
     });
 });
 
 Route::fallback(function () {
-    if(!Auth::check()){
+    if (!Auth::check()) {
         return response()->view('errors.404-fe', [], 404);
-    }
-    else{
+    } else {
         return response()->view('errors.404', [], 404);
     }
 });
-
-    
-
-
-

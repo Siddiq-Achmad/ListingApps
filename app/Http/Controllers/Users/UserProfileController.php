@@ -35,11 +35,11 @@ class UserProfileController extends Controller
         //return response()->json($user);
         $histories = $user->loginHistories->sortByDesc('created_at')->take(5);
 
-        
+
         return view('users.profile-settings', compact('user', 'histories'));
     }
-    
- 
+
+
     public function logoutDevice($id)
     {
         $loginHistory = LoginHistory::find($id);
@@ -52,16 +52,15 @@ class UserProfileController extends Controller
             if ($token) {
                 $token->delete();
             }
-    
-    
+
+
             // Hapus riwayat login
             $loginHistory->delete();
-    
+
             return redirect()->back()->with('success', 'Berhasil logout dari device lain.');
         }
-    
-        return redirect()->back()->with('error', 'Gagal logout dari device.');
 
+        return redirect()->back()->with('error', 'Gagal logout dari device.');
     }
 
 
@@ -86,21 +85,20 @@ class UserProfileController extends Controller
                 'designation' => 'nullable|string|max:255',
                 'website' => 'nullable|string|max:255',
                 'biography' => 'nullable|string|max:255',
-                'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'avatar' => 'image|mimes:jpg,jpeg,png|max:2048',
                 // validasi lain yang diperlukan
             ]);
 
             // Upload avatar jika ada
-            if($request->hasFile('avatar')) {
+            if ($request->hasFile('avatar')) {
                 // Get filename with the extension
-                $imageName = time().'.'.$request->avatar->extension();
+                $imageName = time() . '.' . $request->avatar->extension();
                 $request->avatar->move(public_path('images/users'), $imageName);
-                $avatar = $imageName; 
-            }
-            else {
+                $avatar = $imageName;
+            } else {
                 $avatar = $user->avatar;
             }
-    
+
             // Update data user
             $user->update([
                 'email' => $request->email,
@@ -109,7 +107,7 @@ class UserProfileController extends Controller
 
             // Update data user detail
             $detail = $user->detail;
-            if(!$detail) {
+            if (!$detail) {
                 $detail = new UserDetail;
                 $detail->user_id = $user->id;
                 $detail->f_name = $request->f_name;
@@ -124,8 +122,7 @@ class UserProfileController extends Controller
                 $detail->website = $request->website;
                 $detail->biography = $request->biography;
                 $detail->save();
-            }
-            else{
+            } else {
                 $detail->update([
                     'f_name' => $request->f_name,
                     'l_name' => $request->l_name,
@@ -140,12 +137,12 @@ class UserProfileController extends Controller
                     'joining_date' => $request->joining_date,
                 ]);
             }
-    
+
             return response()->json(['message' => 'Profile updated successfully'], 200);
         } catch (\Exception $e) {
             // Log error untuk debugging
             Log::error('Profile update error: ', ['error' => $e->getMessage()]);
-    
+
             return response()->json(['message' => 'Something went wrong'], 500);
         }
     }
@@ -166,13 +163,12 @@ class UserProfileController extends Controller
             $user = User::find(auth()->user()->id);
             $user->password = Hash::make($request->get('password'));
             $user->update();
-            
+
             return response()->json([
                 'success' => true,
                 'message' => "Password updated successfully!"
             ], 200); // Status code
         }
-        
     }
 
     public function changeEmail(Request $request, $id)

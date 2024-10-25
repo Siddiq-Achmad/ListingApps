@@ -24,19 +24,19 @@ class SurveyQuestion extends Model
     public function getTypes()
     {
         $type = $this->question_type;
-        if($type == 0){
+        if ($type == 0) {
             return 'Text';
-        }elseif($type == 1){
+        } elseif ($type == 1) {
             return 'Select';
-        }elseif($type == 2){
+        } elseif ($type == 2) {
             return 'Radio';
-        }elseif($type == 3){
+        } elseif ($type == 3) {
             return 'Checkbox';
-        }elseif($type == 4){
+        } elseif ($type == 4) {
             return 'Date';
-        }elseif($type == 5){
+        } elseif ($type == 5) {
             return 'Date Time';
-        }elseif($type == 6){
+        } elseif ($type == 6) {
             return 'Time';
         }
     }
@@ -100,10 +100,10 @@ class SurveyQuestion extends Model
         return $html;
     }
 
- 
 
 
-    
+
+
 
     public function survey()
     {
